@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbkxie6blkjxk"
-path="res://.godot/imported/infectious.png-5e880961a8099a1628418612fa27977d.ctex"
+path="res://.godot/imported/infectious.png-fc78757d990f6b569d1d2fc2461ceb99.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/ads/infectious.png"
-dest_files=["res://.godot/imported/infectious.png-5e880961a8099a1628418612fa27977d.ctex"]
+source_file="res://Textures/Ads/infectious.png"
+dest_files=["res://.godot/imported/infectious.png-fc78757d990f6b569d1d2fc2461ceb99.ctex"]
 
 [params]
 

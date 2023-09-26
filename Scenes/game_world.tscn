@@ -10,7 +10,7 @@
 [ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
 [ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="9_7ntxc"]
 [ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="10_7qf5f"]
-[ext_resource type="Material" uid="uid://b25kg3mbmc7ix" path="res://Materials/props/radio_face.tres" id="11_jo0ii"]
+[ext_resource type="Material" uid="uid://b25kg3mbmc7ix" path="res://Materials/Props/radio_face.tres" id="11_nl5kl"]
 [ext_resource type="AudioStream" uid="uid://dxd402kc50wo1" path="res://Sounds/Music/country_music1.ogg" id="12_ecd2n"]
 [ext_resource type="AudioStream" uid="uid://b2tuod741hvpy" path="res://Sounds/Music/country_music2.ogg" id="13_wvt6c"]
 [ext_resource type="AudioStream" uid="uid://bhb6f2e46h8cp" path="res://Sounds/Music/country_music3.ogg" id="14_twlic"]
@@ -254,7 +254,7 @@ shape = SubResource("BoxShape3D_ngqht")
 
 [node name="Mesh" type="CSGBox3D" parent="Radio"]
 size = Vector3(1, 0.6, 0.3)
-material = ExtResource("11_jo0ii")
+material = ExtResource("11_nl5kl")
 
 [node name="Mesh2" type="CSGBox3D" parent="Radio/Mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00516129)
@@ -264,11 +264,12 @@ material = ExtResource("9_7ntxc")
 [node name="Audio" type="AudioStreamPlayer3D" parent="Radio"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 stream = SubResource("AudioStreamRandomizer_6yu3k")
-attenuation_model = 3
+attenuation_model = 2
 unit_size = 40.0
 max_distance = 20.0
 emission_angle_degrees = 60.0
 attenuation_filter_cutoff_hz = 2000.0
+doppler_tracking = 1
 script = ExtResource("18_rufyw")
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]

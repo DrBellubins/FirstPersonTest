@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://b25kg3mbmc7ix"]
 
-[ext_resource type="Texture2D" uid="uid://bav6y1ubfcs7t" path="res://Textures/props/radio_front.png" id="1_3npcr"]
-[ext_resource type="Texture2D" uid="uid://nq8afim8e2ae" path="res://Textures/props/radio_front_normal.png" id="2_478vt"]
+[ext_resource type="Texture2D" uid="uid://bav6y1ubfcs7t" path="res://Textures/Props/radio_front.png" id="1_3npcr"]
+[ext_resource type="Texture2D" uid="uid://nq8afim8e2ae" path="res://Textures/Props/radio_front_normal.png" id="2_478vt"]
 
 [resource]
 albedo_texture = ExtResource("1_3npcr")
