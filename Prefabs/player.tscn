@@ -46,8 +46,13 @@ script = ExtResource("1_ngtxf")
 ZoomFOV = 35.0
 UnderwaterEnv = ExtResource("2_uk578")
 MouseSensitivity = 4.0
+StepBobEnabled = false
 RotationToMove = false
-StepInterval = 4.5
+Speed = 8
+Deceleration = 15
+SprintSpeedMultiplier = 1.5
+StepLengthen = 0.5
+StepInterval = 3.7
 AbilitiesPath = [NodePath("Crouch Ability 3D"), NodePath("Sprint Ability 3D"), NodePath("Walk Ability 3D"), NodePath("Jump Ability 3D"), NodePath("Fly Ability 3D"), NodePath("Swim Ability 3D")]
 
 [node name="Collision" type="CollisionShape3D" parent="."]

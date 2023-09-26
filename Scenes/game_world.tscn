@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=18 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -10,14 +10,10 @@
 [ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
 [ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="9_7ntxc"]
 [ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="10_7qf5f"]
-[ext_resource type="Material" uid="uid://b25kg3mbmc7ix" path="res://Materials/Props/radio_face.tres" id="11_nl5kl"]
-[ext_resource type="AudioStream" uid="uid://dxd402kc50wo1" path="res://Sounds/Music/country_music1.ogg" id="12_ecd2n"]
-[ext_resource type="AudioStream" uid="uid://b2tuod741hvpy" path="res://Sounds/Music/country_music2.ogg" id="13_wvt6c"]
-[ext_resource type="AudioStream" uid="uid://bhb6f2e46h8cp" path="res://Sounds/Music/country_music3.ogg" id="14_twlic"]
-[ext_resource type="AudioStream" uid="uid://b1bjhdrg37p4g" path="res://Sounds/Music/country_music4.ogg" id="15_prcq6"]
-[ext_resource type="AudioStream" uid="uid://hjca2r1tsnb8" path="res://Sounds/Music/country_music5.ogg" id="16_0m1lh"]
-[ext_resource type="AudioStream" uid="uid://bvrn4ij6cqqo1" path="res://Sounds/Music/country_music6.ogg" id="17_v2v1s"]
-[ext_resource type="Script" path="res://Scripts/Utils/autoplay_randomizer.gd" id="18_rufyw"]
+[ext_resource type="PackedScene" uid="uid://b1c77yfcgtimc" path="res://Prefabs/Props/radio.tscn" id="11_25l8y"]
+[ext_resource type="Texture2D" uid="uid://l5uk80mwltvb" path="res://Textures/Decals/puddle.png" id="13_aeql1"]
+[ext_resource type="Texture2D" uid="uid://cry4judm8vp6l" path="res://Textures/Decals/puddle_normal.png" id="14_fjnas"]
+[ext_resource type="Texture2D" uid="uid://d01eabaelh088" path="res://Textures/Decals/puddle_orm.png" id="15_b7ngp"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6s4en"]
@@ -25,26 +21,6 @@ material = ExtResource("5_0848f")
 size = Vector2(8, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ngqht"]
-size = Vector3(1, 0.6, 0.3)
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6yu3k"]
-streams_count = 6
-random_pitch = 1.0
-random_volume_offset_db = 0.0
-stream_0/stream = ExtResource("12_ecd2n")
-stream_0/weight = 1.0
-stream_1/stream = ExtResource("13_wvt6c")
-stream_1/weight = 1.0
-stream_2/stream = ExtResource("14_twlic")
-stream_2/weight = 1.0
-stream_3/stream = ExtResource("15_prcq6")
-stream_3/weight = 1.0
-stream_4/stream = ExtResource("16_0m1lh")
-stream_4/weight = 1.0
-stream_5/stream = ExtResource("17_v2v1s")
-stream_5/weight = 1.0
 
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
@@ -246,31 +222,7 @@ radial_segments = 5
 rings = 5
 material = ExtResource("8_m1bx3")
 
-[node name="Radio" type="RigidBody3D" parent="."]
-transform = Transform3D(0.961994, 0, 0.27307, 0, 1, 0, -0.27307, 0, 0.961994, 20.8003, 7.07649, -17.2083)
-
-[node name="Collider" type="CollisionShape3D" parent="Radio"]
-shape = SubResource("BoxShape3D_ngqht")
-
-[node name="Mesh" type="CSGBox3D" parent="Radio"]
-size = Vector3(1, 0.6, 0.3)
-material = ExtResource("11_nl5kl")
-
-[node name="Mesh2" type="CSGBox3D" parent="Radio/Mesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00516129)
-size = Vector3(1, 0.61, 0.31)
-material = ExtResource("9_7ntxc")
-
-[node name="Audio" type="AudioStreamPlayer3D" parent="Radio"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-stream = SubResource("AudioStreamRandomizer_6yu3k")
-attenuation_model = 2
-unit_size = 40.0
-max_distance = 20.0
-emission_angle_degrees = 60.0
-attenuation_filter_cutoff_hz = 2000.0
-doppler_tracking = 1
-script = ExtResource("18_rufyw")
+[node name="Radio" parent="." instance=ExtResource("11_25l8y")]
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -287,3 +239,9 @@ SkyNightColor = Color(0.0235294, 0.0980392, 0.152941, 0)
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
 transform = Transform3D(0.873611, -0.0639131, -0.48241, 0.486625, 0.11474, 0.866043, -2.70199e-08, -0.991337, 0.131339, 0, 0, 0)
 shadow_enabled = true
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5722, 1.25942, 8.45004)
+texture_albedo = ExtResource("13_aeql1")
+texture_normal = ExtResource("14_fjnas")
+texture_orm = ExtResource("15_b7ngp")
