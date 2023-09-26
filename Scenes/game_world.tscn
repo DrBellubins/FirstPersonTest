@@ -1,0 +1,288 @@
+[gd_scene load_steps=24 format=3 uid="uid://b2317vj04gpjj"]
+
+[ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
+[ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
+[ext_resource type="PackedScene" uid="uid://ccqfdekiklsk3" path="res://Prefabs/player.tscn" id="2_g8biw"]
+[ext_resource type="Script" path="res://Scripts/GlobalVariables.cs" id="4_tqant"]
+[ext_resource type="Material" uid="uid://dp4obk2jm1v2q" path="res://Materials/AsphaltRoad.tres" id="5_0848f"]
+[ext_resource type="Environment" uid="uid://5og8o40ne2l2" path="res://Scenes/MainWorldEnv.tres" id="6_ojpui"]
+[ext_resource type="AudioStream" uid="uid://d0twbbjgid5bv" path="res://Sounds/wind_loop.wav" id="7_j0q8y"]
+[ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
+[ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="9_7ntxc"]
+[ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="10_7qf5f"]
+[ext_resource type="Material" uid="uid://b25kg3mbmc7ix" path="res://Materials/props/radio_face.tres" id="11_jo0ii"]
+[ext_resource type="AudioStream" uid="uid://dxd402kc50wo1" path="res://Sounds/Music/country_music1.ogg" id="12_ecd2n"]
+[ext_resource type="AudioStream" uid="uid://b2tuod741hvpy" path="res://Sounds/Music/country_music2.ogg" id="13_wvt6c"]
+[ext_resource type="AudioStream" uid="uid://bhb6f2e46h8cp" path="res://Sounds/Music/country_music3.ogg" id="14_twlic"]
+[ext_resource type="AudioStream" uid="uid://b1bjhdrg37p4g" path="res://Sounds/Music/country_music4.ogg" id="15_prcq6"]
+[ext_resource type="AudioStream" uid="uid://hjca2r1tsnb8" path="res://Sounds/Music/country_music5.ogg" id="16_0m1lh"]
+[ext_resource type="AudioStream" uid="uid://bvrn4ij6cqqo1" path="res://Sounds/Music/country_music6.ogg" id="17_v2v1s"]
+[ext_resource type="Script" path="res://Scripts/Utils/autoplay_randomizer.gd" id="18_rufyw"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6s4en"]
+material = ExtResource("5_0848f")
+size = Vector2(8, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ngqht"]
+size = Vector3(1, 0.6, 0.3)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6yu3k"]
+streams_count = 6
+random_pitch = 1.0
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("12_ecd2n")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("13_wvt6c")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("14_twlic")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("15_prcq6")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("16_0m1lh")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("17_v2v1s")
+stream_5/weight = 1.0
+
+[node name="GameWorld" type="Node3D"]
+script = ExtResource("1_8lpkj")
+
+[node name="TerrainGen" type="MeshInstance3D" parent="."]
+cast_shadow = 2
+script = ExtResource("1_qf80h")
+
+[node name="Player" parent="." instance=ExtResource("2_g8biw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="GlobalVariables" type="Node" parent="."]
+script = ExtResource("4_tqant")
+
+[node name="Road" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.05, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_6s4en")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("6_ojpui")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_j0q8y")
+volume_db = -5.0
+autoplay = true
+
+[node name="Home" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 5.10027, 0)
+use_collision = true
+size = Vector3(15, 12, 40)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+operation = 2
+size = Vector3(14, 10, 39)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+size = Vector3(14, 1, 39)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -3, 0)
+operation = 2
+size = Vector3(2, 3, 1.5)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 2.77775, 0)
+operation = 2
+size = Vector3(2, 1.8, 8)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 2.77775, 12)
+operation = 2
+size = Vector3(2, 1.8, 8)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 2.77775, -12)
+operation = 2
+size = Vector3(2, 1.8, 8)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -2.78391, 12)
+operation = 2
+size = Vector3(2, 1.8, 8)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -2.78391, -12)
+operation = 2
+size = Vector3(2, 1.8, 8)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26015, 0.527396, 0)
+operation = 2
+size = Vector3(9, 2, 2)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 0, -4.5, 1)
+polygon = PackedVector2Array(-3.24966, -0.0057894, 0.0452499, 1.71754, 5.75989, 5.49894, 5.7926, -0.0771861)
+material = ExtResource("8_m1bx3")
+
+[node name="Light" type="CSGCylinder3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090632, 10)
+height = 0.25
+material = ExtResource("9_7ntxc")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Home/Light"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120454, 0)
+operation = 2
+radius = 0.39
+height = 0.25
+material = ExtResource("10_7qf5f")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Home/Light"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+light_color = Color(1, 0.94902, 0.933333, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_blur = 7.0
+omni_range = 7.02538
+
+[node name="Light2" type="CSGCylinder3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.091, -10)
+height = 0.25
+material = ExtResource("9_7ntxc")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Home/Light2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120454, 0)
+operation = 2
+radius = 0.39
+height = 0.25
+material = ExtResource("10_7qf5f")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Home/Light2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+light_color = Color(1, 0.94902, 0.933333, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_blur = 7.0
+omni_range = 7.02538
+
+[node name="Light3" type="CSGCylinder3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.39788, -10)
+height = 0.25
+material = ExtResource("9_7ntxc")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Home/Light3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120454, 0)
+operation = 2
+radius = 0.39
+height = 0.25
+material = ExtResource("10_7qf5f")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Home/Light3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+light_color = Color(1, 0.94902, 0.933333, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_blur = 7.0
+omni_range = 7.02538
+
+[node name="Light4" type="CSGCylinder3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.398, 0)
+height = 0.25
+material = ExtResource("9_7ntxc")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Home/Light4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.120454, 0)
+operation = 2
+radius = 0.39
+height = 0.25
+material = ExtResource("10_7qf5f")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Home/Light4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+light_color = Color(1, 0.94902, 0.933333, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_blur = 7.0
+omni_range = 7.025
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Home"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -7.85, -5.555, 0)
+size = Vector3(2, 1, 1.5)
+material = ExtResource("8_m1bx3")
+
+[node name="ReverbZone" type="Area3D" parent="Home"]
+transform = Transform3D(15, 0, 0, 0, 12, 0, 0, 0, 40, 0, 0, 0)
+collision_mask = 2
+audio_bus_override = true
+audio_bus_name = &"MenuBus"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Home/ReverbZone"]
+shape = SubResource("BoxShape3D_deiww")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 4.9353, -1.18328, -20.4669)
+operation = 2
+radius = 6.0
+radial_segments = 4
+rings = 5
+material = ExtResource("8_m1bx3")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="Home"]
+transform = Transform3D(0.51393, 0.0537278, -0.847251, 0.397019, 0.33531, 0.373723, 0.760428, -0.211377, 0.377488, -1.50315, 5.73494, 13.0598)
+operation = 2
+radius = 4.0
+radial_segments = 5
+rings = 5
+material = ExtResource("8_m1bx3")
+
+[node name="Radio" type="RigidBody3D" parent="."]
+transform = Transform3D(0.961994, 0, 0.27307, 0, 1, 0, -0.27307, 0, 0.961994, 20.8003, 7.07649, -17.2083)
+
+[node name="Collider" type="CollisionShape3D" parent="Radio"]
+shape = SubResource("BoxShape3D_ngqht")
+
+[node name="Mesh" type="CSGBox3D" parent="Radio"]
+size = Vector3(1, 0.6, 0.3)
+material = ExtResource("11_jo0ii")
+
+[node name="Mesh2" type="CSGBox3D" parent="Radio/Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00516129)
+size = Vector3(1, 0.61, 0.31)
+material = ExtResource("9_7ntxc")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="Radio"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+stream = SubResource("AudioStreamRandomizer_6yu3k")
+attenuation_model = 3
+unit_size = 40.0
+max_distance = 20.0
+emission_angle_degrees = 60.0
+attenuation_filter_cutoff_hz = 2000.0
+script = ExtResource("18_rufyw")
+
+[node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("19_2k6pm")
+TimeSpeed = 0.1
+environment = NodePath("../WorldEnvironment")
+SunIntensity = 1.0
+MoonIntensity = 0.05
+SunColor = Color(1, 0.945098, 0.890196, 0)
+MoonColor = Color(0.780392, 0.866667, 1, 0)
+SkyDayColor = Color(0.396078, 0.666667, 0.858824, 0)
+SkyNightColor = Color(0.0235294, 0.0980392, 0.152941, 0)
+
+[node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
+transform = Transform3D(0.873611, -0.0639131, -0.48241, 0.486625, 0.11474, 0.866043, -2.70199e-08, -0.991337, 0.131339, 0, 0, 0)
+shadow_enabled = true

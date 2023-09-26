@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://3j6h6j376r7b"
+path.s3tc="res://.godot/imported/paintedbrick1_Normal-ogl.png-b34e48a05b5523112c249de51fef76ec.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://Textures/paintedbrick1_Normal-ogl.png"
+dest_files=["res://.godot/imported/paintedbrick1_Normal-ogl.png-b34e48a05b5523112c249de51fef76ec.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://Textures/paintedbrick1_Normal-ogl.png"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

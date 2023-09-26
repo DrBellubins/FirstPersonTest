@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://ci8kg40ae4vnl"]
+
+[ext_resource type="AudioStream" uid="uid://2li6dbfyh5ev" path="res://Sounds/jump.ogg" id="1_5f6rx"]
+[ext_resource type="Script" path="res://addons/character-controller/example/main/audios/AudioInteract.cs" id="1_h7qps"]
+[ext_resource type="AudioStream" uid="uid://c4sawkx8gek03" path="res://Sounds/land.ogg" id="2_32trj"]
+[ext_resource type="AudioStream" uid="uid://c0pb4l60wwqx8" path="res://Sounds/Concrete/concrete_walk1.ogg" id="3_vbmfw"]
+[ext_resource type="AudioStream" uid="uid://fglakorihr4e" path="res://Sounds/Concrete/concrete_walk2.ogg" id="4_u7hyl"]
+
+[resource]
+script = ExtResource("1_h7qps")
+JumpAudio = ExtResource("1_5f6rx")
+LandedAudio = ExtResource("2_32trj")
+StepAudios = [ExtResource("3_vbmfw"), ExtResource("4_u7hyl")]

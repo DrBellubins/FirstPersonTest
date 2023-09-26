@@ -1,0 +1,41 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://5og8o40ne2l2"]
+
+[ext_resource type="Texture2D" uid="uid://lgrxtsiu0x5v" path="res://Textures/lens_dirt.png" id="1_50sk3"]
+[ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="1_un5yv"]
+
+[sub_resource type="Sky" id="Sky_3nh04"]
+
+[resource]
+background_mode = 1
+background_color = Color(0.309804, 0.317647, 0.309804, 1)
+background_energy_multiplier = 0.15
+sky = SubResource("Sky_3nh04")
+tonemap_mode = 3
+tonemap_white = 0.52
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_light_affect = 1.0
+ssil_intensity = 2.68
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_min_cell_size = 0.5
+sdfgi_energy = 2.0
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_levels/6 = 1.0
+glow_levels/7 = 1.0
+glow_normalized = true
+glow_intensity = 2.0
+glow_blend_mode = 0
+glow_hdr_scale = 4.0
+glow_map_strength = 0.5
+glow_map = ExtResource("1_50sk3")
+fog_light_color = Color(0.345098, 0.639216, 0.862745, 1)
+fog_density = 0.002
+fog_height = -1024.0
+volumetric_fog_enabled = true
+volumetric_fog_gi_inject = 2.0
+adjustment_contrast = 0.9
+adjustment_color_correction = ExtResource("1_un5yv")

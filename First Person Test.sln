@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "First Person Test", "First Person Test.csproj", "{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportDebug|x64 = ExportDebug|x64
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		ExportRelease|x64 = ExportRelease|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.Debug|x64.ActiveCfg = Debug|x64
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.Debug|x64.Build.0 = Debug|x64
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportDebug|x64.ActiveCfg = ExportDebug|x64
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportDebug|x64.Build.0 = ExportDebug|x64
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportRelease|x64.ActiveCfg = ExportRelease|x64
+		{F6CC8856-DB5D-4C12-BA6F-D5C14E6B1C11}.ExportRelease|x64.Build.0 = ExportRelease|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B8FE6F5-53B9-4C39-838A-8F2A054E2794}
+	EndGlobalSection
+EndGlobal

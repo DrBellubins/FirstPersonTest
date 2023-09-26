@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dsg36qryueg2f"]
+
+[resource]
+albedo_color = Color(0, 0, 0, 1)
+emission_enabled = true
+emission = Color(0, 0.713726, 0.839216, 1)
+emission_energy_multiplier = 5.0
+disable_receive_shadows = true

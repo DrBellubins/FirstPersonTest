@@ -1,0 +1,22 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://dp4obk2jm1v2q"]
+
+[ext_resource type="Texture2D" uid="uid://dubyg4x5g5wd8" path="res://Textures/AsphaltRoad/albedo_edit.png" id="1_md5ch"]
+[ext_resource type="Texture2D" uid="uid://b2gc03eer6pl8" path="res://Textures/AsphaltRoad/roughness.png" id="3_hs5ex"]
+[ext_resource type="Texture2D" uid="uid://dbn65ll5or74r" path="res://Textures/AsphaltRoad/normals.png" id="4_s5brn"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.786
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_md5ch")
+metallic_specular = 0.0
+roughness = 0.7
+roughness_texture = ExtResource("3_hs5ex")
+normal_enabled = true
+normal_texture = ExtResource("4_s5brn")
+detail_mask = ExtResource("3_hs5ex")
+detail_blend_mode = 3
+detail_uv_layer = 1
+uv1_scale = Vector3(1, 10, 1)
+uv1_offset = Vector3(0.5, 0, 0)
+texture_filter = 0

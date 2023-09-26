@@ -1,0 +1,121 @@
+[gd_scene load_steps=27 format=3 uid="uid://ccqfdekiklsk3"]
+
+[ext_resource type="Script" path="res://addons/character-controller/example/main/Player.cs" id="1_ngtxf"]
+[ext_resource type="Environment" uid="uid://b3cn01u84faiy" path="res://addons/character-controller/example/main/underwater.tres" id="2_uk578"]
+[ext_resource type="Script" path="res://addons/character-controller/abilities/WalkAbility3D.cs" id="3_rwtjg"]
+[ext_resource type="Script" path="res://addons/character-controller/abilities/SprintAbility3D.cs" id="4_47haf"]
+[ext_resource type="Script" path="res://addons/character-controller/abilities/CrouchAbility3D.cs" id="5_sy1yt"]
+[ext_resource type="Script" path="res://addons/character-controller/abilities/JumpAbility3D.cs" id="6_7eg3p"]
+[ext_resource type="Script" path="res://addons/character-controller/abilities/FlyAbility3D.cs" id="7_3pqpj"]
+[ext_resource type="Script" path="res://addons/character-controller/abilities/SwimAbility3D.cs" id="8_gi4mf"]
+[ext_resource type="Script" path="res://addons/character-controller/fps/HeadMovement3D.cs" id="9_uo2sq"]
+[ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="10_8adgb"]
+[ext_resource type="Script" path="res://addons/character-controller/fps/bob/HeadBob.cs" id="10_pxngy"]
+[ext_resource type="Shader" path="res://motion_blur/moblur_shader.gdshader" id="11_ifki7"]
+[ext_resource type="Curve" uid="uid://dhx3p5wsiw0bs" path="res://addons/character-controller/fps/bob/bob_curve.tres" id="11_y6te8"]
+[ext_resource type="Resource" uid="uid://duu5m0sajkuix" path="res://addons/character-controller/fps/bob/timed_bob_curve.tres" id="12_34rgg"]
+[ext_resource type="Material" uid="uid://b3f7b4lb35ttn" path="res://Shaders/Tonemapper/ACES_Tonemap.tres" id="13_18bua"]
+[ext_resource type="PackedScene" path="res://addons/character-controller/example/main/audios/player_audios.tscn" id="13_yjrtm"]
+[ext_resource type="Resource" uid="uid://boafje76qrf27" path="res://addons/character-controller/example/main/audio_interacts/grass_audio_interact.tres" id="14_4itx4"]
+[ext_resource type="PhysicsMaterial" path="res://addons/character-controller/example/main/physics/grass.tres" id="15_ykov3"]
+[ext_resource type="PhysicsMaterial" uid="uid://bklf2cx3fydt3" path="res://addons/character-controller/example/main/physics/stone.tres" id="16_gjh0c"]
+[ext_resource type="PhysicsMaterial" path="res://addons/character-controller/example/main/physics/wood.tres" id="17_6jbs2"]
+[ext_resource type="Resource" uid="uid://ci8kg40ae4vnl" path="res://addons/character-controller/example/main/audio_interacts/stone_audio_interact.tres" id="18_ere1a"]
+[ext_resource type="Resource" uid="uid://dx5kojv0cn4yl" path="res://addons/character-controller/example/main/audio_interacts/wood_audio_interact.tres" id="19_qgyq7"]
+[ext_resource type="Resource" uid="uid://clro80qf2tdqi" path="res://addons/character-controller/example/main/audio_interacts/water_audio_interact.tres" id="20_u1rxi"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fn1rj"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_q5caq"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ilykv"]
+render_priority = 0
+shader = ExtResource("11_ifki7")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/iteration_count = 15
+shader_parameter/intensity = 0.5
+shader_parameter/startRadius = 0.0
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+floor_snap_length = 0.5
+script = ExtResource("1_ngtxf")
+ZoomFOV = 35.0
+UnderwaterEnv = ExtResource("2_uk578")
+MouseSensitivity = 4.0
+RotationToMove = false
+StepInterval = 4.5
+AbilitiesPath = [NodePath("Crouch Ability 3D"), NodePath("Sprint Ability 3D"), NodePath("Walk Ability 3D"), NodePath("Jump Ability 3D"), NodePath("Fly Ability 3D"), NodePath("Swim Ability 3D")]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_fn1rj")
+
+[node name="Head Check" type="RayCast3D" parent="."]
+target_position = Vector3(0, 1, 0)
+
+[node name="Walk Ability 3D" type="Node3D" parent="."]
+script = ExtResource("3_rwtjg")
+
+[node name="Sprint Ability 3D" type="Node3D" parent="."]
+script = ExtResource("4_47haf")
+
+[node name="Crouch Ability 3D" type="Node3D" parent="."]
+script = ExtResource("5_sy1yt")
+
+[node name="Jump Ability 3D" type="Node3D" parent="."]
+script = ExtResource("6_7eg3p")
+
+[node name="Fly Ability 3D" type="Node3D" parent="."]
+script = ExtResource("7_3pqpj")
+
+[node name="Swim Ability 3D" type="Node3D" parent="."]
+script = ExtResource("8_gi4mf")
+
+[node name="RayCast3D" type="RayCast3D" parent="Swim Ability 3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, -2, 0)
+collision_mask = 8
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Head" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0)
+script = ExtResource("9_uo2sq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head"]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 1.0
+ignore_occlusion_culling = true
+gi_mode = 0
+mesh = SubResource("QuadMesh_q5caq")
+surface_material_override/0 = ExtResource("13_18bua")
+
+[node name="Camera" type="Camera3D" parent="Head"]
+current = true
+
+[node name="motion_blur" parent="Head/Camera" instance=ExtResource("10_8adgb")]
+visible = false
+surface_material_override/0 = SubResource("ShaderMaterial_ilykv")
+
+[node name="Head Bob" type="Node" parent="Head"]
+script = ExtResource("10_pxngy")
+HeadPath = NodePath("../Camera")
+BobCurve = ExtResource("11_y6te8")
+TimedBobCurve = ExtResource("12_34rgg")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Head"]
+visible = false
+light_energy = 2.5
+spot_range = 18.9586
+spot_angle = 20.5583
+
+[node name="Player Audios" parent="." instance=ExtResource("13_yjrtm")]
+AudioInteract = ExtResource("14_4itx4")
+PhysicMaterials = [ExtResource("15_ykov3"), ExtResource("16_gjh0c"), ExtResource("17_6jbs2")]
+AudioInteracts = [ExtResource("14_4itx4"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
+WaterAudioInteract = ExtResource("20_u1rxi")

@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://bj14whv7vnkkj"]
+
+[ext_resource type="Texture2D" uid="uid://bw64idonpn6sy" path="res://Textures/WavySand/wavy-sand_albedo.png" id="1_0c0fi"]
+[ext_resource type="Texture2D" uid="uid://c8xbvcvahg6wb" path="res://Textures/WavySand/wavy-sand_normal-ogl.png" id="2_ko84n"]
+[ext_resource type="Texture2D" uid="uid://b0mml2mfinrby" path="res://Textures/WavySand/wavy-sand_roughness_edit.png" id="2_ug8gc"]
+
+[resource]
+albedo_texture = ExtResource("1_0c0fi")
+metallic_specular = 0.0
+roughness = 0.8
+roughness_texture = ExtResource("2_ug8gc")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("2_ko84n")
+texture_filter = 0

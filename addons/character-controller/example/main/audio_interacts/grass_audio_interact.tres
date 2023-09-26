@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=15 format=3 uid="uid://boafje76qrf27"]
+
+[ext_resource type="Script" path="res://addons/character-controller/example/main/audios/AudioInteract.cs" id="1_h7qps"]
+[ext_resource type="AudioStream" uid="uid://ddkksehfduiph" path="res://Sounds/unity_jump.wav" id="1_jwd62"]
+[ext_resource type="AudioStream" uid="uid://b68b6o40kal3" path="res://Sounds/unity_land.wav" id="2_h8cc7"]
+[ext_resource type="AudioStream" uid="uid://c0pb4l60wwqx8" path="res://Sounds/Concrete/concrete_walk1.ogg" id="3_amjac"]
+[ext_resource type="AudioStream" uid="uid://fglakorihr4e" path="res://Sounds/Concrete/concrete_walk2.ogg" id="4_iqdsh"]
+[ext_resource type="AudioStream" uid="uid://bfcte0e2waahr" path="res://Sounds/Concrete/concrete_walk3.ogg" id="5_qd8rh"]
+[ext_resource type="AudioStream" uid="uid://mtwd7d45qojd" path="res://Sounds/Concrete/concrete_walk4.ogg" id="6_r6tcs"]
+[ext_resource type="AudioStream" uid="uid://drymhpqb43ryc" path="res://Sounds/Concrete/concrete_walk5.ogg" id="7_ut4mv"]
+[ext_resource type="AudioStream" uid="uid://dfm6vxmgootv4" path="res://Sounds/Concrete/concrete_walk6.ogg" id="8_d6fl1"]
+[ext_resource type="AudioStream" uid="uid://4qi47v1nq3wh" path="res://Sounds/Concrete/concrete_walk7.ogg" id="9_6nih6"]
+[ext_resource type="AudioStream" uid="uid://csc153arspred" path="res://Sounds/Concrete/concrete_walk8.ogg" id="10_b81jr"]
+[ext_resource type="AudioStream" uid="uid://bnco8tdupddgy" path="res://Sounds/Concrete/concrete_walk9.ogg" id="11_3e2gg"]
+[ext_resource type="AudioStream" uid="uid://cbxf246i8wfhe" path="res://Sounds/Concrete/concrete_walk10.ogg" id="12_0rtqp"]
+[ext_resource type="AudioStream" uid="uid://c0ujgnsm6iayw" path="res://Sounds/Concrete/concrete_walk11.ogg" id="13_f31y0"]
+
+[resource]
+script = ExtResource("1_h7qps")
+JumpAudio = ExtResource("1_jwd62")
+LandedAudio = ExtResource("2_h8cc7")
+StepAudios = [ExtResource("3_amjac"), ExtResource("4_iqdsh"), ExtResource("5_qd8rh"), ExtResource("6_r6tcs"), ExtResource("7_ut4mv"), ExtResource("8_d6fl1"), ExtResource("9_6nih6"), ExtResource("10_b81jr"), ExtResource("11_3e2gg"), ExtResource("12_0rtqp"), ExtResource("13_f31y0")]
