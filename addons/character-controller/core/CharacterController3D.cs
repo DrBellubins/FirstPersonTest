@@ -144,7 +144,6 @@ public partial class CharacterController3D : CharacterBody3D
     public override void _Ready()
     {
         Setup();
-
     }
 
     // Loads all character controller skills and sets necessary variables
@@ -269,9 +268,11 @@ public partial class CharacterController3D : CharacterBody3D
         foreach (var nodePath in nodePaths)
         {
             Node node = GetNode(nodePath);
+
             if (node != null)
             {
                 MovementAbility3D ability = node as MovementAbility3D;
+
                 if (ability != null)
                 {
                     nodes.Add(ability);
@@ -324,15 +325,14 @@ public partial class CharacterController3D : CharacterBody3D
             EmitSignal(SignalName.Landed);
             ResetStep();
         }
+
         _lastIsOnFloor = IsOnFloor();
     }
 
     public void CheckStep(float delta)
     {
         if (IsStep(_horizontalVelocity.Length(), IsOnFloor(), delta))
-        {
             Step(IsOnFloor());
-        }
     }
 
     public Vector3 DirectionInput(Vector2 input, bool inputDown, bool inputUp, Node3D aimNode)
@@ -341,22 +341,18 @@ public partial class CharacterController3D : CharacterBody3D
 
         var aim = aimNode.GlobalTransform.Basis;
 
-        if (input.X >= 0.5f)
-        {
-            _direction -= aim.Z;
-        }
-        if (input.X <= -0.5f)
-        {
-            _direction += aim.Z;
-        }
-        if (input.Y <= -0.5f)
-        {
-            _direction -= aim.X;
-        }
-        if (input.Y >= 0.5f)
-        {
-            _direction += aim.X;
-        }
+        if (input.X >= 0.1f)
+            _direction -= aim.Z * input.X;
+
+        if (input.X <= -0.1f)
+            _direction += aim.Z * -input.X;
+
+        if (input.Y <= -0.1f)
+            _direction -= aim.X * -input.Y;
+
+        if (input.Y >= 0.1f)
+            _direction += aim.X * input.Y;
+
         // NOTE: For free-flying and swimming movements
         if (IsFlyMode() || IsFloating())
         {
@@ -373,17 +369,20 @@ public partial class CharacterController3D : CharacterBody3D
         {
             _direction.Y = 0;
         }
-        return _direction.Normalized();
+
+        return _direction;
     }
 
     public bool Step(bool isOnFloor)
     {
         ResetStep();
+
         if (isOnFloor)
         {
             EmitSignal(SignalName.Stepped);
             return true;
         }
+
         return false;
     }
 
@@ -393,11 +392,14 @@ public partial class CharacterController3D : CharacterBody3D
         {
             return false;
         }
+
         _stepCycle += ((velocity + StepLengthen) * delta);
+
         if (_stepCycle <= _nextStep)
         {
             return false;
         }
+
         return true;
     }
 

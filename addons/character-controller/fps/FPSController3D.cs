@@ -50,10 +50,6 @@ public partial class FPSController3D : CharacterController3D
     // Rotation angle limit per move
     [Export] public float AngleLimitForRotation = 0.1f;
 
-    //private HeadMovement3D head;
-    //public Camera3D camera;
-    //private HeadBob headBob;
-
     // Stores normal fov from camera fov
     private float _normalFov;
 
@@ -67,9 +63,6 @@ public partial class FPSController3D : CharacterController3D
     public override void Setup()
     {
         base.Setup();
-        //head = GetNode<HeadMovement3D>("Head");
-        //camera = GetNode<Camera3D>("Head/Camera");
-        //headBob = GetNode<HeadBob>("Head/Head Bob");
 
         _normalFov = camera.Fov;
         head.SetMouseSensitivity(MouseSensitivity);
@@ -85,9 +78,9 @@ public partial class FPSController3D : CharacterController3D
 
     // Rotate head based on mouse axis parameter.
     // This function call [b]head.rotate_camera()[/b].
-    public void RotateHead(Vector2 mouseAxis)
+    public void RotateHead(Vector2 mouseAxis, bool isController)
     {
-        head.RotateCamera(mouseAxis);
+        head.RotateCamera(mouseAxis, isController);
     }
 
     // Call to move the character.

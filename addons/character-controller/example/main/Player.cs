@@ -1,7 +1,6 @@
 using System;
 using Godot;
 
-
 public partial class Player : FPSController3D
 {
 	[Export] public float ZoomFOV;
@@ -38,8 +37,17 @@ public partial class Player : FPSController3D
 				FlyAbility.SetActive(!FlyAbility.IsActived());
 			}
 
-			Vector2 InputAxis = Input.GetVector(InputBackActionName, InputForwardActionName, InputLeftActionName, InputRightActionName);
-			bool InputJump = Input.IsActionJustPressed(InputJumpActionName);
+			Vector2 InputAxis = Vector2.Zero;
+
+			if (Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left") ||
+				Input.IsActionPressed("move_forward") || Input.IsActionPressed("move_backward"))
+			{
+				InputAxis = new Vector2(Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_backward"),
+					Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"));
+            }
+
+            //Vector2 InputAxis = Input.GetVector(InputBackActionName, InputForwardActionName, InputLeftActionName, InputRightActionName);
+            bool InputJump = Input.IsActionJustPressed(InputJumpActionName);
 			bool InputCrouch = Input.IsActionPressed(InputCrouchActionName);
 			bool InputSprint = Input.IsActionPressed(InputSprintActionName);
 			bool InputSwimDown = Input.IsActionPressed(InputCrouchActionName);
@@ -61,14 +69,22 @@ public partial class Player : FPSController3D
 			camera.Fov = Mathf.Lerp(camera.Fov, ZoomFOV, deltaTime * FovChangeSpeed);
 		else
 			camera.Fov = Mathf.Lerp(camera.Fov, _normalFov, deltaTime * FovChangeSpeed);
-	}
 
-	public override void _Input(InputEvent @event)
+		if (Input.IsActionPressed("look_right") || Input.IsActionPressed("look_left") ||
+            Input.IsActionPressed("look_up") || Input.IsActionPressed("look_down"))
+		{
+            var axis = new Vector2(Input.GetActionStrength("look_right") - Input.GetActionStrength("look_left"),
+                Input.GetActionStrength("look_down") - Input.GetActionStrength("look_up")) * 15f;
+            RotateHead(axis, true);
+        }
+    }
+
+	public override void _Input(InputEvent _event)
 	{
 		// Mouse look (only if the mouse is captured).
-		if (@event is InputEventMouseMotion eventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+		if (_event is InputEventMouseMotion eventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
-			RotateHead(eventMouseMotion.Relative);
+			RotateHead(eventMouseMotion.Relative, false);
 		}
 	}
 

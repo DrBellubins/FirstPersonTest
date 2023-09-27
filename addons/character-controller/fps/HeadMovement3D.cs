@@ -27,7 +27,7 @@ public partial class HeadMovement3D : Marker3D
     {
         deltaTime = (float)delta;
 
-        _actualRotation.Z = Mathf.LerpAngle(_actualRotation.Z, 0, 10f * deltaTime);
+        //_actualRotation.Z = Mathf.LerpAngle(_actualRotation.Z, 0, 10f * deltaTime);
     }
 
     // Define mouse sensitivity
@@ -45,17 +45,17 @@ public partial class HeadMovement3D : Marker3D
     // Rotates the head of the character that contains the camera used by
     // [FPSController3D].
     // Vector2 is sent with reference to the input of a mouse as an example
-    public void RotateCamera(Vector2 mouseAxis)
+    public void RotateCamera(Vector2 inputAxis, bool isController)
     {
         // Horizontal mouse look.
-        _actualRotation.Y -= mouseAxis.X * (MouseSensitivity / 1000);
+        _actualRotation.Y -= inputAxis.X * (MouseSensitivity / 1000);
 
         // Vertical mouse look.
-        _actualRotation.X = Mathf.Clamp(_actualRotation.X - mouseAxis.Y * (MouseSensitivity / 1000), -VerticalAngleLimit, VerticalAngleLimit);
+        _actualRotation.X = Mathf.Clamp(_actualRotation.X - inputAxis.Y * (MouseSensitivity / 1000), 
+            -VerticalAngleLimit, VerticalAngleLimit);
 
         // Camera sway
         //_actualRotation.Z += mouseAxis.X * (MouseSensitivity / 4000);
-        
 
         GetOwner<Node3D>().Rotation = new Vector3(GetOwner<Node3D>().Rotation.X, _actualRotation.Y, GetOwner<Node3D>().Rotation.Z);
         //Rotation = new Vector3(_actualRotation.X, Rotation.Y, _actualRotation.Z);
