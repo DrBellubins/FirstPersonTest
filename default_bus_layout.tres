@@ -3,7 +3,8 @@
 [sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_8o3y5"]
 resource_name = "Compressor"
 threshold = -10.0
-ratio = 20.0
+ratio = 10.0
+release_ms = 50.0
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_0g4wt"]
 resource_name = "Reverb"

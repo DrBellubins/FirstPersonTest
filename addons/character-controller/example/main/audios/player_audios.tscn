@@ -8,26 +8,30 @@ script = ExtResource("1_5jhob")
 
 [node name="Jump" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("9_pghw8")
+volume_db = -3.5
 max_db = -3.0
 attenuation_filter_db = -65.4
 
 [node name="Step" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("9_pghw8")
-max_db = -3.0
+volume_db = -2.0
 attenuation_filter_db = -65.4
 
 [node name="Land" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("9_pghw8")
+volume_db = -3.5
 max_db = 0.0
 attenuation_filter_db = -65.4
 
 [node name="Crouch" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("9_pghw8")
+volume_db = -2.0
 max_db = 0.0
 attenuation_filter_db = -65.4
 
 [node name="Uncrouch" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("9_pghw8")
+volume_db = -2.0
 max_db = 0.0
 attenuation_filter_db = -65.4
 

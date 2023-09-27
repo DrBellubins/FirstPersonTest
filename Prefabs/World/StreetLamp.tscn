@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhadk4v5kcs22"]
+
+[ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="1_vx7vx"]
+[ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="2_ndxkt"]
+
+[node name="StreetLamp" type="Node3D"]
+
+[node name="Model" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.06235, 0)
+radius = 0.1
+height = 7.0
+sides = 6
+material = ExtResource("1_vx7vx")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1.18456, 0.431144, 0, -0.431144, 1.18456, 0, 0, 0, 1.26058, -0.468553, 3.62127, 0)
+size = Vector3(1, 0.15, 0.35)
+material = ExtResource("1_vx7vx")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1.18456, 0.431144, 0, -0.431144, 1.18456, 0, 0, 0, 1.26058, -0.634766, 3.56362, 0)
+operation = 2
+size = Vector3(0.68, 0.1, 0.266)
+material = ExtResource("2_ndxkt")
+
+[node name="Light" type="SpotLight3D" parent="."]
+transform = Transform3D(0.939693, -2.63612e-09, 0.34202, -0.34202, -1.49502e-08, 0.939693, 2.63612e-09, -1, -1.49502e-08, -0.957468, 6.71592, 0)
+light_volumetric_fog_energy = 2.0
+shadow_enabled = true
+shadow_blur = 2.0
+spot_range = 31.2019
