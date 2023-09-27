@@ -1,0 +1,2 @@
+Press F key to pickup rigidbodies, which are held at a position in front of the player at point of pickup.
+Position of the held item can be moved closer/further from the player with scroll wheel.

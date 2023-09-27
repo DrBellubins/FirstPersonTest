@@ -11,6 +11,11 @@ using Godot;
 
 public partial class FPSController3D : CharacterController3D
 {
+    [ExportGroup("Setup")]
+    [Export] public HeadMovement3D head;
+    [Export] public Camera3D camera;
+    [Export] public HeadBob headBob;
+
     [ExportGroup("FOV")]
     // Speed at which the FOV changes
     [Export] public float FovChangeSpeed = 4f;
@@ -45,12 +50,10 @@ public partial class FPSController3D : CharacterController3D
     // Rotation angle limit per move
     [Export] public float AngleLimitForRotation = 0.1f;
 
-    // [HeadMovement3D] reference, where the rotation of the camera sight is calculated
-    private HeadMovement3D head;
-    // Camera3D reference
-    public Camera3D camera;
-    // HeadBob reference
-    private HeadBob headBob;
+    //private HeadMovement3D head;
+    //public Camera3D camera;
+    //private HeadBob headBob;
+
     // Stores normal fov from camera fov
     private float _normalFov;
 
@@ -64,9 +67,10 @@ public partial class FPSController3D : CharacterController3D
     public override void Setup()
     {
         base.Setup();
-        head = GetNode<HeadMovement3D>("Head");
-        camera = GetNode<Camera3D>("Head/Camera");
-        headBob = GetNode<HeadBob>("Head/Head Bob");
+        //head = GetNode<HeadMovement3D>("Head");
+        //camera = GetNode<Camera3D>("Head/Camera");
+        //headBob = GetNode<HeadBob>("Head/Head Bob");
+
         _normalFov = camera.Fov;
         head.SetMouseSensitivity(MouseSensitivity);
         head.SetVerticalAngleLimit(VerticalAngleLimit);

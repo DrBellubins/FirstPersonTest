@@ -57,7 +57,7 @@ public partial class Player : FPSController3D
 	{
 		float deltaTime = (float)delta;
 
-		if (Input.IsActionPressed("Zoom"))
+		if (Input.IsActionPressed("zoom"))
 			camera.Fov = Mathf.Lerp(camera.Fov, ZoomFOV, deltaTime * FovChangeSpeed);
 		else
 			camera.Fov = Mathf.Lerp(camera.Fov, _normalFov, deltaTime * FovChangeSpeed);

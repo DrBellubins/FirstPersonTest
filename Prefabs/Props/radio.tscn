@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://b1c77yfcgtimc"]
+[gd_scene load_steps=14 format=3 uid="uid://b1c77yfcgtimc"]
 
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/Holdable.cs" id="1_56wi5"]
 [ext_resource type="Material" uid="uid://b25kg3mbmc7ix" path="res://Materials/Props/radio_face.tres" id="1_oscds"]
 [ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="2_k7orh"]
 [ext_resource type="AudioStream" uid="uid://dxd402kc50wo1" path="res://Sounds/Music/country_music1.ogg" id="3_gww1b"]
@@ -9,6 +10,11 @@
 [ext_resource type="AudioStream" uid="uid://hjca2r1tsnb8" path="res://Sounds/Music/country_music5.ogg" id="7_fec58"]
 [ext_resource type="AudioStream" uid="uid://bvrn4ij6cqqo1" path="res://Sounds/Music/country_music6.ogg" id="8_bnc31"]
 [ext_resource type="Script" path="res://Scripts/Utils/autoplay_randomizer.gd" id="9_g6plf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8te4m"]
+friction = 0.7
+rough = true
+bounce = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ngqht"]
 size = Vector3(1, 0.6, 0.3)
@@ -32,6 +38,9 @@ stream_5/weight = 1.0
 
 [node name="Radio" type="RigidBody3D"]
 transform = Transform3D(0.961994, 0, 0.27307, 0, 1, 0, -0.27307, 0, 0.961994, 20.8003, 7.07649, -17.2083)
+collision_layer = 4
+physics_material_override = SubResource("PhysicsMaterial_8te4m")
+script = ExtResource("1_56wi5")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ngqht")
@@ -53,5 +62,5 @@ unit_size = 40.0
 max_distance = 20.0
 emission_angle_degrees = 60.0
 attenuation_filter_cutoff_hz = 2000.0
-doppler_tracking = 1
+doppler_tracking = 2
 script = ExtResource("9_g6plf")

@@ -12,32 +12,19 @@ public partial class TerrainGenerator : MeshInstance3D
 	private const int chunkSize = 16;
 	private const int renderDistance = 8;
 
-	private int sqrtRenderDistance;
+	//private int sqrtRenderDistance;
     private FastNoiseLite noise = new FastNoiseLite();
     private Vector3 prevNearestChunkPos;
-
-    private MeshInstance3D[,] renderedChunks = new MeshInstance3D[16, 16];
-    //private List<Node> chunkBuffer = new List<Node>();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        sqrtRenderDistance = (int)MathF.Sqrt(renderedChunks.Length);
-        //sqrtRenderDistance = (int)MathF.Sqrt(renderDistance);
-
         noise.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
 		noise.Seed = new Random().Next(int.MaxValue);
 		//noise.Seed = 999;
 		noise.Frequency = 0.005f;
 
         regenerateChunks(Vector3.Zero);
-
-        /*chunkThread = new Thread(() =>
-        {
-            regenerateChunks(Vector3.Zero);
-        });
-
-		chunkThread.Start();*/
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,23 +34,14 @@ public partial class TerrainGenerator : MeshInstance3D
 
         var nearestChunkPos = Game.GetNearestChunkCoord(Game.Player.Position);
 
-		if (nearestChunkPos.X != prevNearestChunkPos.X || nearestChunkPos.Z != prevNearestChunkPos.Z)
-		{
-            //regenerateChunks(nearestChunkPos);
-
-            /*chunkThread = new Thread(() =>
-			{
-				regenerateChunks(nearestChunkPos);
-			});
-
-            chunkThread.Start();*/
-		}
+		//if (nearestChunkPos.X != prevNearestChunkPos.X || nearestChunkPos.Z != prevNearestChunkPos.Z)
+        //    regenerateChunks(nearestChunkPos);
 			
 
 		prevNearestChunkPos = nearestChunkPos;
 	}
 
-	private MeshInstance3D generateChunk(int x, int z)
+	private void generateChunk(int x, int z)
 	{
         var chunkTask = Task.Factory.StartNew(() =>
         {
@@ -102,15 +80,16 @@ public partial class TerrainGenerator : MeshInstance3D
             surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
             surfaceTool.CreateFrom(arrayPlane, 0);
             surfaceTool.GenerateNormals();
-            surfaceTool.GenerateTangents();
+            //surfaceTool.GenerateTangents();
 
             var meshInstance = new MeshInstance3D();
-            this.CallDeferred("add_child", meshInstance);
 
             //meshInstance.CastShadow = ShadowCastingSetting.DoubleSided;
             meshInstance.ProcessThreadGroup = ProcessThreadGroupEnum.SubThread;
             meshInstance.Position = new Vector3(x, 0f, z);
             meshInstance.Mesh = surfaceTool.Commit();
+
+            this.CallDeferred("add_child", meshInstance);
 
             // Collision
             var shape = new ConcavePolygonShape3D();
@@ -119,13 +98,17 @@ public partial class TerrainGenerator : MeshInstance3D
             var body = new StaticBody3D();
             var col = new CollisionShape3D();
 
-            body.CallDeferred("add_child", col);
+            col.Shape = shape;
+
+            var ownderID = body.CreateShapeOwner(body);
+            body.ShapeOwnerAddShape(ownderID, col.Shape);
+
+            col.QueueFree();
+
             meshInstance.CallDeferred("add_child", body);
 
             col.Shape = shape;
         });
-
-        return new MeshInstance3D();
     }
 	
 	private void regenerateChunks(Vector3 playerChunkPos)
@@ -133,12 +116,12 @@ public partial class TerrainGenerator : MeshInstance3D
         // should prevent duplicate chunks in buffer (might not)
         var chunkBuffer = GetChildren().ToList().Distinct().ToList();
 
-        for (int x = 0; x < sqrtRenderDistance; x++)
+        for (int x = 0; x < renderDistance; x++)
         {
-            for (int z = 0; z < sqrtRenderDistance; z++)
+            for (int z = 0; z < renderDistance; z++)
             {
-                var chunkPos = new Vector3I((int)playerChunkPos.X + ((x * chunkSize) - (sqrtRenderDistance * 8)),
-                    0, (int)playerChunkPos.Z + (z * chunkSize) - (sqrtRenderDistance * 8));
+                var chunkPos = new Vector3I((int)playerChunkPos.X + ((x * chunkSize) - (renderDistance * 8)),
+                    0, (int)playerChunkPos.Z + (z * chunkSize) - (renderDistance * 8));
 
                 var bufferChunk = chunkBuffer.Find(x => x == getRenderedChunkAtPos(chunkPos));
 
@@ -146,16 +129,13 @@ public partial class TerrainGenerator : MeshInstance3D
 
                 if (bufferChunk != null)
                 {
-                    
                     returnChunk = (MeshInstance3D)bufferChunk;
                 }
                 else
                 {
                     // TODO: Doesn't seem centered
-                    returnChunk = generateChunk(chunkPos.X, chunkPos.Z);
+                    generateChunk(chunkPos.X, chunkPos.Z);
                 }
-
-                renderedChunks[x, z] = returnChunk;
             }
         }
 
