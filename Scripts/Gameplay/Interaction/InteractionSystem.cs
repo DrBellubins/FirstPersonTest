@@ -63,7 +63,10 @@ public partial class InteractionSystem : Node3D
 			var b = HoldPos.GlobalPosition;
 
             heldObject.LinearVelocity = (b - a) * holdPower;
-			heldObject.AngularVelocity = heldObject.AngularVelocity.Lerp(Vector3.Zero, holdPower * (float)delta);
-		}
+
+			heldObject.GlobalRotation = HoldPos.GlobalRotation;
+			heldObject.AngularVelocity = Vector3.Zero;
+            //heldObject.GlobalRotation = heldObject.GlobalRotation.Lerp(HoldPos.GlobalRotation, holdPower * (float)delta);
+        }
 	}
 }

@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dw060j0hmgllx"]
+
+[ext_resource type="Texture2D" uid="uid://c573ef0q3mlxx" path="res://Textures/Wood/saloon-wood-floor_albedo.png" id="1_iy22y"]
+[ext_resource type="Texture2D" uid="uid://pjfj3lp877rs" path="res://Textures/Wood/saloon-wood-floor_normal-ogl.png" id="2_a7cv5"]
+
+[resource]
+albedo_texture = ExtResource("1_iy22y")
+normal_enabled = true
+normal_scale = 5.0
+normal_texture = ExtResource("2_a7cv5")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0

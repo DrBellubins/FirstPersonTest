@@ -5,7 +5,6 @@ using Godot.Collections;
 // Script that plays sounds based on player actions.
 // Using an [AudioInteract] array synchronized with physic_materials array to 
 // identify different sound structures for each type of physical material.
-
 public partial class PlayerAudios3D : Node3D
 {
 	[Export] public bool InMenu = false;

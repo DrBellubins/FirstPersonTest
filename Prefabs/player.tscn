@@ -16,7 +16,7 @@
 [ext_resource type="Curve" uid="uid://dhx3p5wsiw0bs" path="res://addons/character-controller/fps/bob/bob_curve.tres" id="11_y6te8"]
 [ext_resource type="Resource" uid="uid://duu5m0sajkuix" path="res://addons/character-controller/fps/bob/timed_bob_curve.tres" id="12_34rgg"]
 [ext_resource type="Material" uid="uid://b3f7b4lb35ttn" path="res://Shaders/Tonemapper/ACES_Tonemap.tres" id="13_18bua"]
-[ext_resource type="PackedScene" path="res://addons/character-controller/example/main/audios/player_audios.tscn" id="13_yjrtm"]
+[ext_resource type="PackedScene" uid="uid://48lxrddf51fl" path="res://addons/character-controller/example/main/audios/player_audios.tscn" id="13_yjrtm"]
 [ext_resource type="Resource" uid="uid://boafje76qrf27" path="res://addons/character-controller/example/main/audio_interacts/grass_audio_interact.tres" id="14_4itx4"]
 [ext_resource type="PhysicsMaterial" path="res://addons/character-controller/example/main/physics/grass.tres" id="15_ykov3"]
 [ext_resource type="PhysicsMaterial" uid="uid://bklf2cx3fydt3" path="res://addons/character-controller/example/main/physics/stone.tres" id="16_gjh0c"]

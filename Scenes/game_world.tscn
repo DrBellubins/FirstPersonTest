@@ -129,7 +129,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 shadow_enabled = true
-shadow_blur = 7.0
+shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light2" type="CSGCylinder3D" parent="Home"]
@@ -149,7 +149,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 shadow_enabled = true
-shadow_blur = 7.0
+shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light3" type="CSGCylinder3D" parent="Home"]
@@ -169,7 +169,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 shadow_enabled = true
-shadow_blur = 7.0
+shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light4" type="CSGCylinder3D" parent="Home"]
@@ -189,7 +189,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 shadow_enabled = true
-shadow_blur = 7.0
+shadow_blur = 2.0
 omni_range = 7.025
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="Home"]
@@ -223,6 +223,7 @@ rings = 5
 material = ExtResource("8_m1bx3")
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
+transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20.4384, 7.01061, -17.5758)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -245,3 +246,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5722, 1.25942, 8.45004)
 texture_albedo = ExtResource("13_aeql1")
 texture_normal = ExtResource("14_fjnas")
 texture_orm = ExtResource("15_b7ngp")
+cull_mask = 1047553

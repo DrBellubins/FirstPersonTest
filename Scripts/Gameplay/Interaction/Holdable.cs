@@ -1,14 +1,18 @@
 using Godot;
 using System;
 
-// TODO: Make objects make sound when hitting something
 public partial class Holdable : RigidBody3D
 {
-	public override void _Ready()
+	[Export] public AudioStreamPlayer3D HitAudioPlayer;
+
+    public override void _Ready()
 	{
+		BodyEntered += OnBodyEntered;
 	}
 
-	public override void _Process(double delta)
+	public void OnBodyEntered(Node body)
 	{
+		if (!HitAudioPlayer.Playing)
+			HitAudioPlayer.Play();
 	}
 }
