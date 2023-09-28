@@ -6,15 +6,15 @@ public class Game
 {
 	public static Player Player;
 
-    public static Vector3 GetNearestChunkCoord(Vector3 input)
+    public static Vector2 GetNearestChunkCoord(Vector2 input)
     {
         int x = (int)MathF.Floor(input.X);
-        int z = (int)MathF.Floor(input.Z);
+        int y = (int)MathF.Floor(input.Y);
 
         int xRem = x % 16;
-        int zRem = z % 16;
+        int yRem = y % 16;
 
-        return new Vector3(x - xRem, 0.0f, z - zRem);
+        return new Vector2(x - xRem, y - yRem);
     }
 }
 

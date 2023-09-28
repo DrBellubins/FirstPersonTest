@@ -1,0 +1,2 @@
+A round-based zombie survival game where the zombies only come out during the night.
+Rounds are based on 24 hour days (in-game time). You build up a fort during the day.

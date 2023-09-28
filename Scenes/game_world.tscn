@@ -26,18 +26,21 @@ size = Vector2(8, 100)
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
 
-[node name="TerrainGen" type="MeshInstance3D" parent="."]
-cast_shadow = 2
+[node name="TerrainGen" type="Node3D" parent="."]
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 0
 script = ExtResource("1_qf80h")
 
 [node name="Player" parent="." instance=ExtResource("2_g8biw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6794, 7.44297, 8.44759)
 
 [node name="GlobalVariables" type="Node" parent="."]
 script = ExtResource("4_tqant")
 
 [node name="Road" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.05, 0)
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_6s4en")
 
@@ -250,26 +253,29 @@ texture_normal = ExtResource("14_fjnas")
 texture_orm = ExtResource("15_b7ngp")
 cull_mask = 1047553
 
-[node name="StreetLamp" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamps" type="Node3D" parent="."]
+visible = false
+
+[node name="StreetLamp" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, -8.7095)
 
-[node name="StreetLamp2" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp2" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 5.81589)
 
-[node name="StreetLamp3" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp3" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 18.7585)
 
-[node name="StreetLamp6" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp6" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, -46.9062)
 
-[node name="StreetLamp7" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp7" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, -32.3808)
 
-[node name="StreetLamp8" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp8" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, -19.4382)
 
-[node name="StreetLamp4" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp4" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 30.7409)
 
-[node name="StreetLamp5" parent="." instance=ExtResource("16_ieeem")]
+[node name="StreetLamp5" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 45.2663)

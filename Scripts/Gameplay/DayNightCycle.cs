@@ -47,6 +47,9 @@ public partial class DayNightCycle : Node3D
 
             environment.Environment.BackgroundEnergyMultiplier = 0.15f;
             environment.Environment.BackgroundColor = SkyDayColor;
+
+            environment.Environment.FogLightColor = SkyDayColor;
+            environment.Environment.FogLightEnergy = 0.15f;
         }	
 		else
 		{
@@ -55,6 +58,9 @@ public partial class DayNightCycle : Node3D
 
             environment.Environment.BackgroundEnergyMultiplier = 0.05f;
             environment.Environment.BackgroundColor = SkyNightColor;
+
+            environment.Environment.FogLightColor = SkyNightColor;
+            environment.Environment.FogLightEnergy = 0.05f;
         }
     }
 }

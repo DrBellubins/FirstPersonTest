@@ -1,187 +1,152 @@
 using Godot;
 using Godot.NativeInterop;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-// TODO: Make chunk gen multi-threaded
-public partial class TerrainGenerator : MeshInstance3D
+public partial class TerrainGenerator : Node3D
 {
 	private const int chunkSize = 16;
-	private const int renderDistance = 8;
+	private const int renderDistance = 16;
 
-	//private int sqrtRenderDistance;
+    private Material terrainMaterial;
     private FastNoiseLite noise = new FastNoiseLite();
-    private Vector3 prevNearestChunkPos;
+    private Vector2 prevPlayerChunkPos;
+
+    private Vector2 playerPos = new Vector2();
+
+    // Multi-threading stuff
+    private Thread chunkThread;
+    private List<Vector2> chunkPositions = new List<Vector2>();
+    private List<MeshInstance3D> chunks = new List<MeshInstance3D>();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        terrainMaterial = ResourceLoader.Load<Material>("res://Materials/Terrain.tres");
+
         noise.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
 		noise.Seed = new Random().Next(int.MaxValue);
 		//noise.Seed = 999;
 		noise.Frequency = 0.005f;
 
-        regenerateChunks(Vector3.Zero);
+        chunkThread = new Thread(new ThreadStart(regenerateChunks));
+        chunkThread.Start();
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-        MainThreadInvoker.ProcessMainThreadQueue(delta);
+        playerPos = new Vector2(Game.Player.GlobalPosition.X, Game.Player.GlobalPosition.Z);
+    }
 
-        var nearestChunkPos = Game.GetNearestChunkCoord(Game.Player.Position);
-
-		//if (nearestChunkPos.X != prevNearestChunkPos.X || nearestChunkPos.Z != prevNearestChunkPos.Z)
-        //    regenerateChunks(nearestChunkPos);
-			
-
-		prevNearestChunkPos = nearestChunkPos;
-	}
-
-	private void generateChunk(int x, int z)
+	private void generateChunk(Vector2 chunkPos)
 	{
-        var chunkTask = Task.Factory.StartNew(() =>
+        var plane = new PlaneMesh();
+        plane.Size = new Vector2(chunkSize, chunkSize);
+        plane.SubdivideDepth = chunkSize / 2;
+        plane.SubdivideWidth = chunkSize / 2;
+        
+        plane.Material = terrainMaterial;
+        
+        var surfaceTool = new SurfaceTool();
+        var dataTool = new MeshDataTool();
+        
+        surfaceTool.CreateFrom(plane, 0);
+        
+        var arrayPlane = surfaceTool.Commit();
+        var error = dataTool.CreateFromSurface(arrayPlane, 0);
+        
+        for (int i = 0; i < dataTool.GetVertexCount(); i++)
         {
-            var plane = new PlaneMesh();
-            plane.Size = new Vector2(chunkSize, chunkSize);
-            plane.SubdivideDepth = chunkSize / 2;
-            plane.SubdivideWidth = chunkSize / 2;
+            var vertex = dataTool.GetVertex(i);
+        
+            vertex.Y = noise.GetNoise2D(vertex.X + chunkPos.X, vertex.Z + chunkPos.Y) * 2f;
+        
+            // Road
+            if (chunkPos.X + vertex.X == -0.8888886f || chunkPos.X + vertex.X == -2.6666663f || chunkPos.X + vertex.X == -4.444444f
+                || chunkPos.X + vertex.X == 0.8888892f || chunkPos.X + vertex.X == 2.666667f)
+                vertex.Y = 0;
+        
+            dataTool.SetVertex(i, vertex);
+        }
+        
+        arrayPlane.ClearSurfaces();
+        
+        dataTool.CommitToSurface(arrayPlane);
+        surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
+        surfaceTool.CreateFrom(arrayPlane, 0);
+        surfaceTool.GenerateNormals();
+        //surfaceTool.GenerateTangents();
+        
+        var meshInstance = new MeshInstance3D();
+        
+        //meshInstance.CastShadow = ShadowCastingSetting.DoubleSided;
+        //meshInstance.ProcessThreadGroup = ProcessThreadGroupEnum.SubThread;
+        meshInstance.Position = new Vector3(chunkPos.X, 0f, chunkPos.Y);
+        meshInstance.Mesh = surfaceTool.Commit();
+        
+        // Collision
+        var shape = new ConcavePolygonShape3D();
+        shape.Data = meshInstance.Mesh.GetFaces();
+        
+        var body = new StaticBody3D();
+        var col = new CollisionShape3D();
+        
+        col.Shape = shape;
+        
+        var ownderID = body.CreateShapeOwner(body);
+        body.ShapeOwnerAddShape(ownderID, col.Shape);
+        
+        //col.QueueFree();
 
-            plane.Material = ResourceLoader.Load<Material>("res://Materials/Terrain.tres");
+        meshInstance.CallDeferred("add_child", body);
+        CallDeferred("add_child", meshInstance);
 
-            var surfaceTool = new SurfaceTool();
-            var dataTool = new MeshDataTool();
+        col.Shape = shape;
 
-            surfaceTool.CreateFrom(plane, 0);
-
-            var arrayPlane = surfaceTool.Commit();
-            var error = dataTool.CreateFromSurface(arrayPlane, 0);
-
-            for (int i = 0; i < dataTool.GetVertexCount(); i++)
-            {
-                var vertex = dataTool.GetVertex(i);
-
-                vertex.Y = noise.GetNoise2D(vertex.X + x, vertex.Z + z) * 2f;
-
-                // Road
-                if (x + vertex.X == -0.8888886f || x + vertex.X == -2.6666663f || x + vertex.X == -4.444444f
-                    || x + vertex.X == 0.8888892f || x + vertex.X == 2.666667f)
-                    vertex.Y = 0;
-
-                dataTool.SetVertex(i, vertex);
-            }
-
-            arrayPlane.ClearSurfaces();
-
-            dataTool.CommitToSurface(arrayPlane);
-            surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
-            surfaceTool.CreateFrom(arrayPlane, 0);
-            surfaceTool.GenerateNormals();
-            //surfaceTool.GenerateTangents();
-
-            var meshInstance = new MeshInstance3D();
-
-            //meshInstance.CastShadow = ShadowCastingSetting.DoubleSided;
-            meshInstance.ProcessThreadGroup = ProcessThreadGroupEnum.SubThread;
-            meshInstance.Position = new Vector3(x, 0f, z);
-            meshInstance.Mesh = surfaceTool.Commit();
-
-            this.CallDeferred("add_child", meshInstance);
-
-            // Collision
-            var shape = new ConcavePolygonShape3D();
-            shape.Data = meshInstance.Mesh.GetFaces();
-
-            var body = new StaticBody3D();
-            var col = new CollisionShape3D();
-
-            col.Shape = shape;
-
-            var ownderID = body.CreateShapeOwner(body);
-            body.ShapeOwnerAddShape(ownderID, col.Shape);
-
-            col.QueueFree();
-
-            meshInstance.CallDeferred("add_child", body);
-
-            col.Shape = shape;
-        });
+        chunks.Add(meshInstance);
+        chunkPositions.Add(chunkPos);
     }
 	
-	private void regenerateChunks(Vector3 playerChunkPos)
+	private void regenerateChunks()
 	{
-        // should prevent duplicate chunks in buffer (might not)
-        var chunkBuffer = GetChildren().ToList().Distinct().ToList();
-
-        for (int x = 0; x < renderDistance; x++)
+        while (true)
         {
-            for (int z = 0; z < renderDistance; z++)
+            var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
+
+            if (playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y)
             {
-                var chunkPos = new Vector3I((int)playerChunkPos.X + ((x * chunkSize) - (renderDistance * 8)),
-                    0, (int)playerChunkPos.Z + (z * chunkSize) - (renderDistance * 8));
-
-                var bufferChunk = chunkBuffer.Find(x => x == getRenderedChunkAtPos(chunkPos));
-
-                MeshInstance3D returnChunk;
-
-                if (bufferChunk != null)
+                // Clear chunks
+                for (int i = 0; i < chunks.Count; i++)
                 {
-                    returnChunk = (MeshInstance3D)bufferChunk;
+                    if (chunkPositions[i].DistanceTo(playerPos) > (renderDistance * 8))
+                    {
+                        chunks[i].CallDeferred("free");
+
+                        chunks.RemoveAt(i);
+                        chunkPositions.RemoveAt(i);
+                    }
                 }
-                else
+
+                for (int x = 0; x < renderDistance; x++)
                 {
-                    // TODO: Doesn't seem centered
-                    generateChunk(chunkPos.X, chunkPos.Z);
+                    for (int z = 0; z < renderDistance; z++)
+                    {
+                        var chunkPos = new Vector2((int)playerChunkPos.X + ((x * chunkSize) - (renderDistance * 8)),
+                            (int)playerChunkPos.Y + (z * chunkSize) - (renderDistance * 8));
+
+                        if (!chunkPositions.Contains(chunkPos))
+                            generateChunk(chunkPos);
+                    }
                 }
             }
+
+            prevPlayerChunkPos = playerChunkPos;
         }
-
-        //clearChunks();
-    }
-
-    private MeshInstance3D? getRenderedChunkAtPos(Vector3 position)
-    {
-        MeshInstance3D retChunk = new MeshInstance3D();
-        bool foundChunk = false;
-
-        var chunkBuffer = GetChildren();
-
-        for (int i = 0; i < chunkBuffer.Count; i++)
-        {
-            var chunk = (MeshInstance3D)chunkBuffer[i];
-
-            if (chunk.Position == position)
-            {
-                foundChunk = true;
-                retChunk = chunk;
-            }
-        }
-
-        if (foundChunk)
-            return retChunk;
-        else
-            return null;
-    }
-
-    private void clearChunks()
-	{
-        var chunkBuffer = GetChildren().ToList();
-
-        for (int i = 0; i < chunkBuffer.Count; i++)
-        {
-            var mesh = (MeshInstance3D)chunkBuffer[i];
-
-            if (mesh.Position.DistanceTo(Game.Player.Position) > 32f)
-            {
-                chunkBuffer[i].Free();
-            }
-        }
-
-        //foreach (var child in GetChildren())
-        //    child.Free();
     }
 
 	private void drawDebugSphere(Vector3 pos)
