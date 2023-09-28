@@ -244,7 +244,7 @@ light_color = Color(0.941176, 0.752941, 0.564706, 1)
 shadow_enabled = true
 
 [node name="Decal" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5722, 1.25942, 8.45004)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5722, 2.80458, 8.45004)
 texture_albedo = ExtResource("13_aeql1")
 texture_normal = ExtResource("14_fjnas")
 texture_orm = ExtResource("15_b7ngp")

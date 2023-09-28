@@ -115,13 +115,13 @@ public partial class TerrainGenerator : Node3D
         
         var ownderID = body.CreateShapeOwner(body);
         body.ShapeOwnerAddShape(ownderID, col.Shape);
-        
-        //col.QueueFree();
 
         meshInstance.CallDeferred("add_child", body);
         CallDeferred("add_child", meshInstance);
 
         col.Shape = shape;
+
+        col.QueueFree();
 
         chunks.Add(meshInstance);
         chunkPositions.Add(chunkPos);
