@@ -14,6 +14,8 @@ public partial class Player : FPSController3D
 	[Export] public string InputFlyModeActionName { get; set; } = "move_fly_mode";
 	[Export] public Godot.Environment UnderwaterEnv { get; set; }
 
+	public bool IsFrozen = false;
+
 	private float _normalFov;
 
 	public override void _Ready()
@@ -53,7 +55,8 @@ public partial class Player : FPSController3D
 			bool InputSwimDown = Input.IsActionPressed(InputCrouchActionName);
 			bool InputSwimUp = Input.IsActionPressed(InputJumpActionName);
 
-			Move((float)delta, InputAxis, InputJump, InputCrouch, InputSprint, InputSwimDown, InputSwimUp);
+			if (!IsFrozen)
+				Move((float)delta, InputAxis, InputJump, InputCrouch, InputSprint, InputSwimDown, InputSwimUp);
 		}
 		else
 		{

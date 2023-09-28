@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 public partial class TerrainGenerator : Node3D
 {
+    [Export] public Label loadingText;
+    [Export] public ProgressBar loadingBar;
+    [Export] public ColorRect blurRect;
+
 	private const int chunkSize = 16;
 	private const int renderDistance = 16;
 
@@ -17,6 +21,7 @@ public partial class TerrainGenerator : Node3D
     private Vector2 prevPlayerChunkPos;
 
     private Vector2 playerPos = new Vector2();
+    private bool isPlayerFrozen = false;
 
     // Multi-threading stuff
     private Thread chunkThread;
@@ -35,12 +40,22 @@ public partial class TerrainGenerator : Node3D
 
         chunkThread = new Thread(new ThreadStart(regenerateChunks));
         chunkThread.Start();
+
+        isPlayerFrozen = true;
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
         playerPos = new Vector2(Game.Player.GlobalPosition.X, Game.Player.GlobalPosition.Z);
+
+        Game.Player.IsFrozen = isPlayerFrozen;
+        loadingText.Visible = isPlayerFrozen;
+        loadingBar.Visible = isPlayerFrozen;
+        blurRect.Visible = isPlayerFrozen;
+
+        var progress = ((double)chunkPositions.Count / ((double)renderDistance * (double)renderDistance)) * 100.0d;
+        loadingBar.Value = progress;
     }
 
 	private void generateChunk(Vector2 chunkPos)
@@ -67,9 +82,9 @@ public partial class TerrainGenerator : Node3D
             vertex.Y = noise.GetNoise2D(vertex.X + chunkPos.X, vertex.Z + chunkPos.Y) * 2f;
         
             // Road
-            if (chunkPos.X + vertex.X == -0.8888886f || chunkPos.X + vertex.X == -2.6666663f || chunkPos.X + vertex.X == -4.444444f
-                || chunkPos.X + vertex.X == 0.8888892f || chunkPos.X + vertex.X == 2.666667f)
-                vertex.Y = 0;
+            //if (chunkPos.X + vertex.X == -0.8888886f || chunkPos.X + vertex.X == -2.6666663f || chunkPos.X + vertex.X == -4.444444f
+            //    || chunkPos.X + vertex.X == 0.8888892f || chunkPos.X + vertex.X == 2.666667f)
+            //    vertex.Y = 0;
         
             dataTool.SetVertex(i, vertex);
         }
@@ -143,6 +158,8 @@ public partial class TerrainGenerator : Node3D
                             generateChunk(chunkPos);
                     }
                 }
+
+                isPlayerFrozen = false;
             }
 
             prevPlayerChunkPos = playerChunkPos;

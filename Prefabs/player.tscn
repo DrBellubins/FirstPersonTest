@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ccqfdekiklsk3"]
+[gd_scene load_steps=30 format=3 uid="uid://ccqfdekiklsk3"]
 
 [ext_resource type="Script" path="res://addons/character-controller/example/main/Player.cs" id="1_ngtxf"]
 [ext_resource type="Environment" uid="uid://b3cn01u84faiy" path="res://addons/character-controller/example/main/underwater.tres" id="2_uk578"]
@@ -40,6 +40,8 @@ shader_parameter/angular_velocity = Vector3(0, 0, 0)
 shader_parameter/iteration_count = 15
 shader_parameter/intensity = 0.5
 shader_parameter/startRadius = 0.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3bakq"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "camera", "headBob")]
 collision_layer = 2
@@ -167,3 +169,8 @@ offset_bottom = 2.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("25_p8idv")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
+visible = false
+cast_shadow = 3
+mesh = SubResource("CapsuleMesh_3bakq")

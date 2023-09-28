@@ -1,10 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=20 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
 [ext_resource type="PackedScene" uid="uid://ccqfdekiklsk3" path="res://Prefabs/player.tscn" id="2_g8biw"]
 [ext_resource type="Script" path="res://Scripts/GlobalVariables.cs" id="4_tqant"]
-[ext_resource type="Material" uid="uid://dp4obk2jm1v2q" path="res://Materials/AsphaltRoad.tres" id="5_0848f"]
 [ext_resource type="Environment" uid="uid://5og8o40ne2l2" path="res://Scenes/MainWorldEnv.tres" id="6_ojpui"]
 [ext_resource type="AudioStream" uid="uid://d0twbbjgid5bv" path="res://Sounds/wind_loop.wav" id="7_j0q8y"]
 [ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
@@ -15,109 +14,112 @@
 [ext_resource type="Texture2D" uid="uid://cry4judm8vp6l" path="res://Textures/Decals/puddle_normal.png" id="14_fjnas"]
 [ext_resource type="Texture2D" uid="uid://d01eabaelh088" path="res://Textures/Decals/puddle_orm.png" id="15_b7ngp"]
 [ext_resource type="PackedScene" uid="uid://bhadk4v5kcs22" path="res://Prefabs/World/StreetLamp.tscn" id="16_ieeem"]
+[ext_resource type="Shader" path="res://Shaders/UI_Blur.gdshader" id="17_k7ib7"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_6s4en"]
-material = ExtResource("5_0848f")
-size = Vector2(8, 100)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mlyh0"]
+shader = ExtResource("17_k7ib7")
+shader_parameter/blur = 3.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_54a3o"]
+font_size = 40
 
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
 
-[node name="TerrainGen" type="Node3D" parent="."]
-process_thread_group = 2
-process_thread_group_order = 0
-process_thread_messages = 0
+[node name="TerrainGen" type="Node3D" parent="." node_paths=PackedStringArray("loadingText", "loadingBar", "blurRect")]
 script = ExtResource("1_qf80h")
+loadingText = NodePath("../UI/LoadingWorldText")
+loadingBar = NodePath("../UI/ProgressBar")
+blurRect = NodePath("../UI/BlurRect")
 
 [node name="Player" parent="." instance=ExtResource("2_g8biw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6794, 7.44297, 8.44759)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.3902, 4.1793, -10.3904)
 
 [node name="GlobalVariables" type="Node" parent="."]
 script = ExtResource("4_tqant")
 
-[node name="Road" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.05, 0)
-visible = false
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_6s4en")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("6_ojpui")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="WindAmbience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_j0q8y")
 volume_db = -5.0
 autoplay = true
 
 [node name="Home" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 5.10027, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 6, 0)
 use_collision = true
-size = Vector3(15, 12, 40)
+size = Vector3(15, 18, 40)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07958, 0)
 operation = 2
 size = Vector3(14, 10, 39)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07958, 0)
 size = Vector3(14, 1, 39)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.42042, 0)
 operation = 2
 size = Vector3(2, 3, 1.5)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 2.77775, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 4.35733, 0)
 operation = 2
 size = Vector3(2, 1.8, 8)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 2.77775, 12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 4.35733, 12)
 operation = 2
 size = Vector3(2, 1.8, 8)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 2.77775, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 4.35733, -12)
 operation = 2
 size = Vector3(2, 1.8, 8)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -2.78391, 12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.20433, 12)
 operation = 2
 size = Vector3(2, 1.8, 8)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -2.78391, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.20433, -12)
 operation = 2
 size = Vector3(2, 1.8, 8)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26015, 0.527396, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26015, 2.10698, 0)
 operation = 2
 size = Vector3(9, 2, 2)
 material = ExtResource("8_m1bx3")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 0, -4.5, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 0, -2.92042, 1)
+polygon = PackedVector2Array(-3.24966, -0.0057894, 0.0452499, 1.71754, 5.75989, 5.49894, 5.7926, -0.0771861)
+material = ExtResource("8_m1bx3")
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Home"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -13.26, -8.42, 1)
 polygon = PackedVector2Array(-3.24966, -0.0057894, 0.0452499, 1.71754, 5.75989, 5.49894, 5.7926, -0.0771861)
 material = ExtResource("8_m1bx3")
 
 [node name="Light" type="CSGCylinder3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.090632, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48895, 10)
 height = 0.25
 material = ExtResource("9_7ntxc")
 
@@ -137,7 +139,7 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light2" type="CSGCylinder3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.091, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48858, -10)
 height = 0.25
 material = ExtResource("9_7ntxc")
 
@@ -157,7 +159,7 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light3" type="CSGCylinder3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.39788, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97746, -10)
 height = 0.25
 material = ExtResource("9_7ntxc")
 
@@ -177,7 +179,7 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light4" type="CSGCylinder3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.398, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97758, 0)
 height = 0.25
 material = ExtResource("9_7ntxc")
 
@@ -196,13 +198,8 @@ shadow_enabled = true
 shadow_blur = 2.0
 omni_range = 7.025
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="Home"]
-transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -7.85, -5.555, 0)
-size = Vector3(2, 1, 1.5)
-material = ExtResource("8_m1bx3")
-
 [node name="ReverbZone" type="Area3D" parent="Home"]
-transform = Transform3D(15, 0, 0, 0, 12, 0, 0, 0, 40, 0, 0, 0)
+transform = Transform3D(15, 0, 0, 0, 12, 0, 0, 0, 40, 0, 1.57958, 0)
 collision_mask = 2
 audio_bus_override = true
 audio_bus_name = &"MenuBus"
@@ -211,7 +208,7 @@ audio_bus_name = &"MenuBus"
 shape = SubResource("BoxShape3D_deiww")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 4.9353, -1.18328, -20.4669)
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 4.9353, 0.396303, -20.4669)
 operation = 2
 radius = 6.0
 radial_segments = 4
@@ -219,7 +216,7 @@ rings = 5
 material = ExtResource("8_m1bx3")
 
 [node name="CSGSphere3D2" type="CSGSphere3D" parent="Home"]
-transform = Transform3D(0.51393, 0.0537278, -0.847251, 0.397019, 0.33531, 0.373723, 0.760428, -0.211377, 0.377488, -1.50315, 5.73494, 13.0598)
+transform = Transform3D(0.51393, 0.0537278, -0.847251, 0.397019, 0.33531, 0.373723, 0.760428, -0.211377, 0.377488, -1.50315, 7.31452, 13.0598)
 operation = 2
 radius = 4.0
 radial_segments = 5
@@ -227,12 +224,12 @@ rings = 5
 material = ExtResource("8_m1bx3")
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
-transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20.4384, 7.01061, -17.5758)
+transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20.4384, 3.91529, -17.5758)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("19_2k6pm")
-TimeSpeed = 0.1
+TimeSpeed = 0.005
 environment = NodePath("../WorldEnvironment")
 SunIntensity = 1.0
 MoonIntensity = 0.05
@@ -279,3 +276,53 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 30.7409)
 
 [node name="StreetLamp5" parent="StreetLamps" instance=ExtResource("16_ieeem")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 45.2663)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlurRect" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_mlyh0")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingWorldText" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.5
+offset_top = -29.0
+offset_right = 152.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading world..."
+label_settings = SubResource("LabelSettings_54a3o")
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -368.0
+offset_top = 50.0
+offset_right = 368.0
+offset_bottom = 77.0001
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+show_percentage = false
