@@ -18,7 +18,7 @@ public partial class Car : VehicleBody3D
 
         if (IsDriving)
         {
-            audio.VolumeDb = 0f;
+            audio.VolumeDb = -5f;
 
             Steering = Mathf.MoveToward(Steering, (Input.GetAxis("drive_right", "drive_left") *
             Mathf.DegToRad(MaxSteerAngle)), 2.5f * deltaTime);

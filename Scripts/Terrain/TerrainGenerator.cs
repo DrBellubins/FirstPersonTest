@@ -9,15 +9,23 @@ using System.Threading.Tasks;
 
 public partial class TerrainGenerator : Node3D
 {
+    [ExportCategory("General")]
+    [Export(PropertyHint.File, "*.tscn,")] public string RockPath;
+
+    private PackedScene rock;
+
+    [ExportCategory("UI")]
     [Export] public Label loadingText;
     [Export] public ProgressBar loadingBar;
     [Export] public ColorRect blurRect;
 
+    // Settings
 	private const int chunkSize = 16;
 	private const int renderDistance = 16;
 
+    // Various
     private Material terrainMaterial;
-    private FastNoiseLite noise = new FastNoiseLite();
+    private FastNoiseLite simplex = new FastNoiseLite();
     private Vector2 prevPlayerChunkPos;
 
     private Vector2 playerPos = new Vector2();
@@ -25,18 +33,22 @@ public partial class TerrainGenerator : Node3D
 
     // Multi-threading stuff
     private Thread chunkThread;
-    private List<Vector2> chunkPositions = new List<Vector2>();
+    
     private List<MeshInstance3D> chunks = new List<MeshInstance3D>();
+    private List<Vector2> chunkPositions = new List<Vector2>();
 
-    // Called when the node enters the scene tree for the first time.
+    private List<Node3D> rocks = new List<Node3D>();
+    private List<Vector2> rockPositions = new List<Vector2>();
+
     public override void _Ready()
 	{
+        rock = GD.Load<PackedScene>(RockPath);
         terrainMaterial = ResourceLoader.Load<Material>("res://Materials/Terrain.tres");
 
-        noise.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
-		noise.Seed = new Random().Next(int.MaxValue);
-		//noise.Seed = 999;
-		noise.Frequency = 0.005f;
+        simplex.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
+        simplex.Seed = new Random().Next(int.MaxValue);
+        //noise.Seed = 999;
+        simplex.Frequency = 0.005f;
 
         chunkThread = new Thread(new ThreadStart(regenerateChunks));
         chunkThread.Start();
@@ -44,7 +56,6 @@ public partial class TerrainGenerator : Node3D
         isPlayerFrozen = true;
     }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
         //playerPos = new Vector2(Game.Player.GlobalPosition.X, Game.Player.GlobalPosition.Z);
@@ -80,7 +91,7 @@ public partial class TerrainGenerator : Node3D
         {
             var vertex = dataTool.GetVertex(i);
         
-            vertex.Y = noise.GetNoise2D(vertex.X + chunkPos.X, vertex.Z + chunkPos.Y) * 2f;
+            vertex.Y = simplex.GetNoise2D(vertex.X + chunkPos.X, vertex.Z + chunkPos.Y) * 2f;
         
             // Road
             //if (chunkPos.X + vertex.X == -0.8888886f || chunkPos.X + vertex.X == -2.6666663f || chunkPos.X + vertex.X == -4.444444f
@@ -126,6 +137,23 @@ public partial class TerrainGenerator : Node3D
 
         chunks.Add(meshInstance);
         chunkPositions.Add(chunkPos);
+
+        // Generate rocks/trees
+        var noise = simplex.GetNoise2D(chunkPos.X, chunkPos.Y) * 2f;
+
+        if (noise < -1f)
+        {
+            var rck = (Node3D)rock.Instantiate();
+            var pos = new Vector3(chunkPos.X, noise, chunkPos.Y);
+
+            rck.Position = pos;
+            rck.Rotation = new Vector3(0f, noise * 5f, 0f);
+
+            rocks.Add(rck);
+            rockPositions.Add(new Vector2(pos.X, pos.Y));
+
+            CallDeferred("add_child", rck);
+        }
     }
 	
 	private void regenerateChunks()
@@ -145,6 +173,18 @@ public partial class TerrainGenerator : Node3D
 
                         chunks.RemoveAt(i);
                         chunkPositions.RemoveAt(i);
+                    }
+                }
+
+                // Clear rocks/trees
+                for (int i = 0; i < rocks.Count; i++)
+                {
+                    if (rockPositions[i].DistanceTo(playerPos) > (renderDistance * 8))
+                    {
+                        rocks[i].CallDeferred("free");
+
+                        rocks.RemoveAt(i);
+                        rockPositions.RemoveAt(i);
                     }
                 }
 

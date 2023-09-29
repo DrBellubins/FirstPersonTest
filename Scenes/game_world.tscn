@@ -32,6 +32,7 @@ script = ExtResource("1_8lpkj")
 
 [node name="TerrainGen" type="Node3D" parent="." node_paths=PackedStringArray("loadingText", "loadingBar", "blurRect")]
 script = ExtResource("1_qf80h")
+RockPath = "res://Prefabs/World/WorldSpawns/BigRock1.tscn"
 loadingText = NodePath("../UI/LoadingWorldText")
 loadingBar = NodePath("../UI/ProgressBar")
 blurRect = NodePath("../UI/BlurRect")
@@ -44,7 +45,7 @@ environment = ExtResource("6_ojpui")
 
 [node name="WindAmbience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_j0q8y")
-volume_db = -5.0
+volume_db = -10.0
 autoplay = true
 
 [node name="Home" type="CSGBox3D" parent="."]

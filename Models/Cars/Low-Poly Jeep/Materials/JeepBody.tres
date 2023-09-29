@@ -5,3 +5,5 @@
 [resource]
 albedo_texture = ExtResource("1_61hst")
 metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false

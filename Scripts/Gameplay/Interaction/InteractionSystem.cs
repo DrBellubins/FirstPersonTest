@@ -27,6 +27,8 @@ public partial class InteractionSystem : Node3D
 		float deltaTime = (float)delta;
 		var hitCol = Ray.GetCollider();
 
+		Ray.Enabled = !Player.IsDriving;
+
 		if (Ray.IsColliding())
 		{
 			Cursor.Size = Cursor.Size.Lerp(new Vector2(10f, 10f), 10f * deltaTime);
@@ -36,7 +38,7 @@ public partial class InteractionSystem : Node3D
 			{
 				// TODO: If player gets out and is looking at enter trigger,
 				// player will enter and exit car rapidly
-                if (Input.IsActionJustPressed("interact") && !Player.IsDriving)
+                if (Input.IsActionJustPressed("interact"))
                 {
 					if (hitCol is Interactable)
 					{

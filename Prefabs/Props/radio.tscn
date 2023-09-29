@@ -70,7 +70,7 @@ material = ExtResource("3_2olfw")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 stream = SubResource("AudioStreamRandomizer_6yu3k")
 attenuation_model = 3
-volume_db = -4.0
+volume_db = -3.0
 unit_size = 40.0
 max_distance = 20.0
 emission_angle_degrees = 60.0
@@ -81,6 +81,7 @@ script = ExtResource("9_g6plf")
 stream = SubResource("AudioStreamRandomizer_re6mx")
 attenuation_model = 3
 volume_db = 10.0
-unit_size = 20.0
+unit_size = 40.0
+max_distance = 20.0
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]

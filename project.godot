@@ -33,6 +33,10 @@ project/assembly_name="First Person Test"
 
 enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg")
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [input]
 
 move_right={
@@ -159,7 +163,6 @@ drive_backward={
 
 [rendering]
 
-lights_and_shadows/directional_shadow/size=2048
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
 global_illumination/gi/use_half_resolution=true
 scaling_3d/mode=1
@@ -168,5 +171,4 @@ scaling_3d/fsr_sharpness=1.0
 textures/decals/filter=1
 environment/glow/upscale_mode=0
 environment/volumetric_fog/use_filter=0
-anti_aliasing/quality/use_taa=true
 lights_and_shadows/positional_shadow/atlas_size=2048
