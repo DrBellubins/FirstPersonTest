@@ -3,13 +3,16 @@ using System;
 
 public partial class Interactable : Area3D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+    [Signal]
+    public delegate void e_InteractedEventHandler(Player player);
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    public override void _Ready()
 	{
-	}
+        e_Interacted += Interacted;
+    }
+
+    private void Interacted(Player player)
+    {
+        
+    }
 }

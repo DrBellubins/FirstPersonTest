@@ -6,6 +6,7 @@ using System;
 // TODO: Can't drop item if not looking at it
 public partial class InteractionSystem : Node3D
 {
+	[Export] public Player Player;
 	[Export] public Marker3D HoldPos;
 	[Export] public RayCast3D Ray;
 	[Export] public NinePatchRect Cursor;
@@ -33,11 +34,14 @@ public partial class InteractionSystem : Node3D
 
 			if (hitCol != null)
 			{
-                if (Input.IsActionJustPressed("interact"))
+				// TODO: If player gets out and is looking at enter trigger,
+				// player will enter and exit car rapidly
+                if (Input.IsActionJustPressed("interact") && !Player.IsDriving)
                 {
 					if (hitCol is Interactable)
 					{
-
+						var inter = (Interactable)hitCol;
+						inter.EmitSignal("e_Interacted", Player);
 					}
 
 					if (hitCol is Holdable)

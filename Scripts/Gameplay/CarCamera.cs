@@ -48,7 +48,6 @@ public partial class CarCamera : Camera3D
     public void RotateCamera(Vector2 inputAxis)
     {
         // Horizontal mouse look.
-        //rotation.Y -= inputAxis.X * (Sensitivity / 1000);
         rotation.Y = Mathf.Clamp(rotation.Y - inputAxis.X * (Sensitivity / 1000),
             -Mathf.DegToRad(HorizontalAngleLimit), Mathf.DegToRad(HorizontalAngleLimit));
 

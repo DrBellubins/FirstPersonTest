@@ -21,8 +21,8 @@ public partial class PlayerAudios3D : Node3D
 	private AudioStreamPlayer3D _stepStream;
 	private AudioStreamPlayer3D _landStream;
 	private AudioStreamPlayer3D _jumpStream;
-	private AudioStreamPlayer3D _crouchStream;
-	private AudioStreamPlayer3D _uncrouchStream;
+	//private AudioStreamPlayer3D _crouchStream;
+	//private AudioStreamPlayer3D _uncrouchStream;
 	private RayCast3D _raycast;
 	private CharacterBody3D _characterBody;
 	private CharacterController3D _characterController;
@@ -34,16 +34,16 @@ public partial class PlayerAudios3D : Node3D
 		_stepStream = GetNode<AudioStreamPlayer3D>("Step");
 		_landStream = GetNode<AudioStreamPlayer3D>("Land");
 		_jumpStream = GetNode<AudioStreamPlayer3D>("Jump");
-		_crouchStream = GetNode<AudioStreamPlayer3D>("Crouch");
-		_uncrouchStream = GetNode<AudioStreamPlayer3D>("Uncrouch");
+		//_crouchStream = GetNode<AudioStreamPlayer3D>("Crouch");
+		//_uncrouchStream = GetNode<AudioStreamPlayer3D>("Uncrouch");
 
 		if (InMenu)
 		{
             _stepStream.Bus = AudioServer.GetBusName(1);
             _landStream.Bus = AudioServer.GetBusName(1);
             _jumpStream.Bus = AudioServer.GetBusName(1);
-            _crouchStream.Bus = AudioServer.GetBusName(1);
-            _uncrouchStream.Bus = AudioServer.GetBusName(1);
+            //_crouchStream.Bus = AudioServer.GetBusName(1);
+            //_uncrouchStream.Bus = AudioServer.GetBusName(1);
         }
 
 		_raycast = GetNode<RayCast3D>("Detect Ground");
@@ -118,12 +118,12 @@ public partial class PlayerAudios3D : Node3D
 
 	private void OnControllerCrouched()
 	{
-		_crouchStream.Play();
+		//_crouchStream.Play();
 	}
 
 	private void OnControllerUncrouched()
 	{
-		_uncrouchStream.Play();
+		//_uncrouchStream.Play();
 	}
 
 	private void OnControllerEnteredTheWater()

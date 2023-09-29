@@ -43,10 +43,11 @@ shader_parameter/startRadius = 0.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3bakq"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "camera", "headBob")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Camera", "head", "camera", "headBob")]
 collision_layer = 2
 floor_snap_length = 0.5
 script = ExtResource("1_ngtxf")
+Camera = NodePath("Head/Camera")
 ZoomFOV = 35.0
 UnderwaterEnv = ExtResource("2_uk578")
 head = NodePath("Head")
@@ -110,8 +111,9 @@ surface_material_override/0 = ExtResource("13_18bua")
 [node name="Camera" type="Camera3D" parent="Head"]
 current = true
 
-[node name="Interaction" type="Node3D" parent="Head/Camera" node_paths=PackedStringArray("HoldPos", "Ray", "Cursor")]
+[node name="Interaction" type="Node3D" parent="Head/Camera" node_paths=PackedStringArray("Player", "HoldPos", "Ray", "Cursor")]
 script = ExtResource("11_sed6q")
+Player = NodePath("../../..")
 HoldPos = NodePath("HoldPos")
 Ray = NodePath("InteractionRay")
 Cursor = NodePath("../../../UI/Cursor")
@@ -122,6 +124,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 [node name="InteractionRay" type="RayCast3D" parent="Head/Camera/Interaction"]
 target_position = Vector3(0, 0, -5)
 collision_mask = 4
+collide_with_areas = true
 
 [node name="motion_blur" parent="Head/Camera" instance=ExtResource("10_8adgb")]
 visible = false

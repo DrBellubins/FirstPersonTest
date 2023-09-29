@@ -3,6 +3,7 @@ using Godot;
 
 public partial class Player : FPSController3D
 {
+    [Export] public Camera3D Camera;
 	[Export] public float ZoomFOV;
 	[Export] public string InputBackActionName { get; set; } = "move_backward";
 	[Export] public string InputForwardActionName { get; set; } = "move_forward";
@@ -14,6 +15,7 @@ public partial class Player : FPSController3D
 	[Export] public string InputFlyModeActionName { get; set; } = "move_fly_mode";
 	[Export] public Godot.Environment UnderwaterEnv { get; set; }
 
+	public bool IsDriving = false;
 	public bool IsFrozen = false;
 
 	private float _normalFov;
@@ -30,66 +32,77 @@ public partial class Player : FPSController3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		bool IsValidInput = Input.MouseMode == Input.MouseModeEnum.Captured;
-		
-		if (IsValidInput)
+		if (!IsDriving)
 		{
-			if (Input.IsActionJustPressed(InputFlyModeActionName))
-			{
-				FlyAbility.SetActive(!FlyAbility.IsActived());
-			}
+            bool IsValidInput = Input.MouseMode == Input.MouseModeEnum.Captured;
 
-			Vector2 InputAxis = Vector2.Zero;
+            if (IsValidInput)
+            {
+                if (Input.IsActionJustPressed(InputFlyModeActionName))
+                {
+                    FlyAbility.SetActive(!FlyAbility.IsActived());
+                }
 
-			if (Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left") ||
-				Input.IsActionPressed("move_forward") || Input.IsActionPressed("move_backward"))
-			{
-				InputAxis = new Vector2(Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_backward"),
-					Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"));
+                Vector2 InputAxis = Vector2.Zero;
+
+                if (Input.IsActionPressed("move_right") || Input.IsActionPressed("move_left") ||
+                    Input.IsActionPressed("move_forward") || Input.IsActionPressed("move_backward"))
+                {
+                    InputAxis = new Vector2(Input.GetActionStrength("move_forward") - Input.GetActionStrength("move_backward"),
+                        Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"));
+                }
+
+                //Vector2 InputAxis = Input.GetVector(InputBackActionName, InputForwardActionName, InputLeftActionName, InputRightActionName);
+                bool InputJump = Input.IsActionJustPressed(InputJumpActionName);
+                bool InputCrouch = Input.IsActionPressed(InputCrouchActionName);
+                bool InputSprint = Input.IsActionPressed(InputSprintActionName);
+                bool InputSwimDown = Input.IsActionPressed(InputCrouchActionName);
+                bool InputSwimUp = Input.IsActionPressed(InputJumpActionName);
+
+                if (!IsFrozen)
+                    Move((float)delta, InputAxis, InputJump, InputCrouch, InputSprint, InputSwimDown, InputSwimUp);
             }
-
-            //Vector2 InputAxis = Input.GetVector(InputBackActionName, InputForwardActionName, InputLeftActionName, InputRightActionName);
-            bool InputJump = Input.IsActionJustPressed(InputJumpActionName);
-			bool InputCrouch = Input.IsActionPressed(InputCrouchActionName);
-			bool InputSprint = Input.IsActionPressed(InputSprintActionName);
-			bool InputSwimDown = Input.IsActionPressed(InputCrouchActionName);
-			bool InputSwimUp = Input.IsActionPressed(InputJumpActionName);
-
-			if (!IsFrozen)
-				Move((float)delta, InputAxis, InputJump, InputCrouch, InputSprint, InputSwimDown, InputSwimUp);
-		}
-		else
-		{
-			Move((float)delta);
-		}
+            else
+            {
+                Move((float)delta);
+            }
+        }
 	}
 
 	public override void _Process(double delta)
 	{
-		float deltaTime = (float)delta;
+        Camera.Current = !IsDriving;
 
-		if (Input.IsActionPressed("zoom"))
-			camera.Fov = Mathf.Lerp(camera.Fov, ZoomFOV, deltaTime * FovChangeSpeed);
-		else
-			camera.Fov = Mathf.Lerp(camera.Fov, _normalFov, deltaTime * FovChangeSpeed);
-
-		if (Input.IsActionPressed("look_right") || Input.IsActionPressed("look_left") ||
-            Input.IsActionPressed("look_up") || Input.IsActionPressed("look_down"))
+        if (!IsDriving)
 		{
-            var axis = new Vector2(Input.GetActionStrength("look_right") - Input.GetActionStrength("look_left"),
-                Input.GetActionStrength("look_down") - Input.GetActionStrength("look_up")) * 15f;
+            float deltaTime = (float)delta;
 
-            RotateHead(axis, true);
+            if (Input.IsActionPressed("zoom"))
+                camera.Fov = Mathf.Lerp(camera.Fov, ZoomFOV, deltaTime * FovChangeSpeed);
+            else
+                camera.Fov = Mathf.Lerp(camera.Fov, _normalFov, deltaTime * FovChangeSpeed);
+
+            if (Input.IsActionPressed("look_right") || Input.IsActionPressed("look_left") ||
+                Input.IsActionPressed("look_up") || Input.IsActionPressed("look_down"))
+            {
+                var axis = new Vector2(Input.GetActionStrength("look_right") - Input.GetActionStrength("look_left"),
+                    Input.GetActionStrength("look_down") - Input.GetActionStrength("look_up")) * 15f;
+
+                RotateHead(axis, true);
+            }
         }
     }
 
 	public override void _Input(InputEvent _event)
 	{
-		// Mouse look (only if the mouse is captured).
-		if (_event is InputEventMouseMotion eventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+		if (!IsDriving)
 		{
-			RotateHead(eventMouseMotion.Relative, false);
-		}
+            // Mouse look (only if the mouse is captured).
+            if (_event is InputEventMouseMotion eventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+            {
+                RotateHead(eventMouseMotion.Relative, false);
+            }
+        }
 	}
 
 	private void OnControllerEmerged()

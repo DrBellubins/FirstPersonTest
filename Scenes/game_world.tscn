@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=21 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -13,8 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://cry4judm8vp6l" path="res://Textures/Decals/puddle_normal.png" id="14_fjnas"]
 [ext_resource type="Texture2D" uid="uid://d01eabaelh088" path="res://Textures/Decals/puddle_orm.png" id="15_b7ngp"]
 [ext_resource type="PackedScene" uid="uid://bhadk4v5kcs22" path="res://Prefabs/World/StreetLamp.tscn" id="16_ieeem"]
-[ext_resource type="PackedScene" uid="uid://vd53aj37jhm1" path="res://Prefabs/Cars/jeep.tscn" id="17_57kyk"]
+[ext_resource type="PackedScene" uid="uid://dt46jlryv15y2" path="res://Prefabs/Cars/jeep.tscn" id="17_57kyk"]
 [ext_resource type="Shader" path="res://Shaders/UI_Blur.gdshader" id="17_k7ib7"]
+[ext_resource type="PackedScene" uid="uid://ccqfdekiklsk3" path="res://Prefabs/player.tscn" id="17_yf88o"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
@@ -344,3 +345,6 @@ show_percentage = false
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 21.7508, 3.94297, 19.6382)
+
+[node name="Player" parent="." instance=ExtResource("17_yf88o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 4.62504, -19.7488)
