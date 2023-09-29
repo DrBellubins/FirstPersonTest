@@ -2,33 +2,18 @@ using Godot;
 using System;
 using System.Collections.Concurrent;
 
-public class Game
-{
-	public static Player Player;
-
-    public static Vector2 GetNearestChunkCoord(Vector2 input)
-    {
-        int x = (int)MathF.Floor(input.X);
-        int y = (int)MathF.Floor(input.Y);
-
-        int xRem = x % 16;
-        int yRem = y % 16;
-
-        return new Vector2(x - xRem, y - yRem);
-    }
-}
-
 public partial class GlobalVariables : Node
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Game.Player = GetParent().GetNode<Player>("Player");
+        //Game.Player = GetParent().GetNode<Player>("Player");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+        Game.SetPlayerPosition(GetParent().GetNode<Car>("Jeep").Position);
 	}
 }
 

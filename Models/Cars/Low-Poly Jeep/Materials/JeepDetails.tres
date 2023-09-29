@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dpxgimtqfsfbg"]
+
+[ext_resource type="Texture2D" uid="uid://bex8miqegjim2" path="res://Models/Cars/Low-Poly Jeep/Textures/JeepDetailsTextureAtlas.png" id="1_3albt"]
+
+[resource]
+albedo_texture = ExtResource("1_3albt")

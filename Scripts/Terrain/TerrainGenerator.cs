@@ -47,9 +47,10 @@ public partial class TerrainGenerator : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-        playerPos = new Vector2(Game.Player.GlobalPosition.X, Game.Player.GlobalPosition.Z);
+        //playerPos = new Vector2(Game.Player.GlobalPosition.X, Game.Player.GlobalPosition.Z);
+        playerPos = new Vector2(Game.GetPlayerPosition().X, Game.GetPlayerPosition().Z);
 
-        Game.Player.IsFrozen = isPlayerFrozen;
+        //Game.Player.IsFrozen = isPlayerFrozen;
         loadingText.Visible = isPlayerFrozen;
         loadingBar.Visible = isPlayerFrozen;
         blurRect.Visible = isPlayerFrozen;

@@ -78,6 +78,7 @@ public partial class Player : FPSController3D
 		{
             var axis = new Vector2(Input.GetActionStrength("look_right") - Input.GetActionStrength("look_left"),
                 Input.GetActionStrength("look_down") - Input.GetActionStrength("look_up")) * 15f;
+
             RotateHead(axis, true);
         }
     }
