@@ -5,13 +5,17 @@ public partial class CarCamera : Camera3D
 {
     [Export] public float Sensitivity = 2.0f;
     [Export] public float ReturnSpeed = 1.0f;
+    [Export] public float ViewBob = 0.05f;
+    [Export] public float ViewBobMax = 0.35f;
     [Export] public float VerticalAngleLimit = 90.0f;
     [Export] public float HorizontalAngleLimit = 90.0f;
 
-	public Vector3 rotation = new Vector3();
+    private VehicleBody3D car;
+	private Vector3 rotation = new Vector3();
 
     public override void _Ready()
 	{
+        car = GetOwner<VehicleBody3D>();
         Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
@@ -19,7 +23,8 @@ public partial class CarCamera : Camera3D
 	{
         float deltaTime = (float)delta;
 
-        //Rotation = rotation.Lerp(Vector3.Zero, ReturnSpeed * deltaTime);
+        Position = new Vector3(Position.X, Mathf.Clamp(car.LinearVelocity.Y * ViewBob, 
+            -ViewBobMax, ViewBobMax), Position.Z);
 
         if (Input.IsActionPressed("look_left") || Input.IsActionPressed("look_right") ||
             Input.IsActionPressed("look_up") || Input.IsActionPressed("look_down"))
@@ -28,10 +33,7 @@ public partial class CarCamera : Camera3D
             RotateCamera(axis);
         }
         else
-        {
             rotation = rotation.Lerp(Vector3.Zero, ReturnSpeed * deltaTime);
-            
-        }
 
         Rotation = new Vector3(rotation.X, rotation.Y, Rotation.Z);
     }

@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://vd53aj37jhm1"]
+[gd_scene load_steps=13 format=3 uid="uid://vd53aj37jhm1"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Car.cs" id="1_wajol"]
 [ext_resource type="Material" uid="uid://u07ctbxs8nrd" path="res://Models/Cars/Low-Poly Jeep/Materials/JeepBody.tres" id="2_egvsc"]
 [ext_resource type="Material" uid="uid://dpxgimtqfsfbg" path="res://Models/Cars/Low-Poly Jeep/Materials/JeepDetails.tres" id="3_w2a8q"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/CarCamera.cs" id="4_lxwla"]
+[ext_resource type="AudioStream" uid="uid://cdaus7nauii7" path="res://Sounds/EngineLoop.wav" id="5_03uhl"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_xvhqc"]
 _surfaces = [{
@@ -122,14 +123,15 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_l0bv6")
 
-[node name="Jeep" type="VehicleBody3D"]
+[node name="Jeep" type="VehicleBody3D" node_paths=PackedStringArray("audio")]
 mass = 80.0
 center_of_mass_mode = 1
-center_of_mass = Vector3(0, 0.13, 0.6)
+center_of_mass = Vector3(0, 0, 0.6)
 gravity_scale = 4.0
 script = ExtResource("1_wajol")
 EnginePower = 75.0
 MaxSteerAngle = 30.0
+audio = NodePath("EngineSound")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
@@ -153,6 +155,7 @@ wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
 wheel_friction_slip = 1.4
+suspension_travel = 0.3
 suspension_stiffness = 100.0
 
 [node name="Tire_Cylinder_001" type="MeshInstance3D" parent="FrontLeft"]
@@ -167,6 +170,7 @@ wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
 wheel_friction_slip = 1.4
+suspension_travel = 0.3
 suspension_stiffness = 100.0
 
 [node name="Tire_Cylinder_002" type="MeshInstance3D" parent="FrontRight"]
@@ -181,6 +185,7 @@ wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
 wheel_friction_slip = 1.4
+suspension_travel = 0.3
 suspension_stiffness = 100.0
 
 [node name="Tire_Cylinder_003" type="MeshInstance3D" parent="BackLeft"]
@@ -194,6 +199,7 @@ wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
 wheel_friction_slip = 1.4
+suspension_travel = 0.3
 suspension_stiffness = 100.0
 
 [node name="Tire_Cylinder_004" type="MeshInstance3D" parent="BackRight"]
@@ -202,12 +208,21 @@ mesh = SubResource("ArrayMesh_k8nr7")
 skeleton = NodePath("")
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.5, 0.790959, -0.283192)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.45, 0.7, 0.15)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 script = ExtResource("4_lxwla")
 Sensitivity = 4.0
 ReturnSpeed = 3.5
+ViewBob = 0.015
+ViewBobMax = 0.15
 
 [node name="COM" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.6)
+
+[node name="EngineSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+stream = ExtResource("5_03uhl")
+attenuation_model = 3
+max_db = 0.0
+autoplay = true
