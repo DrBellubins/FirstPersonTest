@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqdb2m4mp6wiv"]
+[gd_scene load_steps=4 format=3 uid="uid://dqdb2m4mp6wiv"]
 
 [ext_resource type="Material" uid="uid://ctdcw7h735ot6" path="res://Materials/WorldSpawns/Trees.tres" id="1_50fep"]
 
@@ -31,16 +31,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_s2vmq")
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_sf87d"]
-points = PackedVector3Array(-6.08856, 4.98729, 5.64149, -6.3265, 4.99022, 5.3077, -0.775867, -12.8688, 1.21957, 1.42636, -12.8688, 1.21957, 3.8959, 12.9747, 3.66558, 3.74402, 13.2058, 3.53571, 0.10705, 17.0211, 0.294397, -3.46613, 4.21488, -4.84877, -0.775867, -12.8688, -0.982808, 0.149576, 17.0211, -0.0994973, 1.42636, -12.8688, -0.982808, 4.0174, 12.9689, 3.49385, 3.85236, 13.1912, 3.36828, 0.501933, 17.0211, 0.336255, -3.30413, 4.23829, -5.02801, 0.543446, 17.0211, -0.0576391, 3.51924, 10.4849, -5.32316, 3.68226, 10.4936, -5.15465)
-
-[node name="DeadOak2" type="StaticBody3D"]
+[node name="DeadOak2" type="Node3D"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.222389, 0, 0, 0, 0.222389, 0, 0, 0, 0.222389, 0, 2.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 mesh = SubResource("ArrayMesh_qooty")
 skeleton = NodePath("")
-
-[node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.222389, 0, 0, 0, 0.222389, 0, 0, 0, 0.222389, 0, 2.5, 0)
-shape = SubResource("ConvexPolygonShape3D_sf87d")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://buo5b646pkw4x"]
+[gd_scene load_steps=4 format=3 uid="uid://buo5b646pkw4x"]
 
 [ext_resource type="Material" uid="uid://bsdd8ftoko5p8" path="res://Materials/WorldSpawns/Rocks.tres" id="1_ngaiv"]
 
@@ -33,16 +33,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ey1sf")
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_jijea"]
-points = PackedVector3Array(2.55885, -1.40142, -0.836989, 2.34656, -1.44748, 0.802921, 1.05028, -1.51925, -3.23862, 2.3259, -0.520909, -1.19456, 0.353296, 0.740404, 2.06638, 0.673922, -0.472706, 2.69779, 1.0196, -1.2461, 2.54355, -3.75222, -1.71849, -0.871612, -3.74721, -1.9263, -3.413, 2.04222, -0.565363, 0.362255, -1.27864, -1.63386, -3.65851, 0.703355, -0.551973, -3.5238, 1.41349, 0.702377, -1.72714, 0.472278, 2.11365, -1.7605, 0.396506, 2.40609, -0.726822, -0.30048, 2.01403, 0.852024, -1.14525, 2.42965, 0.719194, -2.39206, 0.995344, 1.27255, -2.07081, -0.456103, 1.8536, -1.57547, -1.32697, 1.81205, -3.41469, 0.789678, 0.405692, -3.72216, -0.768887, -0.9673, -3.83864, 1.27546, -2.73437, -3.67081, -0.745857, -3.51184, -1.46651, -0.547689, -3.73343, -3.1786, 3.54528, -2.74508, -1.49594, 3.20411, -2.38876, -0.452652, 3.00273, -0.911273, -3.03958, 2.97274, -1.29276, -2.02948, 2.20578, 0.555518, -3.2312, 1.64823, -3.24869)
-
-[node name="BigRock2" type="StaticBody3D"]
+[node name="BigRock2" type="Node3D"]
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.18849, 0, 0, 0, 2.18849, 0, 0, 0, 2.18849, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("ArrayMesh_jmhky")
 skeleton = NodePath("")
-
-[node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(2.18849, 0, 0, 0, 2.18849, 0, 0, 0, 2.18849, 0, 2, 0)
-shape = SubResource("ConvexPolygonShape3D_jijea")

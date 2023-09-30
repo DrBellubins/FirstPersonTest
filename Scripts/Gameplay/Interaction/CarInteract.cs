@@ -28,7 +28,9 @@ public partial class CarInteract : Interactable
 
     public void Interacted(Player m_player)
     {
-		player = m_player;
+		Game.CurrentCar = car;
+
+        player = m_player;
 		player.IsDriving = true;
 		car.IsDriving = true;
     }

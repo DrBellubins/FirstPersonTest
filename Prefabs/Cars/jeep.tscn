@@ -345,3 +345,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.2, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EnterTrigger"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_hi480")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.729639, 0.296746, 1.68049)
+light_volumetric_fog_energy = 8.0
+spot_range = 28.0
+spot_angle = 25.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.739817, 0.296746, 1.68049)
+spot_range = 28.0
+spot_angle = 25.0

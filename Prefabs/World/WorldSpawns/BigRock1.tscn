@@ -39,6 +39,6 @@ process_thread_group_order = 0
 process_thread_messages = 0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(2.44138, 0, 0, 0, 2.44138, 0, 0, 0, 2.44138, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("ArrayMesh_4dhbq")
 skeleton = NodePath("")

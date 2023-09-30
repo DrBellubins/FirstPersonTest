@@ -31,6 +31,7 @@ namespace MyUtils
 public static class Game
 {
     public static Player Player;
+    public static Car CurrentCar;
 
     public static MyUtils.Vector3Wrapper PlayerPos = new MyUtils.Vector3Wrapper();
 

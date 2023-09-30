@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgm1bo3haxdpp"]
+[gd_scene load_steps=4 format=3 uid="uid://dgm1bo3haxdpp"]
 
 [ext_resource type="Material" uid="uid://ctdcw7h735ot6" path="res://Materials/WorldSpawns/Trees.tres" id="1_lgpds"]
 
@@ -33,16 +33,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_0sdy6")
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xeb6y"]
-points = PackedVector3Array(3.69147, 6.07566, -0.888351, 3.43074, 6.00133, -0.0408119, 3.78181, 5.9698, 0.0644141, 4.01281, 6.03962, -0.760725, 6.14326, 4.09467, -0.0272679, 3.62057, 3.38065, -0.801096, 2.91957, 3.37502, -0.992014, -1.34247, 1.88618, -1.2306, -0.777553, 4.02259, -1.08943, -1.47169, 3.95051, -1.04332, -5.37466, 4.11269, -0.104364, -5.35636, 4.13408, 0.261322, 3.32096, 3.33335, 0.586898, 6.13183, 4.09016, 0.3616, 6.00946, 4.22756, 0.338419, -5.52218, 3.98655, 0.30534, -1.05429, -0.200685, 1.31749, 6.02547, 4.23431, -0.013724, 0.864596, -5.42966, 1.40891, 0.864596, -5.42966, -1.06703, -1.64437, -0.415791, -1.19361, -2.28133, 1.85126, -1.16783, -5.53933, 3.96403, -0.115825, 3.12312, 2.48306, 0.752812, 0.494083, -1.88999, 1.34171, 0.598147, -4.10637, 1.43027, -1.61121, -5.42966, 1.40891, -1.61121, -5.42966, -1.06703, -2.6244, 0.969443, -1.09281, -4.22081, 2.0979, -0.534385)
-
-[node name="DeadOak1" type="StaticBody3D"]
+[node name="DeadOak1" type="Node3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.540194, 0, 0, 0, 0.540194, 0, 0, 0, 0.540194, 0, 2.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 mesh = SubResource("ArrayMesh_ycm0d")
 skeleton = NodePath("")
-
-[node name="Collider" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.540194, 0, 0, 0, 0.540194, 0, 0, 0, 0.540194, 0, 2.5, 0)
-shape = SubResource("ConvexPolygonShape3D_xeb6y")
