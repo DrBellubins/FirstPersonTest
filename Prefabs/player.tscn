@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ccqfdekiklsk3"]
+[gd_scene load_steps=31 format=3 uid="uid://ccqfdekiklsk3"]
 
 [ext_resource type="Script" path="res://addons/character-controller/example/main/Player.cs" id="1_ngtxf"]
 [ext_resource type="Environment" uid="uid://b3cn01u84faiy" path="res://addons/character-controller/example/main/underwater.tres" id="2_uk578"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://addons/character-controller/fps/HeadMovement3D.cs" id="9_uo2sq"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="10_8adgb"]
 [ext_resource type="Script" path="res://addons/character-controller/fps/bob/HeadBob.cs" id="10_pxngy"]
+[ext_resource type="CameraAttributesPractical" uid="uid://blef51gnvot0a" path="res://Various/CameraAtribs.tres" id="11_4v6gu"]
 [ext_resource type="Shader" path="res://motion_blur/moblur_shader.gdshader" id="11_ifki7"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/InteractionSystem.cs" id="11_sed6q"]
 [ext_resource type="Curve" uid="uid://dhx3p5wsiw0bs" path="res://addons/character-controller/fps/bob/bob_curve.tres" id="11_y6te8"]
@@ -109,6 +110,7 @@ mesh = SubResource("QuadMesh_q5caq")
 surface_material_override/0 = ExtResource("13_18bua")
 
 [node name="Camera" type="Camera3D" parent="Head"]
+attributes = ExtResource("11_4v6gu")
 current = true
 
 [node name="Interaction" type="Node3D" parent="Head/Camera" node_paths=PackedStringArray("Player", "HoldPos", "Ray", "Cursor")]
@@ -122,7 +124,7 @@ Cursor = NodePath("../../../UI/Cursor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
 [node name="InteractionRay" type="RayCast3D" parent="Head/Camera/Interaction"]
-target_position = Vector3(0, 0, -5)
+target_position = Vector3(0, 0, -3)
 collision_mask = 4
 collide_with_areas = true
 

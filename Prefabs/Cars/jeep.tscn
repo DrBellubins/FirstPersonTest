@@ -1,14 +1,16 @@
-[gd_scene load_steps=30 format=3 uid="uid://dt46jlryv15y2"]
+[gd_scene load_steps=31 format=3 uid="uid://dt46jlryv15y2"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Car.cs" id="1_wajol"]
 [ext_resource type="Material" uid="uid://u07ctbxs8nrd" path="res://Models/Cars/Low-Poly Jeep/Materials/JeepBody.tres" id="2_egvsc"]
 [ext_resource type="Material" uid="uid://dpxgimtqfsfbg" path="res://Models/Cars/Low-Poly Jeep/Materials/JeepDetails.tres" id="3_w2a8q"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/CarCamera.cs" id="4_lxwla"]
+[ext_resource type="CameraAttributesPractical" uid="uid://blef51gnvot0a" path="res://Various/CameraAtribs.tres" id="4_vyhc0"]
 [ext_resource type="AudioStream" uid="uid://cdaus7nauii7" path="res://Sounds/EngineLoop.wav" id="5_03uhl"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/CarInteract.cs" id="6_veaoo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kpnmw"]
 friction = 0.2
+rough = true
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_xvhqc"]
 _surfaces = [{
@@ -172,13 +174,14 @@ shadow_mesh = SubResource("ArrayMesh_l0bv6")
 [sub_resource type="BoxShape3D" id="BoxShape3D_hi480"]
 
 [node name="Jeep" type="VehicleBody3D" node_paths=PackedStringArray("audio", "camera")]
-mass = 80.0
+mass = 120.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, 0, 0.6)
 physics_material_override = SubResource("PhysicsMaterial_kpnmw")
 gravity_scale = 4.0
+freeze_mode = 1
 script = ExtResource("1_wajol")
-EnginePower = 75.0
+EnginePower = 100.0
 MaxSteerAngle = 30.0
 audio = NodePath("EngineSound")
 camera = NodePath("CameraPivot/Camera3D")
@@ -260,7 +263,7 @@ use_as_steering = true
 wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 1.4
+wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -275,7 +278,7 @@ use_as_steering = true
 wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 1.4
+wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -290,7 +293,7 @@ use_as_traction = true
 wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 1.4
+wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -304,7 +307,7 @@ use_as_traction = true
 wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 1.4
+wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -317,8 +320,10 @@ skeleton = NodePath("")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.45, 0.7, 0.15)
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+attributes = ExtResource("4_vyhc0")
 script = ExtResource("4_lxwla")
 Sensitivity = 4.0
+ReturnTime = 0.5
 ReturnSpeed = 3.5
 ViewBob = 0.015
 ViewBobMax = 0.15
@@ -348,11 +353,13 @@ shape = SubResource("BoxShape3D_hi480")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.729639, 0.296746, 1.68049)
+visible = false
 light_volumetric_fog_energy = 8.0
 spot_range = 28.0
 spot_angle = 25.0
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.739817, 0.296746, 1.68049)
+visible = false
 spot_range = 28.0
 spot_angle = 25.0

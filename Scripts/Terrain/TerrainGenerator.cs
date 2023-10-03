@@ -18,8 +18,8 @@ public partial class TerrainGenerator : Node3D
     [Export] public ColorRect blurRect;
 
     // Settings
-	private const int chunkSize = 16;
-	private const int renderDistance = 16;
+	public const int ChunkSize = 32;
+	public const int RenderDistance = 16;
 
     // Various
     private Material terrainMaterial;
@@ -28,6 +28,7 @@ public partial class TerrainGenerator : Node3D
 
     private Vector2 playerPos = new Vector2();
     private bool isPlayerFrozen = false;
+    private bool isFirstGen = false;
 
     private List<CollisionShape3D> rockCols = new List<CollisionShape3D>();
 
@@ -57,7 +58,8 @@ public partial class TerrainGenerator : Node3D
         //simplex.Seed = new Random().Next(int.MaxValue);
         simplex.Seed = 999;
 
-        chunkThread = new Thread(new ThreadStart(regenerateChunks));
+        isFirstGen = true;
+        chunkThread = new Thread(() => regenerateChunks(isFirstGen));
         chunkThread.Start();
 
         isPlayerFrozen = true;
@@ -67,12 +69,12 @@ public partial class TerrainGenerator : Node3D
 	{
         playerPos = new Vector2(Game.GetPlayerPosition().X, Game.GetPlayerPosition().Z);
 
-        Game.Player.IsFrozen = isPlayerFrozen;
+        //Game.Player.IsFrozen = isPlayerFrozen;
         loadingText.Visible = isPlayerFrozen;
         loadingBar.Visible = isPlayerFrozen;
         blurRect.Visible = isPlayerFrozen;
 
-        var progress = ((double)chunkPositions.Count / ((double)renderDistance * (double)renderDistance)) * 100.0d;
+        var progress = ((double)chunkPositions.Count / ((double)RenderDistance * (double)RenderDistance)) * 100.0d;
         loadingBar.Value = progress;
     }
 
@@ -81,9 +83,9 @@ public partial class TerrainGenerator : Node3D
         simplex.Frequency = 0.005f;
 
         var plane = new PlaneMesh();
-        plane.Size = new Vector2(chunkSize, chunkSize);
-        plane.SubdivideDepth = chunkSize / 2;
-        plane.SubdivideWidth = chunkSize / 2;
+        plane.Size = new Vector2(ChunkSize, ChunkSize);
+        plane.SubdivideDepth = ChunkSize / 2;
+        plane.SubdivideWidth = ChunkSize / 2;
         
         plane.Material = terrainMaterial;
         
@@ -145,15 +147,16 @@ public partial class TerrainGenerator : Node3D
 
         chunks.Add(meshInstance);
         chunkPositions.Add(chunkPos);
-
-        // TODO: Only spawns last rock in array
+    }
+	
+    private void generateRock(Vector2 chunkPos)
+    {
         // Generate rocks/trees
         var noise = simplex.GetNoise2D(chunkPos.X, chunkPos.Y) * 2;
 
         simplex.Frequency = 0.025f;
 
         var indexNoise = simplex.GetNoise3D(chunkPos.X, noise * 2f, chunkPos.Y) * 2f;
-
         var rockIndex = (int)Mathf.Clamp(Mathf.Abs(indexNoise) * (float)Rocks.Length, 0f, (float)Rocks.Length - 1f);
 
         var pScenes = Rocks[rockIndex];
@@ -184,20 +187,19 @@ public partial class TerrainGenerator : Node3D
 
             CallDeferred("add_child", rock);
         }
-
-        //drawDebugSphere(new Vector3(chunkPos.X, noise, chunkPos.Y));
     }
-	
-	private void regenerateChunks()
+
+    private void regenerateChunks(bool firstGen)
 	{
         while (true)
         {
             var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
+            var halfChunkSize = ChunkSize / 2;
 
             // Clear chunks
             for (int i = 0; i < chunks.Count; i++)
             {
-                if (chunkPositions[i].DistanceTo(playerPos) > (renderDistance * 8))
+                if (chunkPositions[i].DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
                     chunks[i].CallDeferred("free");
 
@@ -209,7 +211,7 @@ public partial class TerrainGenerator : Node3D
             // Clear rocks/trees
             for (int i = 0; i < rocks.Count; i++)
             {
-                if (rockPositions[i].DistanceTo(playerPos) > (renderDistance * 8))
+                if (rockPositions[i].DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
                     rocks[i].CallDeferred("free");
 
@@ -218,22 +220,32 @@ public partial class TerrainGenerator : Node3D
                 }
             }
 
-            if (playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y)
+            for (int x = 0; x < RenderDistance; x++)
             {
-                for (int x = 0; x < renderDistance; x++)
+                for (int z = 0; z < RenderDistance; z++)
                 {
-                    for (int z = 0; z < renderDistance; z++)
-                    {
-                        var chunkPos = new Vector2((int)playerChunkPos.X + ((x * chunkSize) - (renderDistance * 8)),
-                            (int)playerChunkPos.Y + (z * chunkSize) - (renderDistance * 8));
+                    var chunkPos = new Vector2((int)playerChunkPos.X + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
+                        (int)playerChunkPos.Y + (z * ChunkSize) - (RenderDistance * halfChunkSize));
 
-                        if (!chunkPositions.Contains(chunkPos) && !rockPositions.Contains(chunkPos))
+                    if (isFirstGen)
+                    {
+                        generateChunk(chunkPos);
+                        generateRock(chunkPos);
+                    }
+
+                    if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                    {
+                        if (!chunkPositions.Contains(chunkPos))
                             generateChunk(chunkPos);
+
+                        if (!rockPositions.Contains(chunkPos))
+                            generateRock(chunkPos);
                     }
                 }
-
-                isPlayerFrozen = false;
             }
+
+            isFirstGen = false;
+            isPlayerFrozen = false;
 
             prevPlayerChunkPos = playerChunkPos;
         }

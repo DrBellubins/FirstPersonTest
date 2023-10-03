@@ -1,7 +1,6 @@
 using Godot;
 using System;
 
-// TODO: Make sky/sun not appear red at night
 public partial class DayNightCycle : Node3D
 {
     [ExportCategory("Various settings")] 

@@ -50,8 +50,8 @@ public static class Game
         int x = (int)MathF.Floor(input.X);
         int y = (int)MathF.Floor(input.Y);
 
-        int xRem = x % 16;
-        int yRem = y % 16;
+        int xRem = x % TerrainGenerator.ChunkSize;
+        int yRem = y % TerrainGenerator.ChunkSize;
 
         return new Vector2(x - xRem, y - yRem);
     }

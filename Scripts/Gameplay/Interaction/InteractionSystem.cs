@@ -1,9 +1,6 @@
 using Godot;
 using System;
 
-// TODO: If held item's pos is identical to hold pos when dropped, it floats
-// TODO: Items glitch through walls
-// TODO: Can't drop item if not looking at it
 public partial class InteractionSystem : Node3D
 {
 	[Export] public Player Player;
@@ -29,15 +26,13 @@ public partial class InteractionSystem : Node3D
 
 		Ray.Enabled = !Player.IsDriving;
 
-		if (Ray.IsColliding())
+        if (Ray.IsColliding())
 		{
 			Cursor.Size = Cursor.Size.Lerp(new Vector2(10f, 10f), 10f * deltaTime);
             Cursor.Position = Cursor.Position.Lerp(new Vector2(-5f, -5f), 10f * deltaTime);
 
 			if (hitCol != null)
 			{
-				// TODO: If player gets out and is looking at enter trigger,
-				// player will enter and exit car rapidly
                 if (Input.IsActionJustPressed("interact"))
                 {
 					if (hitCol is Interactable)
@@ -46,11 +41,11 @@ public partial class InteractionSystem : Node3D
 						inter.EmitSignal("e_Interacted", Player);
 					}
 
-					if (hitCol is Holdable)
+                    if (hitCol is Holdable)
 					{
                         isHolding = !isHolding;
-					    heldObject = (Holdable)hitCol;
-					}
+                        heldObject = (Holdable)hitCol;
+                    }
                 }
             }
         }
@@ -61,12 +56,14 @@ public partial class InteractionSystem : Node3D
         }
     }
 
-	public override void _PhysicsProcess(double delta)
+    public override void _PhysicsProcess(double delta)
 	{
 		if (isHolding && heldObject != null)
 		{
 			var a = heldObject.GlobalPosition;
 			var b = HoldPos.GlobalPosition;
+
+			heldObject.GravityScale = 0f;
 
             heldObject.LinearVelocity = (b - a) * holdPower;
 
@@ -74,5 +71,8 @@ public partial class InteractionSystem : Node3D
 			heldObject.AngularVelocity = Vector3.Zero;
             //heldObject.GlobalRotation = heldObject.GlobalRotation.Lerp(HoldPos.GlobalRotation, holdPower * (float)delta);
         }
-	}
+
+        if (!isHolding && heldObject != null)
+            heldObject.GravityScale = 1f;
+    }
 }

@@ -130,7 +130,7 @@ material = ExtResource("8_m1bx3")
 
 [node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 12, -13.26, -8.42, 25.822)
-polygon = PackedVector2Array(-8.40352, -0.12599, -0.768618, 2.53893, 5.75989, 5.49894, 5.7926, -0.0771861)
+polygon = PackedVector2Array(-8.40352, -0.12599, -0.954675, 2.67055, 5.75989, 5.49894, 5.7926, -0.0771861)
 material = ExtResource("8_m1bx3")
 
 [node name="Light" type="CSGCylinder3D" parent="Home"]
@@ -271,7 +271,7 @@ transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("19_2k6pm")
-TimeSpeed = 0.05
+TimeSpeed = 0.005
 environment = NodePath("../WorldEnvironment")
 SunIntensity = 1.0
 MoonIntensity = 0.05
@@ -320,6 +320,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 30.7409)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 45.2663)
 
 [node name="UI" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
