@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=30 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -24,6 +24,7 @@
 [ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="21_tvvt8"]
 [ext_resource type="PackedScene" uid="uid://bvdvjx8gcgu71" path="res://Prefabs/World/WorldSpawns/BigRock3.tscn" id="21_tvy78"]
 [ext_resource type="PackedScene" uid="uid://46rrsit7k453" path="res://Prefabs/World/WorldSpawns/BigRock5.tscn" id="23_bdi7q"]
+[ext_resource type="PackedScene" uid="uid://855gkk82n8lk" path="res://Prefabs/Weapons/Pickups/TestGunPickup.tscn" id="25_et2si"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
 
@@ -390,3 +391,6 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 21.750
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 4.62504, -19.7488)
+
+[node name="TestGunPickup" parent="." instance=ExtResource("25_et2si")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.0727, 3.85885, -1.41702)

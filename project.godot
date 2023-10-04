@@ -177,5 +177,4 @@ scaling_3d/fsr_sharpness=1.0
 textures/decals/filter=1
 environment/glow/upscale_mode=0
 environment/volumetric_fog/use_filter=0
-anti_aliasing/quality/use_taa=true
 lights_and_shadows/positional_shadow/atlas_size=2048

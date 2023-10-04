@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ccqfdekiklsk3"]
+[gd_scene load_steps=31 format=3 uid="uid://ccqfdekiklsk3"]
 
 [ext_resource type="Script" path="res://addons/character-controller/example/main/Player.cs" id="1_ngtxf"]
 [ext_resource type="Environment" uid="uid://b3cn01u84faiy" path="res://addons/character-controller/example/main/underwater.tres" id="2_uk578"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/InteractionSystem.cs" id="11_sed6q"]
 [ext_resource type="Curve" uid="uid://dhx3p5wsiw0bs" path="res://addons/character-controller/fps/bob/bob_curve.tres" id="11_y6te8"]
 [ext_resource type="Resource" uid="uid://duu5m0sajkuix" path="res://addons/character-controller/fps/bob/timed_bob_curve.tres" id="12_34rgg"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Weapons/WeaponSystem.cs" id="12_fu8fe"]
+[ext_resource type="PackedScene" uid="uid://bemn6lpykid" path="res://Prefabs/Weapons/TestGun.tscn" id="13_ed2w8"]
 [ext_resource type="PackedScene" uid="uid://48lxrddf51fl" path="res://addons/character-controller/example/main/audios/player_audios.tscn" id="13_yjrtm"]
 [ext_resource type="Resource" uid="uid://boafje76qrf27" path="res://addons/character-controller/example/main/audio_interacts/grass_audio_interact.tres" id="14_4itx4"]
 [ext_resource type="PhysicsMaterial" path="res://addons/character-controller/example/main/physics/grass.tres" id="15_ykov3"]
@@ -39,11 +41,12 @@ shader_parameter/startRadius = 0.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3bakq"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Camera", "head", "camera", "headBob")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Camera", "WeaponSystem", "head", "camera", "headBob")]
 collision_layer = 2
 floor_snap_length = 0.5
 script = ExtResource("1_ngtxf")
 Camera = NodePath("Head/Camera")
+WeaponSystem = NodePath("Head/Camera/Weapons")
 ZoomFOV = 35.0
 UnderwaterEnv = ExtResource("2_uk578")
 head = NodePath("Head")
@@ -113,6 +116,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 target_position = Vector3(0, 0, -3)
 collision_mask = 4
 collide_with_areas = true
+
+[node name="Weapons" type="Node3D" parent="Head/Camera"]
+script = ExtResource("12_fu8fe")
+Weapons = Array[PackedScene]([ExtResource("13_ed2w8")])
 
 [node name="motion_blur" parent="Head/Camera" instance=ExtResource("10_8adgb")]
 visible = false

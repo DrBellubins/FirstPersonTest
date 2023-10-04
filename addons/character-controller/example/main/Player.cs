@@ -4,6 +4,7 @@ using Godot;
 public partial class Player : FPSController3D
 {
     [Export] public Camera3D Camera;
+    [Export] public WeaponSystem WeaponSystem;
 	[Export] public float ZoomFOV;
 	[Export] public string InputBackActionName { get; set; } = "move_backward";
 	[Export] public string InputForwardActionName { get; set; } = "move_forward";
