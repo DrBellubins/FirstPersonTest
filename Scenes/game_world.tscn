@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=29 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -20,10 +20,16 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
 [ext_resource type="PackedScene" uid="uid://veho81dmbqmf" path="res://Prefabs/World/WorldSpawns/BigRock1.tscn" id="19_sv00m"]
 [ext_resource type="PackedScene" uid="uid://buo5b646pkw4x" path="res://Prefabs/World/WorldSpawns/BigRock2.tscn" id="20_ls8jl"]
+[ext_resource type="Shader" path="res://Shaders/Tonemapper/ACES_Tonemap.gdshader" id="20_mja1s"]
+[ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="21_tvvt8"]
 [ext_resource type="PackedScene" uid="uid://bvdvjx8gcgu71" path="res://Prefabs/World/WorldSpawns/BigRock3.tscn" id="21_tvy78"]
 [ext_resource type="PackedScene" uid="uid://46rrsit7k453" path="res://Prefabs/World/WorldSpawns/BigRock5.tscn" id="23_bdi7q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mbpx"]
+shader = ExtResource("20_mja1s")
+shader_parameter/lut = ExtResource("21_tvvt8")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mlyh0"]
 shader = ExtResource("17_k7ib7")
@@ -273,12 +279,12 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 
 script = ExtResource("19_2k6pm")
 TimeSpeed = 0.005
 environment = NodePath("../WorldEnvironment")
-SunIntensity = 1.0
+SunIntensity = 1.2
 MoonIntensity = 0.05
 SunColor = Color(0.941176, 0.752941, 0.564706, 0)
 MoonColor = Color(0.780392, 0.866667, 1, 0)
-SkyDayColor = Color(0.396078, 0.666667, 0.858824, 0)
-SkyNightColor = Color(0.0235294, 0.0980392, 0.152941, 0)
+SkyDayColor = Color(0.635294, 0.807843, 0.945098, 0)
+SkyNightColor = Color(0.196078, 0.435294, 0.607843, 0)
 
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
 transform = Transform3D(0.645829, 0.565308, -0.51316, 0.287933, 0.442159, 0.849465, 0.707107, -0.696364, 0.122788, 0, 0, 0)
@@ -320,7 +326,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 30.7409)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.40844, -0.421524, 45.2663)
 
 [node name="UI" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -328,7 +333,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TonemapRect" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_5mbpx")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="BlurRect" type="ColorRect" parent="UI"]
+visible = false
 material = SubResource("ShaderMaterial_mlyh0")
 layout_mode = 1
 anchors_preset = 15

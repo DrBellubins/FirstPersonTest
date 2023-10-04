@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ccqfdekiklsk3"]
+[gd_scene load_steps=29 format=3 uid="uid://ccqfdekiklsk3"]
 
 [ext_resource type="Script" path="res://addons/character-controller/example/main/Player.cs" id="1_ngtxf"]
 [ext_resource type="Environment" uid="uid://b3cn01u84faiy" path="res://addons/character-controller/example/main/underwater.tres" id="2_uk578"]
@@ -16,7 +16,6 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/InteractionSystem.cs" id="11_sed6q"]
 [ext_resource type="Curve" uid="uid://dhx3p5wsiw0bs" path="res://addons/character-controller/fps/bob/bob_curve.tres" id="11_y6te8"]
 [ext_resource type="Resource" uid="uid://duu5m0sajkuix" path="res://addons/character-controller/fps/bob/timed_bob_curve.tres" id="12_34rgg"]
-[ext_resource type="Material" uid="uid://b3f7b4lb35ttn" path="res://Shaders/Tonemapper/ACES_Tonemap.tres" id="13_18bua"]
 [ext_resource type="PackedScene" uid="uid://48lxrddf51fl" path="res://addons/character-controller/example/main/audios/player_audios.tscn" id="13_yjrtm"]
 [ext_resource type="Resource" uid="uid://boafje76qrf27" path="res://addons/character-controller/example/main/audio_interacts/grass_audio_interact.tres" id="14_4itx4"]
 [ext_resource type="PhysicsMaterial" path="res://addons/character-controller/example/main/physics/grass.tres" id="15_ykov3"]
@@ -28,10 +27,6 @@
 [ext_resource type="Texture2D" uid="uid://vv3nwa5jsh6u" path="res://Textures/UI/cursor.svg" id="25_p8idv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fn1rj"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_q5caq"]
-flip_faces = true
-size = Vector2(2, 2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ilykv"]
 render_priority = 0
@@ -99,15 +94,6 @@ collide_with_bodies = false
 [node name="Head" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0)
 script = ExtResource("9_uo2sq")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head"]
-visible = false
-cast_shadow = 0
-extra_cull_margin = 1.0
-ignore_occlusion_culling = true
-gi_mode = 0
-mesh = SubResource("QuadMesh_q5caq")
-surface_material_override/0 = ExtResource("13_18bua")
 
 [node name="Camera" type="Camera3D" parent="Head"]
 attributes = ExtResource("11_4v6gu")

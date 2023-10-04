@@ -19,7 +19,7 @@ public partial class TerrainGenerator : Node3D
 
     // Settings
 	public const int ChunkSize = 32;
-	public const int RenderDistance = 16;
+	public const int RenderDistance = 8;
 
     // Various
     private Material terrainMaterial;
@@ -69,10 +69,10 @@ public partial class TerrainGenerator : Node3D
 	{
         playerPos = new Vector2(Game.GetPlayerPosition().X, Game.GetPlayerPosition().Z);
 
-        //Game.Player.IsFrozen = isPlayerFrozen;
+        Game.Player.IsFrozen = isPlayerFrozen;
         loadingText.Visible = isPlayerFrozen;
         loadingBar.Visible = isPlayerFrozen;
-        blurRect.Visible = isPlayerFrozen;
+        //blurRect.Visible = isPlayerFrozen;
 
         var progress = ((double)chunkPositions.Count / ((double)RenderDistance * (double)RenderDistance)) * 100.0d;
         loadingBar.Value = progress;
