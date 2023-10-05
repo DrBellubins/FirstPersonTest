@@ -98,9 +98,12 @@ _data = {
 [node name="TestGun" type="Node3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_ahtuw")
+MaxAmmo = 120
+MagazineSize = 7
 
 [node name="GunMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, -0.35228, -0.13122, -0.156967)
+transform = Transform3D(0.0199995, 0.000140915, 0, -0.000140915, 0.0199995, 0, 0, 0, 0.02, -0.351102, -0.130766, -0.156967)
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_2icch")
 skeleton = NodePath("")
 

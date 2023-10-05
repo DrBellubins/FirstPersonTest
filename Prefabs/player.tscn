@@ -117,9 +117,14 @@ target_position = Vector3(0, 0, -3)
 collision_mask = 4
 collide_with_areas = true
 
-[node name="Weapons" type="Node3D" parent="Head/Camera"]
+[node name="Weapons" type="Node3D" parent="Head/Camera" node_paths=PackedStringArray("Ray", "AmmoDisplay")]
 script = ExtResource("12_fu8fe")
 Weapons = Array[PackedScene]([ExtResource("13_ed2w8")])
+Ray = NodePath("WeaponCast")
+AmmoDisplay = NodePath("../../../UI/RichTextLabel")
+
+[node name="WeaponCast" type="RayCast3D" parent="Head/Camera/Weapons"]
+target_position = Vector3(0, 0, -1000)
 
 [node name="motion_blur" parent="Head/Camera" instance=ExtResource("10_8adgb")]
 visible = false
@@ -167,6 +172,22 @@ offset_bottom = 2.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("25_p8idv")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 603.0
+offset_top = 363.0
+offset_right = 674.0
+offset_bottom = 387.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(2, 2)
+text = "999 / 999"
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="."]
 visible = false
