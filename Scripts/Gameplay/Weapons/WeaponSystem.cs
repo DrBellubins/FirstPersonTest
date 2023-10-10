@@ -20,6 +20,8 @@ public partial class WeaponSystem : Node3D
 
 	public override void _Process(double delta)
 	{
+        AmmoDisplay.Visible = (currentWeapon != null);
+
         if (currentWeapon != null)
         {
             AmmoDisplay.Text = $"{currentWeapon.CurrentMag} / {currentWeapon.CurrentAmmo}";
