@@ -21,8 +21,9 @@ DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
-window/size/viewport_width=1600
-window/size/viewport_height=900
+window/size/viewport_width=1280
+window/size/viewport_height=800
+window/size/mode=3
 window/size/resizable=false
 
 [dotnet]
