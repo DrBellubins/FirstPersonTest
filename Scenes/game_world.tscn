@@ -344,7 +344,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BlurRect" type="ColorRect" parent="UI"]
-visible = false
 material = SubResource("ShaderMaterial_mlyh0")
 layout_mode = 1
 anchors_preset = 15

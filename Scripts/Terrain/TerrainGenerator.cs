@@ -7,6 +7,39 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+// TODO: Add rock gen to chunk class
+public enum Biomes
+{
+    DesertPlanes,
+    DesertMountains,
+    GrassPlanes
+}
+
+public class Chunk
+{
+    // Chunk data
+    public string ID;
+    public Vector2 Position;
+    public Biomes Biome;
+
+    // Mesh data
+    public MeshInstance3D Mesh;
+    public List<Vector3> VertexPositions = new List<Vector3>();
+
+    public Chunk()
+    {
+        ID = Guid.NewGuid().ToString();
+    }
+
+    public Chunk(Vector2 position, Biomes biome, MeshInstance3D mesh)
+    {
+        ID = Guid.NewGuid().ToString();
+        Position = position;
+        Biome = biome;
+        Mesh = mesh;
+    }
+}
+
 public partial class TerrainGenerator : Node3D
 {
     [ExportCategory("General")]
@@ -34,8 +67,8 @@ public partial class TerrainGenerator : Node3D
 
     // Multi-threading stuff
     private Thread chunkThread;
-    
-    private List<MeshInstance3D> chunks = new List<MeshInstance3D>();
+
+    private List<Chunk> chunks = new List<Chunk>();
     private List<Vector2> chunkPositions = new List<Vector2>();
 
     private List<Node3D> rocks = new List<Node3D>();
@@ -72,14 +105,19 @@ public partial class TerrainGenerator : Node3D
         Game.Player.IsFrozen = isPlayerFrozen;
         loadingText.Visible = isPlayerFrozen;
         loadingBar.Visible = isPlayerFrozen;
-        //blurRect.Visible = isPlayerFrozen;
+        //blurRect.Visible = isPlayerFrozen; // TODO: Tonemap overrides blur canvas or vice versa
 
-        var progress = ((double)chunkPositions.Count / ((double)RenderDistance * (double)RenderDistance)) * 100.0d;
+        var progress = ((double)chunks.Count / ((double)RenderDistance * (double)RenderDistance)) * 100.0d;
         loadingBar.Value = progress;
     }
 
-	private void generateChunk(Vector2 chunkPos)
+	private Chunk generateChunk(Vector2 chunkPos)
 	{
+        var chunk = new Chunk();
+        chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
+        chunk.Position = chunkPos;
+
+        // Desert planes (default)
         simplex.Frequency = 0.005f;
 
         var plane = new PlaneMesh();
@@ -101,13 +139,14 @@ public partial class TerrainGenerator : Node3D
         {
             var vertex = dataTool.GetVertex(i);
         
-            vertex.Y = simplex.GetNoise2D(vertex.X + chunkPos.X, vertex.Z + chunkPos.Y) * 2f;
+            vertex.Y = simplex.GetNoise2D(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 4f;
         
             // Road
             //if (chunkPos.X + vertex.X == -0.8888886f || chunkPos.X + vertex.X == -2.6666663f || chunkPos.X + vertex.X == -4.444444f
             //    || chunkPos.X + vertex.X == 0.8888892f || chunkPos.X + vertex.X == 2.666667f)
             //    vertex.Y = 0;
-        
+            
+            chunk.VertexPositions.Add(vertex);
             dataTool.SetVertex(i, vertex);
         }
         
@@ -145,11 +184,16 @@ public partial class TerrainGenerator : Node3D
 
         col.QueueFree();
 
-        chunks.Add(meshInstance);
-        chunkPositions.Add(chunkPos);
+        chunk.Mesh = meshInstance;
+        chunks.Add(chunk);
+
+        return chunk;
+
+        //chunks.Add(meshInstance);
+        //chunkPositions.Add(chunkPos);
     }
 	
-    private void generateRock(Vector2 chunkPos)
+    /*private void generateRock(Vector2 chunkPos)
     {
         // Generate rocks/trees
         var noise = simplex.GetNoise2D(chunkPos.X, chunkPos.Y) * 2;
@@ -187,29 +231,30 @@ public partial class TerrainGenerator : Node3D
 
             CallDeferred("add_child", rock);
         }
-    }
+    }*/
 
     private void regenerateChunks(bool firstGen)
 	{
         while (true)
         {
+            Thread.Sleep(25);
+
             var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
             var halfChunkSize = ChunkSize / 2;
 
             // Clear chunks
             for (int i = 0; i < chunks.Count; i++)
             {
-                if (chunkPositions[i].DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
+                if (chunks[i].Position.DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
-                    chunks[i].CallDeferred("free");
+                    chunks[i].Mesh.CallDeferred("free");
 
                     chunks.RemoveAt(i);
-                    chunkPositions.RemoveAt(i);
                 }
             }
 
             // Clear rocks/trees
-            for (int i = 0; i < rocks.Count; i++)
+            /*for (int i = 0; i < rocks.Count; i++)
             {
                 if (rockPositions[i].DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
@@ -218,7 +263,7 @@ public partial class TerrainGenerator : Node3D
                     rocks.RemoveAt(i);
                     rockPositions.RemoveAt(i);
                 }
-            }
+            }*/
 
             for (int x = 0; x < RenderDistance; x++)
             {
@@ -227,19 +272,23 @@ public partial class TerrainGenerator : Node3D
                     var chunkPos = new Vector2((int)playerChunkPos.X + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
                         (int)playerChunkPos.Y + (z * ChunkSize) - (RenderDistance * halfChunkSize));
 
+                    Chunk genChunk = null;
+
                     if (isFirstGen)
                     {
-                        generateChunk(chunkPos);
-                        generateRock(chunkPos);
+                        genChunk = generateChunk(chunkPos);
+                        //generateRock(chunkPos);
                     }
-
-                    if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                    else
                     {
-                        if (!chunkPositions.Contains(chunkPos))
-                            generateChunk(chunkPos);
+                        if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                        {
+                            if (!chunkPositions.Contains(chunkPos))
+                                genChunk = generateChunk(chunkPos);
 
-                        if (!rockPositions.Contains(chunkPos))
-                            generateRock(chunkPos);
+                            //if (!rockPositions.Contains(chunkPos))
+                            //    generateRock(chunkPos);
+                        }
                     }
                 }
             }

@@ -9,7 +9,6 @@ use_debanding = false
 [sub_resource type="Sky" id="Sky_3nh04"]
 sky_material = SubResource("PhysicalSkyMaterial_kulb2")
 process_mode = 3
-radiance_size = 0
 
 [resource]
 background_mode = 2
@@ -25,8 +24,9 @@ ssao_enabled = true
 ssao_radius = 2.0
 ssao_light_affect = 1.0
 ssil_intensity = 2.68
-sdfgi_enabled = true
 sdfgi_min_cell_size = 0.5
+sdfgi_cascade0_distance = 32.0
+sdfgi_max_distance = 512.0
 sdfgi_y_scale = 0
 sdfgi_energy = 2.0
 glow_enabled = true
