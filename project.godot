@@ -182,6 +182,7 @@ reload={
 [rendering]
 
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=5
 global_illumination/gi/use_half_resolution=true
 scaling_3d/mode=1
 scaling_3d/scale=0.5

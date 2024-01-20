@@ -8,5 +8,5 @@ render_priority = 0
 shader = ExtResource("1_towsq")
 shader_parameter/Color = Color(1, 1, 1, 1)
 shader_parameter/Light_Falloff = 2.0
-shader_parameter/Diffuse_Intensity = 0.005
+shader_parameter/Diffuse_Intensity = 0.05
 shader_parameter/Albedo = ExtResource("2_o3alw")

@@ -274,7 +274,7 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
-transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20.577, 3.91529, -26.8096)
+transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.3864, 3.6844, -27.2577)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -390,7 +390,7 @@ value = 50.0
 show_percentage = false
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 21.7508, 3.94297, 19.6382)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.1321, 3.94297, 19.9784)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 4.62504, -19.7488)
