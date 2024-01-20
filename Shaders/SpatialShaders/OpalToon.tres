@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=37 format=3 uid="uid://enve5vqti6jq"]
+[gd_resource type="VisualShader" load_steps=41 format=3 uid="uid://enve5vqti6jq"]
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_mkv7p"]
 default_input_values = [0, Vector3(0.5, 0.5, 1), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
@@ -12,12 +12,29 @@ max = 5.0
 default_value_enabled = true
 default_value = 1.0
 
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_xmtob"]
+default_input_values = [0, false, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_yqgif"]
+parameter_name = "AbledoTriplanar"
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_q5sb5"]
+parameter_name = "Use_Triplanar"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeTextureParameterTriplanar" id="VisualShaderNodeTextureParameterTriplanar_36y3q"]
+parameter_name = "NormalTriplanar"
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_j5f0i"]
+default_input_values = [0, false, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
+op_type = 5
+
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_rvudo"]
 parameter_name = "Albedo"
 texture_filter = 1
-
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_syko1"]
-input_name = "uv"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_x6ygv"]
 source = 5
@@ -32,7 +49,7 @@ op_type = 2
 operator = 2
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_8mle2"]
-parameter_name = "Normal_Map"
+parameter_name = "Normal"
 texture_type = 2
 texture_filter = 1
 
@@ -139,16 +156,41 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_toon, specular_schl
 // Varyings
 varying vec3 world_pos;
 
+uniform bool Use_Triplanar = false;
+uniform sampler2D AbledoTriplanar : filter_nearest;
 uniform sampler2D Albedo : filter_nearest;
 uniform vec4 Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
-uniform sampler2D Normal_Map : hint_normal, filter_nearest;
+uniform sampler2D NormalTriplanar : filter_nearest;
+uniform sampler2D Normal : hint_normal, filter_nearest;
 uniform float Normal_Strength : hint_range(-5, 5) = 1;
 uniform float Light_Falloff : hint_range(1, 10, 0.10000000149012);
 uniform float Diffuse_Intensity : hint_range(0, 0.10000000149012) = 0.05000000074506;
 
 
+// TextureParameterTriplanar
+	vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+		vec4 samp = vec4(0.0);
+		samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+		samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+		samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+		return samp;
+	}
+
+	uniform vec3 triplanar_scale = vec3(1.0, 1.0, 1.0);
+	uniform vec3 triplanar_offset;
+	uniform float triplanar_sharpness = 0.5;
+
+	varying vec3 triplanar_power_normal;
+	varying vec3 triplanar_pos;
 
 void vertex() {
+// TextureParameterTriplanar
+	{
+		triplanar_power_normal = pow(abs(NORMAL), vec3(triplanar_sharpness));
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		triplanar_pos *= vec3(1.0, -1.0, 1.0);
+	}
 // Input:4
 	vec3 n_out4p0 = NODE_POSITION_WORLD;
 
@@ -160,13 +202,22 @@ void vertex() {
 }
 
 void fragment() {
-// Input:4
-	vec2 n_out4p0 = UV;
+// BooleanParameter:17
+	bool n_out17p0 = Use_Triplanar;
+
+
+// TextureParameterTriplanar:16
+	vec4 n_out16p0 = triplanar_texture(AbledoTriplanar, triplanar_power_normal, triplanar_pos);
 
 
 	vec4 n_out5p0;
 // Texture2D:5
-	n_out5p0 = texture(Albedo, n_out4p0);
+	n_out5p0 = texture(Albedo, UV);
+
+
+	vec4 n_out14p0;
+// Switch:14
+	n_out14p0 = mix(n_out5p0, n_out16p0, float(n_out17p0));
 
 
 // ColorParameter:6
@@ -174,12 +225,21 @@ void fragment() {
 
 
 // VectorOp:7
-	vec4 n_out7p0 = n_out5p0 * n_out6p0;
+	vec4 n_out7p0 = n_out14p0 * n_out6p0;
+
+
+// TextureParameterTriplanar:19
+	vec4 n_out19p0 = triplanar_texture(NormalTriplanar, triplanar_power_normal, triplanar_pos);
 
 
 	vec4 n_out9p0;
 // Texture2D:9
-	n_out9p0 = texture(Normal_Map, UV);
+	n_out9p0 = texture(Normal, UV);
+
+
+	vec4 n_out20p0;
+// Switch:20
+	n_out20p0 = mix(n_out9p0, n_out19p0, float(n_out17p0));
 
 
 // FloatParameter:13
@@ -188,7 +248,7 @@ void fragment() {
 
 // Mix:12
 	vec3 n_in12p0 = vec3(0.50000, 0.50000, 1.00000);
-	vec3 n_out12p0 = mix(n_in12p0, vec3(n_out9p0.xyz), vec3(n_out13p0));
+	vec3 n_out12p0 = mix(n_in12p0, vec3(n_out20p0.xyz), vec3(n_out13p0));
 
 
 // Output:0
@@ -271,7 +331,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2(-549.413, 477.275)
+graph_offset = Vector2(-460.17, -41.2019)
 modes/diffuse = 3
 varyings/world_pos = "0,4"
 nodes/vertex/0/position = Vector2(400, 160)
@@ -282,24 +342,32 @@ nodes/vertex/6/position = Vector2(160, 220)
 nodes/vertex/connections = PackedInt32Array(4, 0, 6, 0)
 nodes/fragment/0/position = Vector2(400, 140)
 nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_rvudo")
-nodes/fragment/3/position = Vector2(-1000, -180)
-nodes/fragment/4/node = SubResource("VisualShaderNodeInput_syko1")
-nodes/fragment/4/position = Vector2(-700, -140)
+nodes/fragment/3/position = Vector2(-1380, -120)
 nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_x6ygv")
-nodes/fragment/5/position = Vector2(-340, -160)
+nodes/fragment/5/position = Vector2(-960, -120)
 nodes/fragment/6/node = SubResource("VisualShaderNodeColorParameter_r7ih5")
 nodes/fragment/6/position = Vector2(-400, 0)
 nodes/fragment/7/node = SubResource("VisualShaderNodeVectorOp_5do8w")
 nodes/fragment/7/position = Vector2(-120, -140)
 nodes/fragment/8/node = SubResource("VisualShaderNodeTexture2DParameter_8mle2")
-nodes/fragment/8/position = Vector2(-720, 560)
+nodes/fragment/8/position = Vector2(-1100, 680)
 nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_6prbf")
-nodes/fragment/9/position = Vector2(-400, 560)
+nodes/fragment/9/position = Vector2(-780, 680)
 nodes/fragment/12/node = SubResource("VisualShaderNodeMix_mkv7p")
 nodes/fragment/12/position = Vector2(-40, 520)
 nodes/fragment/13/node = SubResource("VisualShaderNodeFloatParameter_5c4n8")
 nodes/fragment/13/position = Vector2(-360, 720)
-nodes/fragment/connections = PackedInt32Array(4, 0, 5, 0, 3, 0, 5, 2, 6, 0, 7, 1, 5, 0, 7, 0, 7, 0, 0, 0, 8, 0, 9, 2, 9, 0, 12, 1, 12, 0, 0, 9, 13, 0, 12, 2)
+nodes/fragment/14/node = SubResource("VisualShaderNodeSwitch_xmtob")
+nodes/fragment/14/position = Vector2(-640, -360)
+nodes/fragment/16/node = SubResource("VisualShaderNodeTextureParameterTriplanar_yqgif")
+nodes/fragment/16/position = Vector2(-1380, -440)
+nodes/fragment/17/node = SubResource("VisualShaderNodeBooleanParameter_q5sb5")
+nodes/fragment/17/position = Vector2(-1040, -440)
+nodes/fragment/19/node = SubResource("VisualShaderNodeTextureParameterTriplanar_36y3q")
+nodes/fragment/19/position = Vector2(-1100, 360)
+nodes/fragment/20/node = SubResource("VisualShaderNodeSwitch_j5f0i")
+nodes/fragment/20/position = Vector2(-360, 440)
+nodes/fragment/connections = PackedInt32Array(3, 0, 5, 2, 6, 0, 7, 1, 7, 0, 0, 0, 8, 0, 9, 2, 12, 0, 0, 9, 13, 0, 12, 2, 14, 0, 7, 0, 17, 0, 14, 0, 16, 0, 14, 1, 5, 0, 14, 2, 19, 0, 20, 1, 9, 0, 20, 2, 17, 0, 20, 0, 20, 0, 12, 1)
 nodes/light/0/position = Vector2(400, 80)
 nodes/light/4/node = SubResource("VisualShaderNodeVaryingGetter_l7w7j")
 nodes/light/4/position = Vector2(-680, 920)
@@ -351,4 +419,4 @@ nodes/light/44/node = SubResource("VisualShaderNodeInput_0trn8")
 nodes/light/44/position = Vector2(-1640, 560)
 nodes/light/45/node = SubResource("VisualShaderNodeVectorOp_gas3b")
 nodes/light/45/position = Vector2(-1300, 500)
-nodes/light/connections = PackedInt32Array(5, 0, 10, 0, 10, 0, 11, 0, 10, 1, 11, 1, 10, 2, 11, 2, 9, 0, 13, 0, 11, 0, 13, 1, 13, 0, 14, 1, 4, 0, 14, 0, 14, 0, 15, 0, 21, 0, 19, 1, 21, 0, 23, 0, 23, 0, 20, 1, 24, 0, 25, 1, 22, 0, 25, 0, 25, 0, 0, 0, 29, 0, 30, 1, 43, 0, 19, 0, 19, 0, 20, 0, 20, 0, 32, 0, 30, 0, 32, 1, 28, 0, 30, 0, 27, 0, 28, 0, 26, 0, 45, 0, 44, 0, 45, 1, 45, 0, 28, 1, 32, 0, 22, 0)
+nodes/light/connections = PackedInt32Array(5, 0, 10, 0, 10, 0, 11, 0, 10, 1, 11, 1, 10, 2, 11, 2, 9, 0, 13, 0, 11, 0, 13, 1, 13, 0, 14, 1, 4, 0, 14, 0, 14, 0, 15, 0, 21, 0, 19, 1, 21, 0, 23, 0, 23, 0, 20, 1, 24, 0, 25, 1, 22, 0, 25, 0, 29, 0, 30, 1, 43, 0, 19, 0, 19, 0, 20, 0, 20, 0, 32, 0, 30, 0, 32, 1, 28, 0, 30, 0, 27, 0, 28, 0, 26, 0, 45, 0, 44, 0, 45, 1, 45, 0, 28, 1, 32, 0, 22, 0, 25, 0, 0, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=31 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
 [ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="9_7ntxc"]
 [ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="10_7qf5f"]
+[ext_resource type="Material" uid="uid://bo5mfobfb6lgw" path="res://Materials/concrete_toon.tres" id="11_0rwsp"]
 [ext_resource type="PackedScene" uid="uid://b1c77yfcgtimc" path="res://Prefabs/Props/radio.tscn" id="11_25l8y"]
 [ext_resource type="Texture2D" uid="uid://l5uk80mwltvb" path="res://Textures/Decals/puddle.png" id="13_aeql1"]
 [ext_resource type="Texture2D" uid="uid://cry4judm8vp6l" path="res://Textures/Decals/puddle_normal.png" id="14_fjnas"]
@@ -64,7 +65,7 @@ autoplay = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 6, 0)
 use_collision = true
 size = Vector3(15, 18, 60)
-material = ExtResource("8_m1bx3")
+material = ExtResource("11_0rwsp")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07958, -9.84956)
@@ -274,7 +275,7 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
-transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.3864, 3.6844, -27.2577)
+transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.437, 3.6844, -27.1949)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -390,7 +391,7 @@ value = 50.0
 show_percentage = false
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.1321, 3.94297, 19.9784)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.4356, 3.94297, 19.9784)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 4.62504, -19.7488)

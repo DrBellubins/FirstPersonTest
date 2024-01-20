@@ -1,12 +1,19 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://d4a87lhlndieg"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://d4a87lhlndieg"]
 
 [ext_resource type="Shader" uid="uid://enve5vqti6jq" path="res://Shaders/SpatialShaders/OpalToon.tres" id="1_towsq"]
 [ext_resource type="Texture2D" uid="uid://c573ef0q3mlxx" path="res://Textures/Wood/saloon-wood-floor_albedo.png" id="2_o3alw"]
+[ext_resource type="Texture2D" uid="uid://pjfj3lp877rs" path="res://Textures/Wood/saloon-wood-floor_normal-ogl.png" id="3_a175b"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_towsq")
+shader_parameter/Use_Triplanar = true
 shader_parameter/Color = Color(1, 1, 1, 1)
+shader_parameter/Normal_Strength = 1.0
 shader_parameter/Light_Falloff = 2.0
 shader_parameter/Diffuse_Intensity = 0.05
-shader_parameter/Albedo = ExtResource("2_o3alw")
+shader_parameter/triplanar_scale = Vector3(0.5, 0.5, 0.5)
+shader_parameter/triplanar_offset = null
+shader_parameter/triplanar_sharpness = 0.5
+shader_parameter/AbledoTriplanar = ExtResource("2_o3alw")
+shader_parameter/NormalTriplanar = ExtResource("3_a175b")
