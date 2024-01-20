@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://duc3qepavyuke"]
+
+[ext_resource type="Shader" uid="uid://enve5vqti6jq" path="res://Shaders/SpatialShaders/OpalToon.tres" id="1_jadi4"]
+[ext_resource type="Texture2D" uid="uid://bex8miqegjim2" path="res://Models/Cars/Low-Poly Jeep/Textures/JeepDetailsTextureAtlas.png" id="2_ca4tn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_jadi4")
+shader_parameter/Color = Color(1, 1, 1, 1)
+shader_parameter/Light_Falloff = 2.0
+shader_parameter/Albedo = ExtResource("2_ca4tn")

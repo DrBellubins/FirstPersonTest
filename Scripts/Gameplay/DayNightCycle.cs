@@ -28,7 +28,7 @@ public partial class DayNightCycle : Node3D
 
 	public override void _Process(double delta)
 	{
-		var rotation = Mathf.RadToDeg(this.Rotation.X);
+		/*var rotation = Mathf.RadToDeg(this.Rotation.X);
 
         this.Rotate(Vector3.Right, TimeSpeed * (float)delta);
 
@@ -64,6 +64,6 @@ public partial class DayNightCycle : Node3D
 
             environment.Environment.FogLightColor = SkyNightColor;
             environment.Environment.FogLightEnergy = 0.05f;
-        }
+        }*/
     }
 }

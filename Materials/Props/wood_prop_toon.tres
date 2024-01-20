@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://d4a87lhlndieg"]
+
+[ext_resource type="Shader" uid="uid://enve5vqti6jq" path="res://Shaders/SpatialShaders/OpalToon.tres" id="1_towsq"]
+[ext_resource type="Texture2D" uid="uid://c573ef0q3mlxx" path="res://Textures/Wood/saloon-wood-floor_albedo.png" id="2_o3alw"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_towsq")
+shader_parameter/Color = Color(1, 1, 1, 1)
+shader_parameter/Light_Falloff = 2.0
+shader_parameter/Diffuse_Intensity = 0.005
+shader_parameter/Albedo = ExtResource("2_o3alw")

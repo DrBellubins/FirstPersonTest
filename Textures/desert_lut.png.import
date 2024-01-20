@@ -3,20 +3,19 @@
 importer="3d_texture"
 type="CompressedTexture3D"
 uid="uid://c1yfpvc24moh2"
-path.bptc="res://.godot/imported/desert_lut.png-570c9c54480c052d0926e2bb8a940f0c.bptc.ctex3d"
+path="res://.godot/imported/desert_lut.png-570c9c54480c052d0926e2bb8a940f0c.ctex3d"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Textures/desert_lut.png"
-dest_files=["res://.godot/imported/desert_lut.png-570c9c54480c052d0926e2bb8a940f0c.bptc.ctex3d"]
+dest_files=["res://.godot/imported/desert_lut.png-570c9c54480c052d0926e2bb8a940f0c.ctex3d"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=0

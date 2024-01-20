@@ -112,6 +112,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.20433, 2.15044)
 operation = 2
 size = Vector3(2, 1.8, 8)
 material = ExtResource("8_m1bx3")
+metadata/_edit_group_ = true
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.20433, -21.8496)
@@ -161,7 +162,7 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Light2" type="CSGCylinder3D" parent="Home"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48858, -19.8496)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0641937, 1.57123, -19.9023)
 height = 0.25
 material = ExtResource("9_7ntxc")
 
@@ -273,10 +274,11 @@ shadow_blur = 2.0
 omni_range = 7.02538
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
-transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20.4384, 3.91529, -27.1773)
+transform = Transform3D(0.935721, 0, 0.35274, 0, 1, 0, -0.35274, 0, 0.935721, 20.577, 3.91529, -26.8096)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
 script = ExtResource("19_2k6pm")
 TimeSpeed = 0.005
 environment = NodePath("../WorldEnvironment")
@@ -289,6 +291,7 @@ SkyNightColor = Color(0.196078, 0.435294, 0.607843, 0)
 
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
 transform = Transform3D(0.645829, 0.565308, -0.51316, 0.287933, 0.442159, 0.849465, 0.707107, -0.696364, 0.122788, 0, 0, 0)
+visible = false
 light_color = Color(0.941176, 0.752941, 0.564706, 1)
 shadow_enabled = true
 
@@ -344,6 +347,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BlurRect" type="ColorRect" parent="UI"]
+visible = false
 material = SubResource("ShaderMaterial_mlyh0")
 layout_mode = 1
 anchors_preset = 15

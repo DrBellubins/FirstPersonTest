@@ -1,8 +1,8 @@
 [gd_scene load_steps=16 format=3 uid="uid://b1c77yfcgtimc"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/Holdable.cs" id="1_56wi5"]
-[ext_resource type="Material" uid="uid://b25kg3mbmc7ix" path="res://Materials/Props/radio_face.tres" id="1_oscds"]
-[ext_resource type="Material" uid="uid://dkac2dcsp187d" path="res://Materials/Props/wood_prop.tres" id="3_2olfw"]
+[ext_resource type="Material" uid="uid://cvxjai72g0xks" path="res://Materials/Props/radio_face_toon.tres" id="2_vdv7x"]
+[ext_resource type="Material" uid="uid://d4a87lhlndieg" path="res://Materials/Props/wood_prop_toon.tres" id="3_6ldk6"]
 [ext_resource type="AudioStream" uid="uid://dxd402kc50wo1" path="res://Sounds/Music/country_music1.ogg" id="3_gww1b"]
 [ext_resource type="AudioStream" uid="uid://b2tuod741hvpy" path="res://Sounds/Music/country_music2.ogg" id="4_pvavh"]
 [ext_resource type="AudioStream" uid="uid://bhb6f2e46h8cp" path="res://Sounds/Music/country_music3.ogg" id="5_2cap1"]
@@ -58,13 +58,13 @@ shape = SubResource("BoxShape3D_ngqht")
 [node name="Mesh" type="CSGBox3D" parent="."]
 layers = 2
 size = Vector3(1, 0.6, 0.3)
-material = ExtResource("1_oscds")
+material = ExtResource("2_vdv7x")
 
 [node name="Mesh2" type="CSGBox3D" parent="Mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00516129)
 layers = 2
 size = Vector3(1, 0.61, 0.31)
-material = ExtResource("3_2olfw")
+material = ExtResource("3_6ldk6")
 
 [node name="Music" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
