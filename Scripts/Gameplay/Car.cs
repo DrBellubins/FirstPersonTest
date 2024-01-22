@@ -3,6 +3,7 @@ using System;
 
 public partial class Car : VehicleBody3D
 {
+    [Export] public float MaxSpeed = 25f;
     [Export] public float EnginePower = 300f;
     [Export] public float MaxSteerAngle = 45f;
     [Export] public AudioStreamPlayer3D audio;
@@ -19,8 +20,15 @@ public partial class Car : VehicleBody3D
 
         if (IsDriving)
         {
-            if (Input.IsActionJustPressed("toggle_brake"))
-                IsBrakeOn = !IsBrakeOn;
+            //LinearVelocity = LinearVelocity.Normalized() * Mathf.Min(LinearVelocity.Length(), MaxSpeed);
+
+            //if (Input.IsActionJustPressed("toggle_brake"))
+            //    IsBrakeOn = !IsBrakeOn;
+
+            if (Input.IsActionPressed("brake"))
+                Brake = LinearVelocity.Length();
+            else
+                Brake = 0f;
 
             audio.VolumeDb = -5f;
 
@@ -29,17 +37,16 @@ public partial class Car : VehicleBody3D
 
             EngineForce = Input.GetAxis("drive_backward", "drive_forward") * EnginePower;
 
-            var linearMagnitude = MathF.Sqrt((LinearVelocity.X * LinearVelocity.X) +
-                (LinearVelocity.Y * LinearVelocity.Y) + (LinearVelocity.Z * LinearVelocity.Z));
+            Debug.Write($"car velocity: {LinearVelocity.Length()}");
 
             if (Input.IsActionPressed("drive_backward") || Input.IsActionPressed("drive_forward"))
             {
-                audio.PitchScale = Mathf.Clamp(MathF.Abs(linearMagnitude / EnginePower) *
+                audio.PitchScale = Mathf.Clamp(MathF.Abs(LinearVelocity.Length() / EnginePower) *
                     (MathF.Abs(EngineForce) / EnginePower) * 4f, 0.25f, 1f);
             }
             else // TODO: stutters when letting of throttle
             {
-                audio.PitchScale = Mathf.Clamp(MathF.Abs(linearMagnitude / EnginePower) * 4f, 0.25f, 1f);
+                audio.PitchScale = Mathf.Clamp(MathF.Abs(LinearVelocity.Length() / EnginePower) * 4f, 0.25f, 1f);
             }
         }
         else
@@ -52,16 +59,13 @@ public partial class Car : VehicleBody3D
         // TODO: Car doesn't fully stop when braking (likely godot issue)
         if (IsBrakeOn)
         {
-            var linearMagnitude = MathF.Sqrt((LinearVelocity.X * LinearVelocity.X) +
-                (LinearVelocity.Y * LinearVelocity.Y) + (LinearVelocity.Z * LinearVelocity.Z));
+            //Brake = LinearVelocity.Length();
 
-            Brake = linearMagnitude;
-
-            if (MathF.Abs(linearMagnitude) < 1f)
-                Sleeping = true;
+            //if (MathF.Abs(LinearVelocity.Length()) < 1f)
+            //    Sleeping = true;
                 
         }
-        else
-            Sleeping = false;
+        //else
+        //    Sleeping = false;
     }
 }

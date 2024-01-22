@@ -183,13 +183,14 @@ shadow_mesh = SubResource("ArrayMesh_l0bv6")
 
 [node name="Jeep" type="VehicleBody3D" node_paths=PackedStringArray("audio", "camera")]
 mass = 120.0
-center_of_mass_mode = 1
-center_of_mass = Vector3(0, 0, 0.6)
 physics_material_override = SubResource("PhysicsMaterial_kpnmw")
 gravity_scale = 4.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0, 0.6)
 freeze_mode = 1
 script = ExtResource("1_wajol")
-EnginePower = 100.0
+MaxSpeed = 100.0
+EnginePower = 200.0
 MaxSteerAngle = 30.0
 audio = NodePath("EngineSound")
 camera = NodePath("CameraPivot/Camera3D")
@@ -268,10 +269,8 @@ shape = SubResource("ConvexPolygonShape3D_he1n1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.941689, -0.25, 1.168)
 use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -283,10 +282,8 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.942, -0.25, 1.168)
 use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -298,10 +295,8 @@ skeleton = NodePath("")
 [node name="BackLeft" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.941689, -0.25, -1.10701)
 use_as_traction = true
-wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 
@@ -312,10 +307,8 @@ skeleton = NodePath("")
 [node name="BackRight" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.942, -0.25, -1.10701)
 use_as_traction = true
-wheel_roll_influence = 0.01
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 2.3
 suspension_travel = 0.3
 suspension_stiffness = 200.0
 

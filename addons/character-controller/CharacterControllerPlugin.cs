@@ -101,7 +101,7 @@ public partial class CharacterControllerPlugin : EditorPlugin
         }
 
         Error result = ProjectSettings.Save();
-        Debug.Assert(result == Error.Ok, "Failed to save project settings");
+        System.Diagnostics.Debug.Assert(result == Error.Ok, "Failed to save project settings");
     }
 
     public override void _ExitTree()
