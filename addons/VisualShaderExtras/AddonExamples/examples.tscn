@@ -61,6 +61,8 @@ script = ExtResource("3_t67k3")
 
 [sub_resource type="VisualShader" id="68"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -111,14 +113,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("68")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8j805"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_yy23m"]
 texture = SubResource("CompressedTexture2D_8j805")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yfuqr"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_fxobl"]
 texture = SubResource("CompressedTexture2D_yfuqr")
@@ -131,6 +131,8 @@ script = ExtResource("4_eqjgp")
 
 [sub_resource type="VisualShader" id="VisualShader_my0mx"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -195,14 +197,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_my0mx")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0hw3s"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_sxjik"]
 texture = SubResource("CompressedTexture2D_0hw3s")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qdblg"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ik4a7"]
 texture = SubResource("CompressedTexture2D_qdblg")
@@ -215,6 +215,8 @@ script = ExtResource("5_afmfx")
 
 [sub_resource type="VisualShader" id="VisualShader_unmd3"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -265,14 +267,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_unmd3")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1ynhs"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_rt0m3"]
 texture = SubResource("CompressedTexture2D_1ynhs")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_edt0t"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xhs62"]
 texture = SubResource("CompressedTexture2D_edt0t")
@@ -285,6 +285,8 @@ script = ExtResource("6_d40l5")
 
 [sub_resource type="VisualShader" id="VisualShader_mvyjv"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -339,14 +341,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_mvyjv")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vxpi2"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8w4nd"]
 texture = SubResource("CompressedTexture2D_vxpi2")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oxl1k"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8firm"]
 texture = SubResource("CompressedTexture2D_oxl1k")
@@ -359,6 +359,8 @@ script = ExtResource("7_wcbap")
 
 [sub_resource type="VisualShader" id="VisualShader_ne8xj"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -417,14 +419,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_ne8xj")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_00ke3"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_elge6"]
 texture = SubResource("CompressedTexture2D_00ke3")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cp33d"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_6h42k"]
 texture = SubResource("CompressedTexture2D_cp33d")
@@ -437,6 +437,8 @@ script = ExtResource("8_oqb1v")
 
 [sub_resource type="VisualShader" id="VisualShader_peul7"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -491,14 +493,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_peul7")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6ow1i"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_seack"]
 texture = SubResource("CompressedTexture2D_6ow1i")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_17q7d"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ao4mv"]
 texture = SubResource("CompressedTexture2D_17q7d")
@@ -511,6 +511,8 @@ script = ExtResource("9_hsv27")
 
 [sub_resource type="VisualShader" id="VisualShader_3ay0w"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -565,14 +567,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_3ay0w")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8y6sy"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_kj7vr"]
 texture = SubResource("CompressedTexture2D_8y6sy")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vy1rt"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_5cu28"]
 texture = SubResource("CompressedTexture2D_vy1rt")
@@ -585,6 +585,8 @@ script = ExtResource("10_5tjq4")
 
 [sub_resource type="VisualShader" id="VisualShader_dt03t"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -639,14 +641,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_dt03t")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ooykv"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_y28sw"]
 texture = SubResource("CompressedTexture2D_ooykv")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dvrwt"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_pn8yk"]
 texture = SubResource("CompressedTexture2D_dvrwt")
@@ -659,6 +659,8 @@ script = ExtResource("11_jra88")
 
 [sub_resource type="VisualShader" id="VisualShader_mti26"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -709,14 +711,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_mti26")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7yhob"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_tsdn0"]
 texture = SubResource("CompressedTexture2D_7yhob")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_78r8g"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_rsvo0"]
 texture = SubResource("CompressedTexture2D_78r8g")
@@ -729,6 +729,8 @@ script = ExtResource("12_vqxt2")
 
 [sub_resource type="VisualShader" id="VisualShader_4a1r1"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -779,14 +781,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_4a1r1")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wxvs1"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_6x7wi"]
 texture = SubResource("CompressedTexture2D_wxvs1")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_upvxc"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_k15wi"]
 texture = SubResource("CompressedTexture2D_upvxc")
@@ -799,6 +799,8 @@ script = ExtResource("13_laece")
 
 [sub_resource type="VisualShader" id="VisualShader_0hxt1"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -849,14 +851,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_0hxt1")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rdblh"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_x4y2t"]
 texture = SubResource("CompressedTexture2D_rdblh")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m2qfr"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_gj8i7"]
 texture = SubResource("CompressedTexture2D_m2qfr")
@@ -869,6 +869,8 @@ script = ExtResource("14_lxeqv")
 
 [sub_resource type="VisualShader" id="VisualShader_y0dk6"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -919,14 +921,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_y0dk6")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hkxip"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lkoh1"]
 texture = SubResource("CompressedTexture2D_hkxip")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1fmn1"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_jxr11"]
 texture = SubResource("CompressedTexture2D_1fmn1")
@@ -939,6 +939,8 @@ script = ExtResource("15_meo86")
 
 [sub_resource type="VisualShader" id="VisualShader_qrxbr"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -989,14 +991,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_qrxbr")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qiwvk"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_uknmv"]
 texture = SubResource("CompressedTexture2D_qiwvk")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f85gt"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_6n35c"]
 texture = SubResource("CompressedTexture2D_f85gt")
@@ -1009,6 +1009,8 @@ script = ExtResource("16_dmlhh")
 
 [sub_resource type="VisualShader" id="VisualShader_fahnp"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1063,14 +1065,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_fahnp")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pxd8u"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_6n6vq"]
 texture = SubResource("CompressedTexture2D_pxd8u")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j4xhf"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_t70bk"]
 texture = SubResource("CompressedTexture2D_j4xhf")
@@ -1083,6 +1083,8 @@ script = ExtResource("17_s2asn")
 
 [sub_resource type="VisualShader" id="VisualShader_bkutg"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1137,14 +1139,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_bkutg")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wcipp"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_mgtt1"]
 texture = SubResource("CompressedTexture2D_wcipp")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vg1kd"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_skt4l"]
 texture = SubResource("CompressedTexture2D_vg1kd")
@@ -1157,6 +1157,8 @@ script = ExtResource("18_kji71")
 
 [sub_resource type="VisualShader" id="VisualShader_vs058"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1211,14 +1213,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_vs058")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w77h0"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_pci2l"]
 texture = SubResource("CompressedTexture2D_w77h0")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ltems"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_4j1w7"]
 texture = SubResource("CompressedTexture2D_ltems")
@@ -1231,6 +1231,8 @@ script = ExtResource("7_wcbap")
 
 [sub_resource type="VisualShader" id="VisualShader_fch6n"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1289,14 +1291,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_fch6n")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3qkdn"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_fbka3"]
 texture = SubResource("CompressedTexture2D_3qkdn")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lavva"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_n2e2a"]
 texture = SubResource("CompressedTexture2D_lavva")
@@ -1309,6 +1309,8 @@ script = ExtResource("19_gkxhr")
 
 [sub_resource type="VisualShader" id="VisualShader_nbmqa"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1363,14 +1365,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_nbmqa")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oqyir"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_bkrbv"]
 texture = SubResource("CompressedTexture2D_oqyir")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7rrsv"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_4ci2j"]
 texture = SubResource("CompressedTexture2D_7rrsv")
@@ -1383,6 +1383,8 @@ script = ExtResource("20_d7i5c")
 
 [sub_resource type="VisualShader" id="VisualShader_6so37"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1439,14 +1441,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_6so37")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u3em0"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_tctwu"]
 texture = SubResource("CompressedTexture2D_u3em0")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l1c1l"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_43pa2"]
 texture = SubResource("CompressedTexture2D_l1c1l")
@@ -1459,6 +1459,8 @@ script = ExtResource("21_fpode")
 
 [sub_resource type="VisualShader" id="VisualShader_x1r6j"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1515,14 +1517,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_x1r6j")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3rhjo"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xy11v"]
 texture = SubResource("CompressedTexture2D_3rhjo")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4yyob"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_70u2u"]
 texture = SubResource("CompressedTexture2D_4yyob")
@@ -1535,6 +1535,8 @@ script = ExtResource("22_wf7lc")
 
 [sub_resource type="VisualShader" id="VisualShader_5pcav"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1591,14 +1593,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_5pcav")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tlqw3"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_thkhw"]
 texture = SubResource("CompressedTexture2D_tlqw3")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hview"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_2hipn"]
 texture = SubResource("CompressedTexture2D_hview")
@@ -1611,6 +1611,8 @@ script = ExtResource("23_451rj")
 
 [sub_resource type="VisualShader" id="VisualShader_t28pt"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1673,14 +1675,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_t28pt")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xrhoy"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_t0mwb"]
 texture = SubResource("CompressedTexture2D_xrhoy")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8wahj"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_aqwmg"]
 texture = SubResource("CompressedTexture2D_8wahj")
@@ -1693,6 +1693,8 @@ script = ExtResource("24_fak3r")
 
 [sub_resource type="VisualShader" id="VisualShader_t0pob"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1747,14 +1749,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_t0pob")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_73dxk"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ro1fw"]
 texture = SubResource("CompressedTexture2D_73dxk")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8rya1"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_sh8cd"]
 texture = SubResource("CompressedTexture2D_8rya1")
@@ -1767,6 +1767,8 @@ script = ExtResource("25_1twgi")
 
 [sub_resource type="VisualShader" id="VisualShader_rnl3p"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1823,14 +1825,12 @@ nodes/fragment/connections = PackedInt32Array(6, 0, 7, 0, 4, 0, 7, 1, 7, 0, 0, 0
 shader = SubResource("VisualShader_rnl3p")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_abuxd"]
-load_path = "res://.godot/imported/icon.svg-d75c7d1600269a4e12e1397faef24712.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ki8cq"]
 texture = SubResource("CompressedTexture2D_abuxd")
 texture_type = 1
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xwk36"]
-load_path = "res://.godot/imported/VisualShaderExtras-Logo-128x128.png-baf0a25b91b2730f8004ac7a0f413caa.s3tc.ctex"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_qf4do"]
 texture = SubResource("CompressedTexture2D_xwk36")
@@ -1843,6 +1843,8 @@ script = ExtResource("26_37c4m")
 
 [sub_resource type="VisualShader" id="VisualShader_8l46s"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_6 : source_color;
 uniform sampler2D tex_frg_4 : source_color;
 
@@ -1983,40 +1985,10 @@ constant = Color(0, 0, 0, 1)
 
 [sub_resource type="VisualShader" id="VisualShader_bbxpt"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
 
 
-// Checkerboard
 
-		vec3 checkerboard(vec2 _uv, vec2 _tiling, vec3 _color1, vec3 _color2) {
-			float _tiling_x = floor(mod((_uv.x / (1.0 / _tiling.x)), 2.0));
-			float _tiling_y = floor(mod((_uv.y / (1.0 / _tiling.y)), 2.0));
-			bool _compare_bool = (abs(_tiling_x - _tiling_y) < 0.00001);
-			return mix(_color1.xyz, _color2.xyz, (_compare_bool ? 1.0 : 0.0));
-		}
-	
-
-void fragment() {
-// ColorConstant:3
-	vec4 n_out3p0 = vec4(1.000000, 1.000000, 1.000000, 1.000000);
-
-
-// ColorConstant:4
-	vec4 n_out4p0 = vec4(0.000000, 0.000000, 0.000000, 1.000000);
-
-
-	vec3 n_out2p0;
-// Checkerboard:2
-	vec2 n_in2p1 = vec2(8.00000, 8.00000);
-	{
-		n_out2p0.xyz = checkerboard(UV.xy, n_in2p1.xy, vec3(n_out3p0.xyz), vec3(n_out4p0.xyz));
-	}
-
-
-// Output:0
-	COLOR.rgb = n_out2p0;
-
-
-}
 "
 graph_offset = Vector2(-61, 72)
 mode = 1
@@ -2027,7 +1999,6 @@ nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_cc80l")
 nodes/fragment/3/position = Vector2(-60, 220)
 nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_2p266")
 nodes/fragment/4/position = Vector2(-40, 300)
-nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 2, 2, 4, 0, 2, 3)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ijt06"]
 shader = SubResource("VisualShader_bbxpt")
@@ -2049,6 +2020,8 @@ input_name = "time"
 
 [sub_resource type="VisualShader" id="VisualShader_nrxtj"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // PSRDNoise2D
@@ -2163,6 +2136,8 @@ function = 1
 
 [sub_resource type="VisualShader" id="VisualShader_5n70k"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_3 : source_color;
 
 
@@ -2237,6 +2212,8 @@ script = ExtResource("29_k5cvk")
 
 [sub_resource type="VisualShader" id="VisualShader_ew583"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // Box
@@ -2290,6 +2267,8 @@ script = ExtResource("30_nhxin")
 
 [sub_resource type="VisualShader" id="VisualShader_b85uw"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // Circle
@@ -2341,6 +2320,8 @@ script = ExtResource("31_3swwc")
 
 [sub_resource type="VisualShader" id="VisualShader_jh5y8"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // Parallelogram
@@ -2403,6 +2384,8 @@ script = ExtResource("32_2uhvd")
 
 [sub_resource type="VisualShader" id="VisualShader_atxn6"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // Rhombus
@@ -2459,6 +2442,8 @@ script = ExtResource("33_q3h5g")
 
 [sub_resource type="VisualShader" id="VisualShader_2wk66"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // PreciseBox
@@ -2522,6 +2507,8 @@ default_value_enabled = true
 
 [sub_resource type="VisualShader" id="VisualShader_e1125"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform vec4 Vector4Parameter = vec4(0.000000, 0.000000, 0.000000, 0.000000);
 
 
@@ -2585,6 +2572,8 @@ script = ExtResource("35_4prw4")
 
 [sub_resource type="VisualShader" id="VisualShader_7tc5t"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // Trapezoid
@@ -2645,6 +2634,8 @@ script = ExtResource("36_4uciv")
 
 [sub_resource type="VisualShader" id="VisualShader_sqnwd"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // Triangle
@@ -2701,6 +2692,8 @@ script = ExtResource("37_psyxx")
 
 [sub_resource type="VisualShader" id="VisualShader_eqdrg"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // UVTwirl
@@ -2767,6 +2760,8 @@ texture_filter = 1
 
 [sub_resource type="VisualShader" id="VisualShader_pgiym"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D MainTex : source_color, filter_nearest;
 
 
@@ -2856,6 +2851,8 @@ script = ExtResource("40_x0ogt")
 
 [sub_resource type="VisualShader" id="VisualShader_8gnev"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // UVTiler
@@ -2913,6 +2910,8 @@ script = ExtResource("41_7oy85")
 
 [sub_resource type="VisualShader" id="VisualShader_7uhii"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 
 
 // UVRotate
@@ -2970,6 +2969,8 @@ operator = 2
 
 [sub_resource type="VisualShader" id="VisualShader_wx5y0"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_4 : source_color;
 
 
@@ -3043,6 +3044,8 @@ input_name = "time"
 
 [sub_resource type="VisualShader" id="VisualShader_puwg7"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_4 : source_color;
 
 
@@ -3115,6 +3118,8 @@ input_name = "time"
 
 [sub_resource type="VisualShader" id="VisualShader_y5gtx"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_4 : source_color;
 
 
@@ -3188,6 +3193,8 @@ texture_type = 1
 
 [sub_resource type="VisualShader" id="VisualShader_enkir"]
 code = "shader_type canvas_item;
+render_mode blend_mix;
+
 uniform sampler2D tex_frg_5 : source_color;
 
 

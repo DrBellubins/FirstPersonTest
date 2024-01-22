@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using FastNoiseLite = FastNoise.FastNoiseLite;
+
 // TODO: Add rock gen to chunk class
 public enum Biomes
 {
@@ -55,8 +57,8 @@ public partial class TerrainGenerator : Node3D
 	public const int RenderDistance = 8;
 
     // Various
+    private FastNoiseLite noise = new FastNoiseLite();
     private Material terrainMaterial;
-    private FastNoiseLite simplex = new FastNoiseLite();
     private Vector2 prevPlayerChunkPos;
 
     private Vector2 playerPos = new Vector2();
@@ -87,9 +89,9 @@ public partial class TerrainGenerator : Node3D
 
         terrainMaterial = ResourceLoader.Load<Material>("res://Materials/Terrain.tres");
 
-        simplex.NoiseType = FastNoiseLite.NoiseTypeEnum.Simplex;
-        //simplex.Seed = new Random().Next(int.MaxValue);
-        simplex.Seed = 999;
+        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+        noise.SetSeed(new Random().Next(int.MaxValue));
+        //simplex.Seed = 999;
 
         isFirstGen = true;
         chunkThread = new Thread(() => regenerateChunks(isFirstGen));
@@ -117,8 +119,9 @@ public partial class TerrainGenerator : Node3D
         chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
         chunk.Position = chunkPos;
 
-        // Desert planes (default)
-        simplex.Frequency = 0.005f;
+        //noise.SetFrequency(0.005f);
+        //noise.SetFractalOctaves(4);
+        //noise.SetFractalType(FastNoiseLite.FractalType.FBm);
 
         var plane = new PlaneMesh();
         plane.Size = new Vector2(ChunkSize, ChunkSize);
@@ -139,13 +142,15 @@ public partial class TerrainGenerator : Node3D
         {
             var vertex = dataTool.GetVertex(i);
         
-            vertex.Y = simplex.GetNoise2D(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 4f;
+            //vertex.Y = noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 4f;
         
             // Road
             //if (chunkPos.X + vertex.X == -0.8888886f || chunkPos.X + vertex.X == -2.6666663f || chunkPos.X + vertex.X == -4.444444f
             //    || chunkPos.X + vertex.X == 0.8888892f || chunkPos.X + vertex.X == 2.666667f)
             //    vertex.Y = 0;
             
+
+
             chunk.VertexPositions.Add(vertex);
             dataTool.SetVertex(i, vertex);
         }
@@ -178,19 +183,18 @@ public partial class TerrainGenerator : Node3D
         body.ShapeOwnerAddShape(ownderID, col.Shape);
 
         meshInstance.CallDeferred("add_child", body);
-        CallDeferred("add_child", meshInstance);
+        //CallDeferred("add_child", meshInstance);
+
+        chunk.Mesh = meshInstance;
 
         col.Shape = shape;
 
         col.QueueFree();
 
-        chunk.Mesh = meshInstance;
         chunks.Add(chunk);
+        chunkPositions.Add(chunkPos);
 
         return chunk;
-
-        //chunks.Add(meshInstance);
-        //chunkPositions.Add(chunkPos);
     }
 	
     /*private void generateRock(Vector2 chunkPos)
@@ -247,9 +251,11 @@ public partial class TerrainGenerator : Node3D
             {
                 if (chunks[i].Position.DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
-                    chunks[i].Mesh.CallDeferred("free");
+                    CallDeferred("remove_child", chunks[i].Mesh);
+                    //chunks[i].Mesh.CallDeferred("free");
 
-                    chunks.RemoveAt(i);
+                    //chunks.RemoveAt(i);
+                    //chunkPositions.RemoveAt(i);
                 }
             }
 
@@ -277,14 +283,22 @@ public partial class TerrainGenerator : Node3D
                     if (isFirstGen)
                     {
                         genChunk = generateChunk(chunkPos);
+                        CallDeferred("add_child", genChunk.Mesh);
                         //generateRock(chunkPos);
                     }
                     else
                     {
                         if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
                         {
-                            if (!chunkPositions.Contains(chunkPos))
+                            if (chunks[x + z].Position != chunkPos)
+                            {
                                 genChunk = generateChunk(chunkPos);
+                                //CallDeferred("add_child", chunks[x + z].Mesh);
+                            }
+                            else
+                            {
+                                //CallDeferred("reparent", chunks[x + z].Mesh);
+                            }
 
                             //if (!rockPositions.Contains(chunkPos))
                             //    generateRock(chunkPos);

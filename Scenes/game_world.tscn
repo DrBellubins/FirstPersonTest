@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=29 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -8,12 +8,9 @@
 [ext_resource type="AudioStream" uid="uid://d0twbbjgid5bv" path="res://Sounds/wind_loop.wav" id="7_j0q8y"]
 [ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
 [ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="9_7ntxc"]
+[ext_resource type="Material" uid="uid://bj14whv7vnkkj" path="res://Materials/Terrain.tres" id="9_v2cdd"]
 [ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="10_7qf5f"]
-[ext_resource type="Material" uid="uid://bo5mfobfb6lgw" path="res://Materials/concrete_toon.tres" id="11_0rwsp"]
 [ext_resource type="PackedScene" uid="uid://b1c77yfcgtimc" path="res://Prefabs/Props/radio.tscn" id="11_25l8y"]
-[ext_resource type="Texture2D" uid="uid://l5uk80mwltvb" path="res://Textures/Decals/puddle.png" id="13_aeql1"]
-[ext_resource type="Texture2D" uid="uid://cry4judm8vp6l" path="res://Textures/Decals/puddle_normal.png" id="14_fjnas"]
-[ext_resource type="Texture2D" uid="uid://d01eabaelh088" path="res://Textures/Decals/puddle_orm.png" id="15_b7ngp"]
 [ext_resource type="PackedScene" uid="uid://bhadk4v5kcs22" path="res://Prefabs/World/StreetLamp.tscn" id="16_ieeem"]
 [ext_resource type="PackedScene" uid="uid://dt46jlryv15y2" path="res://Prefabs/Cars/jeep.tscn" id="17_57kyk"]
 [ext_resource type="Shader" path="res://Shaders/UI_Blur.gdshader" id="17_k7ib7"]
@@ -26,6 +23,9 @@
 [ext_resource type="PackedScene" uid="uid://bvdvjx8gcgu71" path="res://Prefabs/World/WorldSpawns/BigRock3.tscn" id="21_tvy78"]
 [ext_resource type="PackedScene" uid="uid://46rrsit7k453" path="res://Prefabs/World/WorldSpawns/BigRock5.tscn" id="23_bdi7q"]
 [ext_resource type="PackedScene" uid="uid://855gkk82n8lk" path="res://Prefabs/Weapons/Pickups/TestGunPickup.tscn" id="25_et2si"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_x2uxt"]
+material = ExtResource("9_v2cdd")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
 
@@ -43,15 +43,23 @@ font_size = 40
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
 
+[node name="GlobalVariables" type="Node" parent="."]
+script = ExtResource("4_tqant")
+
+[node name="ResourceLoads" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1000, 0)
+
+[node name="TerrainMat" type="MeshInstance3D" parent="ResourceLoads"]
+visible = false
+mesh = SubResource("QuadMesh_x2uxt")
+skeleton = NodePath("../../WorldEnvironment")
+
 [node name="TerrainGen" type="Node3D" parent="." node_paths=PackedStringArray("loadingText", "loadingBar", "blurRect")]
 script = ExtResource("1_qf80h")
 Rocks = Array[PackedScene]([ExtResource("3_krw2t"), ExtResource("19_sv00m"), ExtResource("20_ls8jl"), ExtResource("21_tvy78"), ExtResource("23_bdi7q")])
 loadingText = NodePath("../UI/LoadingWorldText")
 loadingBar = NodePath("../UI/ProgressBar")
 blurRect = NodePath("../UI/BlurRect")
-
-[node name="GlobalVariables" type="Node" parent="."]
-script = ExtResource("4_tqant")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("6_ojpui")
@@ -65,7 +73,7 @@ autoplay = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 6, 0)
 use_collision = true
 size = Vector3(15, 18, 60)
-material = ExtResource("11_0rwsp")
+material = ExtResource("8_m1bx3")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07958, -9.84956)
@@ -156,11 +164,16 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
+light_volumetric_fog_energy = 4.0
+light_bake_mode = 0
 shadow_enabled = true
-shadow_blur = 2.0
-omni_range = 7.02538
+shadow_normal_bias = 2.0
+distance_fade_enabled = true
+omni_range = 25.0
+omni_attenuation = 2.0
 
 [node name="Light2" type="CSGCylinder3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0641937, 1.57123, -19.9023)
@@ -176,11 +189,16 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
+light_volumetric_fog_energy = 4.0
+light_bake_mode = 0
 shadow_enabled = true
-shadow_blur = 2.0
-omni_range = 7.02538
+shadow_normal_bias = 2.0
+distance_fade_enabled = true
+omni_range = 25.0
+omni_attenuation = 2.0
 
 [node name="Light3" type="CSGCylinder3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97746, -19.8496)
@@ -196,11 +214,16 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
+light_volumetric_fog_energy = 4.0
+light_bake_mode = 0
 shadow_enabled = true
-shadow_blur = 2.0
-omni_range = 7.02538
+shadow_normal_bias = 2.0
+distance_fade_enabled = true
+omni_range = 25.0
+omni_attenuation = 2.0
 
 [node name="Light4" type="CSGCylinder3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97758, -9.84956)
@@ -216,11 +239,16 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
+light_volumetric_fog_energy = 4.0
+light_bake_mode = 0
 shadow_enabled = true
-shadow_blur = 2.0
-omni_range = 7.025
+shadow_normal_bias = 2.0
+distance_fade_enabled = true
+omni_range = 25.0
+omni_attenuation = 2.0
 
 [node name="ReverbZone" type="Area3D" parent="Home"]
 transform = Transform3D(15, 0, 0, 0, 12, 0, 0, 0, 40, 0, 1.57958, -9.84956)
@@ -268,20 +296,24 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/CSGBox3D10/Light5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
+visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
+light_volumetric_fog_energy = 4.0
+light_bake_mode = 0
 shadow_enabled = true
-shadow_blur = 2.0
-omni_range = 7.02538
+shadow_normal_bias = 2.0
+distance_fade_enabled = true
+omni_range = 25.0
+omni_attenuation = 2.0
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
-transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.437, 3.6844, -27.1949)
+transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.47, 3.51824, -27.154)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-visible = false
 script = ExtResource("19_2k6pm")
-TimeSpeed = 0.005
+TimeSpeed = 0.05
 environment = NodePath("../WorldEnvironment")
 SunIntensity = 1.2
 MoonIntensity = 0.05
@@ -292,16 +324,9 @@ SkyNightColor = Color(0.196078, 0.435294, 0.607843, 0)
 
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
 transform = Transform3D(0.645829, 0.565308, -0.51316, 0.287933, 0.442159, 0.849465, 0.707107, -0.696364, 0.122788, 0, 0, 0)
-visible = false
 light_color = Color(0.941176, 0.752941, 0.564706, 1)
 shadow_enabled = true
-
-[node name="Decal" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5722, 2.80458, 8.45004)
-texture_albedo = ExtResource("13_aeql1")
-texture_normal = ExtResource("14_fjnas")
-texture_orm = ExtResource("15_b7ngp")
-cull_mask = 1047553
+directional_shadow_blend_splits = true
 
 [node name="StreetLamps" type="Node3D" parent="."]
 visible = false
@@ -391,7 +416,7 @@ value = 50.0
 show_percentage = false
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.4356, 3.94297, 19.9784)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.2623, 3.94297, 22.2255)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 4.62504, -19.7488)

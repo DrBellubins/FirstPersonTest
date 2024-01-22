@@ -1,10 +1,10 @@
-<Project Sdk="Godot.NET.Sdk/4.1.1">
+<Project Sdk="Godot.NET.Sdk/4.2.1">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>FirstPersonTest</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
-	<OptimizationPreference>Speed</OptimizationPreference>
+    <OptimizationPreference>Speed</OptimizationPreference>
   </PropertyGroup>
   <!--<ItemGroup>
     <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.11" />

@@ -5,10 +5,12 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_a6m5s")
+shader_parameter/Use_Triplanar = false
 shader_parameter/Color = Color(1, 1, 1, 1)
 shader_parameter/Normal_Strength = 1.0
 shader_parameter/Light_Falloff = 2.0
-shader_parameter/Diffuse_Intensity = 0.005
+shader_parameter/Use_Specular = false
+shader_parameter/Smoothness = 0.5
 shader_parameter/triplanar_scale = Vector3(1, 1, 1)
 shader_parameter/triplanar_offset = null
 shader_parameter/triplanar_sharpness = 0.5

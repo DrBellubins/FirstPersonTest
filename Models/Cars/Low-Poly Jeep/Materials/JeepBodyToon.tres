@@ -1,16 +1,20 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://3s5lju7x8t2f"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://3s5lju7x8t2f"]
 
 [ext_resource type="Shader" uid="uid://enve5vqti6jq" path="res://Shaders/SpatialShaders/OpalToon.tres" id="1_0orgi"]
 [ext_resource type="Texture2D" uid="uid://0gtyy6hx7j1x" path="res://Models/Cars/Low-Poly Jeep/Textures/JeepBodyTexture.png" id="2_kdhqg"]
+[ext_resource type="Texture2D" uid="uid://dsvdlwpqqvxss" path="res://Models/Cars/Low-Poly Jeep/Textures/JeepBodyTexture_Specular.png" id="3_lwg5m"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_0orgi")
+shader_parameter/Use_Triplanar = false
 shader_parameter/Color = Color(1, 1, 1, 1)
 shader_parameter/Normal_Strength = 1.0
 shader_parameter/Light_Falloff = 2.0
-shader_parameter/Diffuse_Intensity = 0.05
+shader_parameter/Use_Specular = true
+shader_parameter/Smoothness = 0.0
 shader_parameter/triplanar_scale = Vector3(1, 1, 1)
 shader_parameter/triplanar_offset = null
 shader_parameter/triplanar_sharpness = 0.5
 shader_parameter/Albedo = ExtResource("2_kdhqg")
+shader_parameter/Specular = ExtResource("3_lwg5m")
