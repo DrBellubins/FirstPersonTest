@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ccqfdekiklsk3"]
+[gd_scene load_steps=47 format=3 uid="uid://ccqfdekiklsk3"]
 
 [ext_resource type="Script" path="res://addons/character-controller/example/main/Player.cs" id="1_ngtxf"]
 [ext_resource type="Environment" uid="uid://b3cn01u84faiy" path="res://addons/character-controller/example/main/underwater.tres" id="2_uk578"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://addons/character-controller/abilities/FlyAbility3D.cs" id="7_3pqpj"]
 [ext_resource type="Script" path="res://addons/character-controller/abilities/SwimAbility3D.cs" id="8_gi4mf"]
 [ext_resource type="Script" path="res://addons/character-controller/fps/HeadMovement3D.cs" id="9_uo2sq"]
+[ext_resource type="Environment" uid="uid://5og8o40ne2l2" path="res://Scenes/MainWorldEnv.tres" id="10_3xxof"]
 [ext_resource type="PackedScene" uid="uid://fn4ue284pmgv" path="res://motion_blur/motion_blur.tscn" id="10_8adgb"]
 [ext_resource type="Script" path="res://addons/character-controller/fps/bob/HeadBob.cs" id="10_pxngy"]
 [ext_resource type="CameraAttributesPractical" uid="uid://blef51gnvot0a" path="res://Various/CameraAtribs.tres" id="11_4v6gu"]
@@ -26,7 +27,21 @@
 [ext_resource type="Resource" uid="uid://ci8kg40ae4vnl" path="res://addons/character-controller/example/main/audio_interacts/stone_audio_interact.tres" id="18_ere1a"]
 [ext_resource type="Resource" uid="uid://dx5kojv0cn4yl" path="res://addons/character-controller/example/main/audio_interacts/wood_audio_interact.tres" id="19_qgyq7"]
 [ext_resource type="Resource" uid="uid://clro80qf2tdqi" path="res://addons/character-controller/example/main/audio_interacts/water_audio_interact.tres" id="20_u1rxi"]
+[ext_resource type="AudioStream" uid="uid://ddkksehfduiph" path="res://Sounds/unity_jump.wav" id="20_ue56i"]
+[ext_resource type="AudioStream" uid="uid://b68b6o40kal3" path="res://Sounds/unity_land.wav" id="21_p7lnb"]
+[ext_resource type="AudioStream" uid="uid://c0pb4l60wwqx8" path="res://Sounds/Concrete/concrete_walk1.ogg" id="22_0eb1b"]
+[ext_resource type="AudioStream" uid="uid://fglakorihr4e" path="res://Sounds/Concrete/concrete_walk2.ogg" id="23_k472y"]
+[ext_resource type="AudioStream" uid="uid://bfcte0e2waahr" path="res://Sounds/Concrete/concrete_walk3.ogg" id="24_acu7k"]
+[ext_resource type="AudioStream" uid="uid://mtwd7d45qojd" path="res://Sounds/Concrete/concrete_walk4.ogg" id="25_7e067"]
 [ext_resource type="Texture2D" uid="uid://vv3nwa5jsh6u" path="res://Textures/UI/cursor.svg" id="25_p8idv"]
+[ext_resource type="AudioStream" uid="uid://drymhpqb43ryc" path="res://Sounds/Concrete/concrete_walk5.ogg" id="26_xxgsg"]
+[ext_resource type="AudioStream" uid="uid://dfm6vxmgootv4" path="res://Sounds/Concrete/concrete_walk6.ogg" id="27_quyh0"]
+[ext_resource type="AudioStream" uid="uid://4qi47v1nq3wh" path="res://Sounds/Concrete/concrete_walk7.ogg" id="28_waj71"]
+[ext_resource type="AudioStream" uid="uid://csc153arspred" path="res://Sounds/Concrete/concrete_walk8.ogg" id="29_odg5f"]
+[ext_resource type="AudioStream" uid="uid://bnco8tdupddgy" path="res://Sounds/Concrete/concrete_walk9.ogg" id="30_acydj"]
+[ext_resource type="AudioStream" uid="uid://cbxf246i8wfhe" path="res://Sounds/Concrete/concrete_walk10.ogg" id="31_aof2n"]
+[ext_resource type="AudioStream" uid="uid://c0ujgnsm6iayw" path="res://Sounds/Concrete/concrete_walk11.ogg" id="32_wxr5e"]
+[ext_resource type="Script" path="res://addons/character-controller/example/main/audios/AudioInteract.cs" id="33_2mear"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fn1rj"]
 
@@ -38,6 +53,13 @@ shader_parameter/angular_velocity = Vector3(0, 0, 0)
 shader_parameter/iteration_count = 15
 shader_parameter/intensity = 0.5
 shader_parameter/startRadius = 0.0
+
+[sub_resource type="Resource" id="Resource_o8qy5"]
+resource_local_to_scene = true
+script = ExtResource("33_2mear")
+JumpAudio = ExtResource("20_ue56i")
+LandedAudio = ExtResource("21_p7lnb")
+StepAudios = [ExtResource("22_0eb1b"), ExtResource("23_k472y"), ExtResource("24_acu7k"), ExtResource("25_7e067"), ExtResource("26_xxgsg"), ExtResource("27_quyh0"), ExtResource("28_waj71"), ExtResource("29_odg5f"), ExtResource("30_acydj"), ExtResource("31_aof2n"), ExtResource("32_wxr5e")]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3bakq"]
 
@@ -99,6 +121,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.64, 0)
 script = ExtResource("9_uo2sq")
 
 [node name="Camera" type="Camera3D" parent="Head"]
+environment = ExtResource("10_3xxof")
 attributes = ExtResource("11_4v6gu")
 current = true
 
@@ -143,7 +166,7 @@ spot_range = 18.9586
 spot_angle = 20.5583
 
 [node name="Player Audios" parent="." instance=ExtResource("13_yjrtm")]
-AudioInteract = ExtResource("14_4itx4")
+AudioInteract = SubResource("Resource_o8qy5")
 PhysicMaterials = [ExtResource("15_ykov3"), ExtResource("16_gjh0c"), ExtResource("17_6jbs2")]
 AudioInteracts = [ExtResource("14_4itx4"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
 WaterAudioInteract = ExtResource("20_u1rxi")
