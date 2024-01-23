@@ -31,10 +31,13 @@ public partial class Player : FPSController3D
 		_normalFov = camera.Fov;
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void _Process(double delta)
 	{
-		if (!IsDriving)
+        Camera.Current = !IsDriving;
+
+        if (!IsDriving)
 		{
+            // Controller
             bool IsValidInput = Input.MouseMode == Input.MouseModeEnum.Captured;
 
             if (IsValidInput)
@@ -67,10 +70,27 @@ public partial class Player : FPSController3D
             {
                 Move((float)delta);
             }
+
+            // Camera
+            float deltaTime = (float)delta;
+
+            if (Input.IsActionPressed("zoom"))
+                camera.Fov = Mathf.Lerp(camera.Fov, ZoomFOV, deltaTime * FovChangeSpeed);
+            else
+                camera.Fov = Mathf.Lerp(camera.Fov, _normalFov, deltaTime * FovChangeSpeed);
+
+            if (Input.IsActionPressed("look_right") || Input.IsActionPressed("look_left") ||
+                Input.IsActionPressed("look_up") || Input.IsActionPressed("look_down"))
+            {
+                var axis = new Vector2(Input.GetActionStrength("look_right") - Input.GetActionStrength("look_left"),
+                    Input.GetActionStrength("look_down") - Input.GetActionStrength("look_up")) * 15f;
+
+                RotateHead(axis, true);
+            }
         }
 	}
 
-	public override void _Process(double delta)
+	/*public override void _Process(double delta)
 	{
         Camera.Current = !IsDriving;
 
@@ -92,7 +112,7 @@ public partial class Player : FPSController3D
                 RotateHead(axis, true);
             }
         }
-    }
+    }*/
 
 	public override void _Input(InputEvent _event)
 	{

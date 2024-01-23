@@ -43,14 +43,22 @@ public partial class InteractionSystem : Node3D
 
                     if (hitCol is Holdable)
 					{
-                        isHolding = !isHolding;
-                        heldObject = (Holdable)hitCol;
+						if (!isHolding)
+						{
+							isHolding = true;
+							heldObject = (Holdable)hitCol;
+						}
+						else
+							isHolding = false;
                     }
                 }
             }
         }
 		else
 		{
+			if (isHolding && Input.IsActionJustPressed("interact"))
+				isHolding = false;
+
             Cursor.Size = Cursor.Size.Lerp(new Vector2(5f, 5f), 10f * deltaTime);
             Cursor.Position = Cursor.Position.Lerp(new Vector2(-2.5f, -2.5f), 10f * deltaTime);
         }

@@ -93,11 +93,11 @@ public partial class TerrainGenerator : Node3D
         noise.SetSeed(new Random().Next(int.MaxValue));
         //simplex.Seed = 999;
 
-        isFirstGen = true;
-        chunkThread = new Thread(() => regenerateChunks(isFirstGen));
-        chunkThread.Start();
+        //isFirstGen = true;
+        //chunkThread = new Thread(() => regenerateChunks(isFirstGen));
+        //chunkThread.Start();
 
-        isPlayerFrozen = true;
+        //isPlayerFrozen = true;
     }
 
 	public override void _Process(double delta)

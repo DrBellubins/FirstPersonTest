@@ -13,7 +13,6 @@ config_version=5
 config/name="First Person Test"
 run/main_scene="res://Scenes/game_world.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -188,6 +187,8 @@ reload={
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=3
 global_illumination/gi/use_half_resolution=true
+scaling_3d/mode=2
+scaling_3d/scale=0.5
 scaling_3d/fsr_sharpness=1.0
 textures/decals/filter=1
 environment/glow/upscale_mode=0

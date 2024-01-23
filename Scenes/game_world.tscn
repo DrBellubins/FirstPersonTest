@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=32 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/TerrainGenerator.cs" id="1_qf80h"]
@@ -24,11 +24,13 @@
 [ext_resource type="Script" path="res://Scripts/Utils/DebugTextDraw.cs" id="21_um6gn"]
 [ext_resource type="PackedScene" uid="uid://46rrsit7k453" path="res://Prefabs/World/WorldSpawns/BigRock5.tscn" id="23_bdi7q"]
 [ext_resource type="PackedScene" uid="uid://855gkk82n8lk" path="res://Prefabs/Weapons/Pickups/TestGunPickup.tscn" id="25_et2si"]
+[ext_resource type="Material" uid="uid://dijkx51cf6tks" path="res://Materials/ToonWater.tres" id="25_ipnl4"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_x2uxt"]
 material = ExtResource("9_v2cdd")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
+size = Vector3(15, 12, 40)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5mbpx"]
 shader = ExtResource("20_mja1s")
@@ -40,6 +42,10 @@ shader_parameter/blur = 3.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_54a3o"]
 font_size = 40
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mooft"]
+material = ExtResource("25_ipnl4")
+size = Vector2(100, 100)
 
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
@@ -67,7 +73,7 @@ environment = ExtResource("6_ojpui")
 
 [node name="WindAmbience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_j0q8y")
-volume_db = -10.0
+volume_db = -15.0
 autoplay = true
 
 [node name="Home" type="CSGBox3D" parent="."]
@@ -165,16 +171,13 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
-visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_normal_bias = 2.0
-distance_fade_enabled = true
-omni_range = 25.0
-omni_attenuation = 2.0
+omni_range = 7.0
 
 [node name="Light2" type="CSGCylinder3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0641937, 1.57123, -19.9023)
@@ -190,16 +193,13 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
-visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_normal_bias = 2.0
-distance_fade_enabled = true
-omni_range = 25.0
-omni_attenuation = 2.0
+omni_range = 7.0
 
 [node name="Light3" type="CSGCylinder3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97746, -19.8496)
@@ -215,16 +215,13 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
-visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_normal_bias = 2.0
-distance_fade_enabled = true
-omni_range = 25.0
-omni_attenuation = 2.0
+omni_range = 7.0
 
 [node name="Light4" type="CSGCylinder3D" parent="Home"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97758, -9.84956)
@@ -240,19 +237,17 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/Light4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
-visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_normal_bias = 2.0
-distance_fade_enabled = true
-omni_range = 25.0
-omni_attenuation = 2.0
+omni_range = 7.0
 
 [node name="ReverbZone" type="Area3D" parent="Home"]
-transform = Transform3D(15, 0, 0, 0, 12, 0, 0, 0, 40, 0, 1.57958, -9.84956)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57958, -9.84956)
+visible = false
 collision_mask = 2
 audio_bus_override = true
 audio_bus_name = &"MenuBus"
@@ -297,22 +292,19 @@ material = ExtResource("10_7qf5f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Home/CSGBox3D10/Light5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.370816, 0)
-visible = false
 light_color = Color(1, 0.94902, 0.933333, 1)
 light_energy = 2.0
 light_volumetric_fog_energy = 4.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_normal_bias = 2.0
-distance_fade_enabled = true
-omni_range = 25.0
-omni_attenuation = 2.0
+omni_range = 7.0
 
 [node name="Radio" parent="." instance=ExtResource("11_25l8y")]
 transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.47, 3.51824, -27.154)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("environment")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.524848, -0.851196, 0, 0.851196, 0.524848, 0, 0, 0)
 script = ExtResource("19_2k6pm")
 TimeSpeed = 0.05
 environment = NodePath("../WorldEnvironment")
@@ -426,10 +418,13 @@ grow_vertical = 2
 script = ExtResource("21_um6gn")
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.2623, 3.94297, 22.2255)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 22.9318, 3.94297, 22.2255)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 4.62504, 17.4962)
 
 [node name="TestGunPickup" parent="." instance=ExtResource("25_et2si")]
 transform = Transform3D(0.84033, -0.276753, 0.466104, 0, 0.859852, 0.510543, -0.542075, -0.429025, 0.72256, 25.0727, 3.85885, -1.5382)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_mooft")
