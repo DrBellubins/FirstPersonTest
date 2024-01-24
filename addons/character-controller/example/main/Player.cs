@@ -21,9 +21,13 @@ public partial class Player : FPSController3D
 
 	private float _normalFov;
 
+    public CollisionShape3D collider;
+
 	public override void _Ready()
 	{
-		Input.MouseMode = Input.MouseModeEnum.Captured;
+        collider = (CollisionShape3D)GetChild(0);
+
+        Input.MouseMode = Input.MouseModeEnum.Captured;
 		Setup();
 		Emerged += OnControllerEmerged;
 		Submerged += OnControllerSubemerged;
@@ -45,9 +49,9 @@ public partial class Player : FPSController3D
             if (IsValidInput)
             {
                 if (Input.IsActionJustPressed(InputFlyModeActionName))
-                {
                     FlyAbility.SetActive(!FlyAbility.IsActived());
-                }
+
+                collider.Disabled = FlyAbility.IsActived();
 
                 Vector2 InputAxis = Vector2.Zero;
 

@@ -72,8 +72,9 @@ public partial class TerrainGenerator : Node3D
     // Multi-threading stuff
     private Thread chunkThread;
 
-    private List<Chunk> chunks = new List<Chunk>();
-    private List<Vector2> chunkPositions = new List<Vector2>();
+    private Thread[] chunkThreads = new Thread[4];
+
+    private ConcurrentDictionary<Vector2, Chunk> chunks = new ConcurrentDictionary<Vector2, Chunk>();
 
     private List<Node3D> rocks = new List<Node3D>();
     private List<Vector2> rockPositions = new List<Vector2>();
@@ -96,8 +97,12 @@ public partial class TerrainGenerator : Node3D
         //simplex.Seed = 999;
 
         isFirstGen = true;
-        chunkThread = new Thread(() => regenerateChunks(isFirstGen));
-        chunkThread.Start();
+
+        for (int i = 0; i < chunkThreads.Length; i++)
+        {
+            chunkThreads[i] = new Thread(() => threadChunkGen(i));
+            chunkThreads[i].Start();
+        }
 
         isPlayerFrozen = true;
 
@@ -122,11 +127,34 @@ public partial class TerrainGenerator : Node3D
         loadingBar.Visible = isPlayerFrozen;
         //blurRect.Visible = isPlayerFrozen; // TODO: Tonemap overrides blur canvas or vice versa
 
+        Debug.Write($"Num chunks: {chunks.Count}");
+
         var progress = ((double)chunks.Count / ((double)RenderDistance * (double)RenderDistance)) * 100.0d;
         loadingBar.Value = progress;
     }
 
-    private void regenerateChunks(bool firstGen)
+    // TODO: Thread chunks get generated over eachother
+    private void threadChunkGen(int threadIndex)
+    {
+        var threadDivSize = (RenderDistance / chunkThreads.Length);
+
+        int counterX = 0;
+        for (int x = 0; x < chunkThreads.Length; x++)
+        {
+            counterX += threadDivSize;
+
+            var counterZ = 0;
+            for (int z = 0; z < chunkThreads.Length; z++)
+            {
+                counterZ += threadDivSize;
+
+                var chunkOffset = new Vector2(x + counterX, z + counterZ);
+                regenerateChunks(threadIndex, chunkOffset);
+            }
+        }
+    }
+
+    private void regenerateChunks(int threadIndex, Vector2 threadOffset)
 	{
         while (true)
         {
@@ -136,16 +164,17 @@ public partial class TerrainGenerator : Node3D
             var halfChunkSize = ChunkSize / 2;
 
             // Clear chunks
-            for (int i = 0; i < chunks.Count; i++)
+            /*for (int i = 0; i < chunks.Count; i++)
             {
                 if (chunks[i].Position.DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
-                    chunks[i].MeshInstance.CallDeferred("free");
+                    if (chunks[i].MeshInstance != null)
+                        chunks[i].MeshInstance.CallDeferred("free");
 
-                    chunks.RemoveAt(i);
-                    chunkPositions.RemoveAt(i);
+                    //chunks.RemoveAt(i);
+                    //chunkPositions.RemoveAt(i);
                 }
-            }
+            }*/
 
             // Clear rocks/trees
             /*for (int i = 0; i < rocks.Count; i++)
@@ -161,28 +190,46 @@ public partial class TerrainGenerator : Node3D
 
             for (int x = 0; x < RenderDistance; x++)
             {
+                // Start from center
+                int iX = (RenderDistance / 2) + (x % 2 == 0 ? x / 2 : -(x / 2 + 1));
+
                 for (int z = 0; z < RenderDistance; z++)
                 {
+                    //Thread.Sleep(1000);
+
+                    int iZ = (RenderDistance / 2) + (z % 2 == 0 ? z / 2 : -(z / 2 + 1));
+
                     var chunkPos = new Vector2((int)playerChunkPos.X + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
                         (int)playerChunkPos.Y + (z * ChunkSize) - (RenderDistance * halfChunkSize));
 
-                    Chunk genChunk = null;
+                    chunkPos = new Vector2(chunkPos.X + threadOffset.X, chunkPos.Y + threadOffset.Y);
 
-                    if (isFirstGen)
+                    if (chunkPos.DistanceTo(playerPos) < (RenderDistance * halfChunkSize))
                     {
-                        genChunk = generateChunk(chunkPos);
+                        Chunk genChunk = null;
 
-                        //generateRock(chunkPos);
-                    }
-                    else
-                    {
-                        if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                        //Debug.Write($"chunkposes: {chunkPositions.Count}");
+
+                        if (isFirstGen)
                         {
-                            if (!chunkPositions.Contains(chunkPos))
+                            if (!chunks.ContainsKey(chunkPos))
                                 genChunk = generateChunk(chunkPos);
 
-                            //if (!rockPositions.Contains(chunkPos))
-                            //    generateRock(chunkPos);
+                            //generateRock(chunkPos);
+                        }
+                        else
+                        {
+                            if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                            {
+                                //if (!chunks.ContainsKey(chunkPos))
+                                //    genChunk = generateChunk(chunkPos);
+
+                                //if (!chunkPositions.Contains(chunkPos))
+                                //    genChunk = generateChunk(chunkPos);
+
+                                //if (!rockPositions.Contains(chunkPos))
+                                //    generateRock(chunkPos);
+                            }
                         }
                     }
                 }
@@ -200,8 +247,6 @@ public partial class TerrainGenerator : Node3D
         var chunk = new Chunk();
         chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
         chunk.Position = chunkPos;
-
-        //noise.SetFrequency(0.005f);
 
         var plane = new PlaneMesh();
         plane.Size = new Vector2(ChunkSize, ChunkSize);
@@ -230,6 +275,11 @@ public partial class TerrainGenerator : Node3D
             noise.SetFrequency(0.1f);
             vertNoise += noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 2f;
 
+            if (vertNoise > 0.95f)
+            {
+                vertNoise = 0f;
+            }
+
             vertex.Y = vertNoise;
 
             chunk.VertexPositions.Add(vertex);
@@ -237,7 +287,7 @@ public partial class TerrainGenerator : Node3D
         }
 
         // Must happen before mesh creations
-        generateBuildings(chunkPos, dataTool);
+        //generateBuilding(chunkPos, dataTool);
 
         arrayPlane.ClearSurfaces();
 
@@ -275,8 +325,7 @@ public partial class TerrainGenerator : Node3D
 
         col.QueueFree();
 
-        chunks.Add(chunk);
-        chunkPositions.Add(chunkPos);
+        chunks.TryAdd(chunkPos, chunk);
 
         return chunk;
     }
@@ -321,7 +370,7 @@ public partial class TerrainGenerator : Node3D
         }
     }*/
 
-    private void generateBuildings(Vector2 chunkPos, MeshDataTool meshData)
+    /*private void generateBuilding(Vector2 chunkPos, MeshDataTool meshData)
     {
         var building = (Building)Buildings[0].Instantiate();
 
@@ -331,7 +380,7 @@ public partial class TerrainGenerator : Node3D
 
         CallDeferred("add_child", building);
 
-        //Debug.Write($"{building.BuildingEdges.Count}");
+        Debug.Write($"{building.BuildingEdges.Count}");
 
         for (int i = 0; i < meshData.GetVertexCount(); i++)
         {
@@ -346,6 +395,37 @@ public partial class TerrainGenerator : Node3D
                 }
             }
         }
+    }*/
+
+    private bool concurrentContains(ConcurrentBag<Vector2> posBag, Vector2 pos)
+    {
+        for (int i = 0; i < posBag.Count; i++)
+        {
+            Vector2 searchPos;
+            posBag.TryPeek(out searchPos);
+
+            bool found = searchPos == pos;
+
+            return found;
+        }
+
+        return false;
+    }
+
+    private Chunk? getChunkAtPos(Vector2 pos)
+    {
+        for (int i = 0; i < chunks.Count; i++)
+        {
+            Chunk outChunk;
+            bool found = chunks.TryGetValue(pos, out outChunk);
+
+            return outChunk;
+
+            //if (chunks[i].Position == pos)
+            //    return chunks[i];
+        }
+
+        return null;
     }
 
     // Each vertex is 1 meter apart

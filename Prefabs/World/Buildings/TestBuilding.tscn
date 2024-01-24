@@ -1,15 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://bojqg4730squr"]
+[gd_scene load_steps=4 format=3 uid="uid://bojqg4730squr"]
 
 [ext_resource type="Script" path="res://Scripts/Terrain/Building.cs" id="1_1imdx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5o8m1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_8qwkk"]
 size = Vector3(1, 16.18, 1)
 
-[node name="TestBuilding" type="Node3D" node_paths=PackedStringArray("buildingMarkers")]
+[node name="TestBuilding" type="Area3D"]
 script = ExtResource("1_1imdx")
-buildingMarkers = [NodePath("Marker3D")]
 
-[node name="Marker3D" type="Marker3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_5o8m1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.89784, 0)
