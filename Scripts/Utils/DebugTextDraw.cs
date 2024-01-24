@@ -20,11 +20,13 @@ public partial class DebugTextDraw : Label
 
 	public override void _Process(double delta)
 	{
-		for (int i = 0; i < Debug.DebugTextList.Count; i++)
-		{
-			Text = $"{Debug.DebugTextList[i]}\n";
-        }
+        Text = "";
 
+        for (int i = 0; i < Debug.DebugTextList.Count; i++)
+		{
+			Text += $"{Debug.DebugTextList[i]}\n";
+        }
+		
         Debug.DebugTextList.Clear();
     }
 }

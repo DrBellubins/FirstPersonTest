@@ -6,12 +6,15 @@
 
 [resource]
 albedo_texture = ExtResource("1_0c0fi")
-metallic_specular = 0.0
-roughness = 0.8
+metallic_texture_channel = 4
 roughness_texture = ExtResource("2_ug8gc")
 roughness_texture_channel = 4
 normal_enabled = true
+normal_scale = 2.0
 normal_texture = ExtResource("2_ko84n")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_triplanar = true
+uv1_world_triplanar = true
 texture_filter = 0
 distance_fade_min_distance = 120.0
 distance_fade_max_distance = 80.0

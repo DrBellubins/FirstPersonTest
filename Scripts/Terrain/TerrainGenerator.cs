@@ -1,5 +1,6 @@
 using Godot;
 using Godot.NativeInterop;
+using Godot.Collections;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ public class Chunk
     public Biomes Biome;
 
     // Mesh data
-    public MeshInstance3D Mesh;
+    public MeshInstance3D MeshInstance;
     public List<Vector3> VertexPositions = new List<Vector3>();
 
     public Chunk()
@@ -38,7 +39,7 @@ public class Chunk
         ID = Guid.NewGuid().ToString();
         Position = position;
         Biome = biome;
-        Mesh = mesh;
+        MeshInstance = mesh;
     }
 }
 
@@ -46,6 +47,7 @@ public partial class TerrainGenerator : Node3D
 {
     [ExportCategory("General")]
     [Export] public PackedScene[] Rocks;
+    [Export] public PackedScene[] Buildings;
 
     [ExportCategory("UI")]
     [Export] public Label loadingText;
@@ -93,14 +95,25 @@ public partial class TerrainGenerator : Node3D
         noise.SetSeed(new Random().Next(int.MaxValue));
         //simplex.Seed = 999;
 
-        //isFirstGen = true;
-        //chunkThread = new Thread(() => regenerateChunks(isFirstGen));
-        //chunkThread.Start();
+        isFirstGen = true;
+        chunkThread = new Thread(() => regenerateChunks(isFirstGen));
+        chunkThread.Start();
 
-        //isPlayerFrozen = true;
+        isPlayerFrozen = true;
+
+        RenderingServer.SetDebugGenerateWireframes(true);
     }
 
-	public override void _Process(double delta)
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventKey && Input.IsKeyPressed(Key.P))
+        {
+            var vp = GetViewport();
+            vp.DebugDraw = (Viewport.DebugDrawEnum)(((int)vp.DebugDraw + 1) % 5);
+        }
+    }
+
+    public override void _Process(double delta)
 	{
         playerPos = new Vector2(Game.GetPlayerPosition().X, Game.GetPlayerPosition().Z);
 
@@ -112,127 +125,6 @@ public partial class TerrainGenerator : Node3D
         var progress = ((double)chunks.Count / ((double)RenderDistance * (double)RenderDistance)) * 100.0d;
         loadingBar.Value = progress;
     }
-
-	private Chunk generateChunk(Vector2 chunkPos)
-	{
-        var chunk = new Chunk();
-        chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
-        chunk.Position = chunkPos;
-
-        noise.SetFrequency(0.005f);
-
-        var plane = new PlaneMesh();
-        plane.Size = new Vector2(ChunkSize, ChunkSize);
-        plane.SubdivideDepth = ChunkSize / 2;
-        plane.SubdivideWidth = ChunkSize / 2;
-        
-        plane.Material = terrainMaterial;
-        
-        var surfaceTool = new SurfaceTool();
-        var dataTool = new MeshDataTool();
-        
-        surfaceTool.CreateFrom(plane, 0);
-        
-        var arrayPlane = surfaceTool.Commit();
-        var error = dataTool.CreateFromSurface(arrayPlane, 0);
-        
-        for (int i = 0; i < dataTool.GetVertexCount(); i++)
-        {
-            var vertex = dataTool.GetVertex(i);
-
-            //noise.SetFrequency(0.01f);
-            var vertNoise = noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 4f;
-
-            //noise.SetFrequency(0.01f);
-            //vertNoise += noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 2f;
-
-            vertex.Y = vertNoise;
-
-            chunk.VertexPositions.Add(vertex);
-            dataTool.SetVertex(i, vertex);
-        }
-        
-        arrayPlane.ClearSurfaces();
-        
-        dataTool.CommitToSurface(arrayPlane);
-        surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
-        surfaceTool.CreateFrom(arrayPlane, 0);
-        surfaceTool.GenerateNormals();
-        surfaceTool.GenerateTangents();
-        
-        var meshInstance = new MeshInstance3D();
-
-        meshInstance.CastShadow = GeometryInstance3D.ShadowCastingSetting.DoubleSided;
-        //meshInstance.ProcessThreadGroup = ProcessThreadGroupEnum.SubThread;
-        meshInstance.Position = new Vector3(chunkPos.X, 0f, chunkPos.Y);
-        meshInstance.Mesh = surfaceTool.Commit();
-        
-        // Collision
-        var shape = new ConcavePolygonShape3D();
-        shape.Data = meshInstance.Mesh.GetFaces();
-        
-        var body = new StaticBody3D();
-        var col = new CollisionShape3D();
-        
-        col.Shape = shape;
-        
-        var ownderID = body.CreateShapeOwner(body);
-        body.ShapeOwnerAddShape(ownderID, col.Shape);
-
-        meshInstance.CallDeferred("add_child", body);
-        CallDeferred("add_child", meshInstance);
-
-        chunk.Mesh = meshInstance;
-
-        col.Shape = shape;
-
-        col.QueueFree();
-
-        chunks.Add(chunk);
-        chunkPositions.Add(chunkPos);
-
-        return chunk;
-    }
-	
-    /*private void generateRock(Vector2 chunkPos)
-    {
-        // Generate rocks/trees
-        var noise = simplex.GetNoise2D(chunkPos.X, chunkPos.Y) * 2;
-
-        simplex.Frequency = 0.025f;
-
-        var indexNoise = simplex.GetNoise3D(chunkPos.X, noise * 2f, chunkPos.Y) * 2f;
-        var rockIndex = (int)Mathf.Clamp(Mathf.Abs(indexNoise) * (float)Rocks.Length, 0f, (float)Rocks.Length - 1f);
-
-        var pScenes = Rocks[rockIndex];
-
-        if (noise < -0.5f)
-        {
-            var rock = (Node3D)pScenes.Instantiate();
-
-            var rockBody = new StaticBody3D();
-            var rockCol = new CollisionShape3D();
-
-            rockCol.Shape = rockCols[rockIndex].Shape;
-
-            rockCol.QueueFree();
-
-            var rockOwnderID = rockBody.CreateShapeOwner(rockBody);
-            rockBody.ShapeOwnerAddShape(rockOwnderID, rockCol.Shape);
-
-            rock.CallDeferred("add_child", rockBody);
-
-            var pos = new Vector3(chunkPos.X, noise, chunkPos.Y);
-
-            rock.Position = pos;
-            rock.Rotation = new Vector3(0f, noise * 5f, 0f);
-
-            rocks.Add(rock);
-            rockPositions.Add(chunkPos);
-
-            CallDeferred("add_child", rock);
-        }
-    }*/
 
     private void regenerateChunks(bool firstGen)
 	{
@@ -248,7 +140,7 @@ public partial class TerrainGenerator : Node3D
             {
                 if (chunks[i].Position.DistanceTo(playerPos) > (RenderDistance * halfChunkSize))
                 {
-                    chunks[i].Mesh.CallDeferred("free");
+                    chunks[i].MeshInstance.CallDeferred("free");
 
                     chunks.RemoveAt(i);
                     chunkPositions.RemoveAt(i);
@@ -301,6 +193,173 @@ public partial class TerrainGenerator : Node3D
 
             prevPlayerChunkPos = playerChunkPos;
         }
+    }
+
+    private Chunk generateChunk(Vector2 chunkPos)
+    {
+        var chunk = new Chunk();
+        chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
+        chunk.Position = chunkPos;
+
+        //noise.SetFrequency(0.005f);
+
+        var plane = new PlaneMesh();
+        plane.Size = new Vector2(ChunkSize, ChunkSize);
+        plane.SubdivideDepth = ChunkSize / 2;
+        plane.SubdivideWidth = ChunkSize / 2;
+
+        plane.Material = terrainMaterial;
+
+        var surfaceTool = new SurfaceTool();
+        var dataTool = new MeshDataTool();
+
+        surfaceTool.CreateFrom(plane, 0);
+
+        var arrayPlane = surfaceTool.Commit();
+        var error = dataTool.CreateFromSurface(arrayPlane, 0);
+
+        for (int i = 0; i < dataTool.GetVertexCount(); i++)
+        {
+            var vertex = dataTool.GetVertex(i);
+
+            noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+            noise.SetFrequency(0.005f);
+            var vertNoise = noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 4f;
+
+            noise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
+            noise.SetFrequency(0.1f);
+            vertNoise += noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 2f;
+
+            vertex.Y = vertNoise;
+
+            chunk.VertexPositions.Add(vertex);
+            dataTool.SetVertex(i, vertex);
+        }
+
+        // Must happen before mesh creations
+        generateBuildings(chunkPos, dataTool);
+
+        arrayPlane.ClearSurfaces();
+
+        dataTool.CommitToSurface(arrayPlane);
+        surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
+        surfaceTool.CreateFrom(arrayPlane, 0);
+        surfaceTool.GenerateNormals();
+        surfaceTool.GenerateTangents();
+
+        var meshInstance = new MeshInstance3D();
+
+        meshInstance.CastShadow = GeometryInstance3D.ShadowCastingSetting.DoubleSided;
+        //meshInstance.ProcessThreadGroup = ProcessThreadGroupEnum.SubThread;
+        meshInstance.Position = new Vector3(chunkPos.X, 0f, chunkPos.Y);
+        meshInstance.Mesh = surfaceTool.Commit();
+
+        // Collision
+        var shape = new ConcavePolygonShape3D();
+        shape.Data = meshInstance.Mesh.GetFaces();
+
+        var body = new StaticBody3D();
+        var col = new CollisionShape3D();
+
+        col.Shape = shape;
+
+        var ownderID = body.CreateShapeOwner(body);
+        body.ShapeOwnerAddShape(ownderID, col.Shape);
+
+        meshInstance.CallDeferred("add_child", body);
+        CallDeferred("add_child", meshInstance);
+
+        chunk.MeshInstance = meshInstance;
+
+        col.Shape = shape;
+
+        col.QueueFree();
+
+        chunks.Add(chunk);
+        chunkPositions.Add(chunkPos);
+
+        return chunk;
+    }
+
+    /*private void generateRock(Vector2 chunkPos)
+    {
+        // Generate rocks/trees
+        var noise = simplex.GetNoise2D(chunkPos.X, chunkPos.Y) * 2;
+
+        simplex.Frequency = 0.025f;
+
+        var indexNoise = simplex.GetNoise3D(chunkPos.X, noise * 2f, chunkPos.Y) * 2f;
+        var rockIndex = (int)Mathf.Clamp(Mathf.Abs(indexNoise) * (float)Rocks.Length, 0f, (float)Rocks.Length - 1f);
+
+        var pScenes = Rocks[rockIndex];
+
+        if (noise < -0.5f)
+        {
+            var rock = (Node3D)pScenes.Instantiate();
+
+            var rockBody = new StaticBody3D();
+            var rockCol = new CollisionShape3D();
+
+            rockCol.Shape = rockCols[rockIndex].Shape;
+
+            rockCol.QueueFree();
+
+            var rockOwnderID = rockBody.CreateShapeOwner(rockBody);
+            rockBody.ShapeOwnerAddShape(rockOwnderID, rockCol.Shape);
+
+            rock.CallDeferred("add_child", rockBody);
+
+            var pos = new Vector3(chunkPos.X, noise, chunkPos.Y);
+
+            rock.Position = pos;
+            rock.Rotation = new Vector3(0f, noise * 5f, 0f);
+
+            rocks.Add(rock);
+            rockPositions.Add(chunkPos);
+
+            CallDeferred("add_child", rock);
+        }
+    }*/
+
+    private void generateBuildings(Vector2 chunkPos, MeshDataTool meshData)
+    {
+        var building = (Building)Buildings[0].Instantiate();
+
+        var worldChunkPos = new Vector3(chunkPos.X, 0f, chunkPos.Y);
+
+        building.Position = worldChunkPos;
+
+        CallDeferred("add_child", building);
+
+        //Debug.Write($"{building.BuildingEdges.Count}");
+
+        for (int i = 0; i < meshData.GetVertexCount(); i++)
+        {
+            var vertex = meshData.GetVertex(i);
+
+            for (int ii = 0; ii < building.BuildingEdges.Count; ii++)
+            {
+                if (istVertexClose(worldChunkPos + vertex, building.BuildingEdges[ii], 1f))
+                {
+                    meshData.SetVertex(i, building.BuildingEdges[ii]);
+                    Debug.Write($"building edge {ii}: {building.BuildingEdges[ii]}");
+                }
+            }
+        }
+    }
+
+    // Each vertex is 1 meter apart
+    private bool istVertexClose(Vector3 vertex, Vector3 pos, float weight)
+    {
+        var terrainVertex = new Vector2(vertex.X, vertex.Z);
+        var terrainPos = new Vector2(pos.X, pos.Z);
+
+        if (terrainPos.DistanceTo(terrainPos) < weight)
+        {
+            return true;
+        }
+
+        return false;
     }
 
 	private void drawDebugSphere(Vector3 pos)

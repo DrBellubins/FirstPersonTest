@@ -20,10 +20,7 @@ public partial class Car : VehicleBody3D
 
         if (IsDriving)
         {
-            //LinearVelocity = LinearVelocity.Normalized() * Mathf.Min(LinearVelocity.Length(), MaxSpeed);
-
-            //if (Input.IsActionJustPressed("toggle_brake"))
-            //    IsBrakeOn = !IsBrakeOn;
+            Debug.Write($"Car position: {Position}");
 
             if (Input.IsActionPressed("brake"))
                 Brake = LinearVelocity.Length();
@@ -55,17 +52,5 @@ public partial class Car : VehicleBody3D
             Steering = 0f;
             audio.VolumeDb = -80f;
         }
-
-        // TODO: Car doesn't fully stop when braking (likely godot issue)
-        if (IsBrakeOn)
-        {
-            //Brake = LinearVelocity.Length();
-
-            //if (MathF.Abs(LinearVelocity.Length()) < 1f)
-            //    Sleeping = true;
-                
-        }
-        //else
-        //    Sleeping = false;
     }
 }

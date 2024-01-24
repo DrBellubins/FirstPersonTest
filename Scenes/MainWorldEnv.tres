@@ -1,7 +1,6 @@
-[gd_resource type="Environment" load_steps=5 format=3 uid="uid://5og8o40ne2l2"]
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://5og8o40ne2l2"]
 
 [ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="1_un5yv"]
-[ext_resource type="Texture2D" uid="uid://lgrxtsiu0x5v" path="res://Textures/lens_dirt.png" id="2_fiuwk"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_kulb2"]
 energy_multiplier = 20.0
@@ -9,17 +8,17 @@ use_debanding = false
 
 [sub_resource type="Sky" id="Sky_3nh04"]
 sky_material = SubResource("PhysicalSkyMaterial_kulb2")
-process_mode = 3
+process_mode = 1
 
 [resource]
 background_mode = 2
 background_color = Color(0.309804, 0.317647, 0.309804, 1)
+background_energy_multiplier = 0.25
 sky = SubResource("Sky_3nh04")
 ambient_light_source = 3
-ambient_light_color = Color(0.196078, 0.435294, 0.607843, 1)
+ambient_light_color = Color(0.237484, 0.30645, 0.396765, 1)
 ambient_light_sky_contribution = 0.0
-ambient_light_energy = 0.07
-reflected_light_source = 2
+reflected_light_source = 1
 tonemap_white = 0.52
 ssao_enabled = true
 ssao_radius = 2.0
@@ -30,6 +29,7 @@ sdfgi_min_cell_size = 0.5
 sdfgi_cascade0_distance = 32.0
 sdfgi_max_distance = 512.0
 sdfgi_y_scale = 0
+glow_enabled = true
 glow_levels/1 = 1.0
 glow_levels/2 = 0.9
 glow_levels/3 = 0.7
@@ -42,9 +42,9 @@ glow_intensity = 2.0
 glow_bloom = 0.01
 glow_blend_mode = 0
 glow_hdr_scale = 4.0
-glow_map_strength = 0.5
-glow_map = ExtResource("2_fiuwk")
+glow_map_strength = 0.0
 fog_enabled = true
+fog_light_color = Color(0.237484, 0.30645, 0.396765, 1)
 fog_aerial_perspective = 0.5
 volumetric_fog_density = 0.02
 volumetric_fog_gi_inject = 2.0

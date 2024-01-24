@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://b7tq3ixb7ppcb"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/DayNightPreset.cs" id="1_1uifw"]
+
+[sub_resource type="Gradient" id="Gradient_8n0j1"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.121569, 0.176471, 0.223529, 1, 0.3534, 0.43643, 0.57, 1, 0.121569, 0.176471, 0.223529, 1)
+
+[sub_resource type="Gradient" id="Gradient_c66u0"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.1, 0.5, 0.9)
+colors = PackedColorArray(0, 0, 0, 1, 0.855695, 0.663012, 0.524271, 1, 0, 0, 0, 1)
+
+[resource]
+script = ExtResource("1_1uifw")
+SunColor = SubResource("Gradient_c66u0")
+SkyColor = SubResource("Gradient_8n0j1")
