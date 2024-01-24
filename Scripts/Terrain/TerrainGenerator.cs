@@ -72,7 +72,9 @@ public partial class TerrainGenerator : Node3D
     // Multi-threading stuff
     private Thread chunkThread;
 
-    private Thread[] chunkThreads = new Thread[4];
+    // TODO: One chunk thread is fine, any > 1 makes chunks gen over eachother...
+    //private Thread[] chunkThreads = new Thread[4];
+    private Thread[,] cThreads = new Thread[1, 1];
 
     private ConcurrentDictionary<Vector2, Chunk> chunks = new ConcurrentDictionary<Vector2, Chunk>();
 
@@ -98,10 +100,16 @@ public partial class TerrainGenerator : Node3D
 
         isFirstGen = true;
 
-        for (int i = 0; i < chunkThreads.Length; i++)
+
+        var threadDivSize = (RenderDistance / cThreads.Length);
+
+        for (int x = 0; x < cThreads.GetLength(0); x++)
         {
-            chunkThreads[i] = new Thread(() => threadChunkGen(i));
-            chunkThreads[i].Start();
+            for (int z = 0; z < cThreads.GetLength(1); z++)
+            {
+                cThreads[x, z] = new Thread(() => regenerateChunks(x * threadDivSize, z * threadDivSize));
+                cThreads[x, z].Start();
+            }
         }
 
         isPlayerFrozen = true;
@@ -133,28 +141,7 @@ public partial class TerrainGenerator : Node3D
         loadingBar.Value = progress;
     }
 
-    // TODO: Thread chunks get generated over eachother
-    private void threadChunkGen(int threadIndex)
-    {
-        var threadDivSize = (RenderDistance / chunkThreads.Length);
-
-        int counterX = 0;
-        for (int x = 0; x < chunkThreads.Length; x++)
-        {
-            counterX += threadDivSize;
-
-            var counterZ = 0;
-            for (int z = 0; z < chunkThreads.Length; z++)
-            {
-                counterZ += threadDivSize;
-
-                var chunkOffset = new Vector2(x + counterX, z + counterZ);
-                regenerateChunks(threadIndex, chunkOffset);
-            }
-        }
-    }
-
-    private void regenerateChunks(int threadIndex, Vector2 threadOffset)
+    private void regenerateChunks(int threadX, int threadZ)
 	{
         while (true)
         {
@@ -202,13 +189,13 @@ public partial class TerrainGenerator : Node3D
                     var chunkPos = new Vector2((int)playerChunkPos.X + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
                         (int)playerChunkPos.Y + (z * ChunkSize) - (RenderDistance * halfChunkSize));
 
-                    chunkPos = new Vector2(chunkPos.X + threadOffset.X, chunkPos.Y + threadOffset.Y);
+                    //Debug.Write($"agj: {threadOffset}");
+                    //var threadDivSize = (RenderDistance / cThreads.Length);
+                    chunkPos = new Vector2(chunkPos.X + threadX, chunkPos.Y + threadZ);
 
                     if (chunkPos.DistanceTo(playerPos) < (RenderDistance * halfChunkSize))
                     {
                         Chunk genChunk = null;
-
-                        //Debug.Write($"chunkposes: {chunkPositions.Count}");
 
                         if (isFirstGen)
                         {

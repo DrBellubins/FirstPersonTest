@@ -54,7 +54,7 @@ shader_parameter/iteration_count = 15
 shader_parameter/intensity = 0.5
 shader_parameter/startRadius = 0.0
 
-[sub_resource type="Resource" id="Resource_lc4w6"]
+[sub_resource type="Resource" id="Resource_q0ba2"]
 resource_local_to_scene = true
 script = ExtResource("33_2mear")
 JumpAudio = ExtResource("20_ue56i")
@@ -166,7 +166,7 @@ spot_range = 18.9586
 spot_angle = 20.5583
 
 [node name="Player Audios" parent="." instance=ExtResource("13_yjrtm")]
-AudioInteract = SubResource("Resource_lc4w6")
+AudioInteract = SubResource("Resource_q0ba2")
 PhysicMaterials = [ExtResource("15_ykov3"), ExtResource("16_gjh0c"), ExtResource("17_6jbs2")]
 AudioInteracts = [ExtResource("14_4itx4"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
 WaterAudioInteract = ExtResource("20_u1rxi")
