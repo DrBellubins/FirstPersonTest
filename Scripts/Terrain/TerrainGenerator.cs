@@ -10,39 +10,6 @@ using System.Threading.Tasks;
 
 using FastNoiseLite = FastNoise.FastNoiseLite;
 
-// TODO: Add rock gen to chunk class
-public enum Biomes
-{
-    DesertPlanes,
-    DesertMountains,
-    GrassPlanes
-}
-
-public class Chunk
-{
-    // Chunk data
-    public string ID;
-    public Vector2 Position;
-    public Biomes Biome;
-
-    // Mesh data
-    public MeshInstance3D MeshInstance;
-    public List<Vector3> VertexPositions = new List<Vector3>();
-
-    public Chunk()
-    {
-        ID = Guid.NewGuid().ToString();
-    }
-
-    public Chunk(Vector2 position, Biomes biome, MeshInstance3D mesh)
-    {
-        ID = Guid.NewGuid().ToString();
-        Position = position;
-        Biome = biome;
-        MeshInstance = mesh;
-    }
-}
-
 public partial class TerrainGenerator : Node3D
 {
     [ExportCategory("General")]
@@ -56,7 +23,7 @@ public partial class TerrainGenerator : Node3D
 
     // Settings
 	public const int ChunkSize = 32;
-	public const int RenderDistance = 8;
+	public const int RenderDistance = 16;
 
     // Various
     private FastNoiseLite noise = new FastNoiseLite();
@@ -75,6 +42,7 @@ public partial class TerrainGenerator : Node3D
     // TODO: One chunk thread is fine, any > 1 makes chunks gen over eachother...
     //private Thread[] chunkThreads = new Thread[4];
     private Thread[,] cThreads = new Thread[1, 1];
+    private int chunkThreadCount = 8;
 
     private ConcurrentDictionary<Vector2, Chunk> chunks = new ConcurrentDictionary<Vector2, Chunk>();
 
@@ -100,17 +68,18 @@ public partial class TerrainGenerator : Node3D
 
         isFirstGen = true;
 
-
         var threadDivSize = (RenderDistance / cThreads.Length);
 
-        for (int x = 0; x < cThreads.GetLength(0); x++)
+        /*for (int x = 0; x < cThreads.GetLength(0); x++)
         {
             for (int z = 0; z < cThreads.GetLength(1); z++)
             {
                 cThreads[x, z] = new Thread(() => regenerateChunks(x * threadDivSize, z * threadDivSize));
                 cThreads[x, z].Start();
             }
-        }
+        }*/
+
+        threadChunks();
 
         isPlayerFrozen = true;
 
@@ -141,9 +110,26 @@ public partial class TerrainGenerator : Node3D
         loadingBar.Value = progress;
     }
 
-    private void regenerateChunks(int threadX, int threadZ)
+    private async Task threadChunks()
+    {
+        var threadDivSize = (RenderDistance / cThreads.Length);
+
+        bool generatingChunks = true;
+
+        for (int x = 0; x < chunkThreadCount / 2; x++)
+        {
+            for (int z = chunkThreadCount / 2; z < chunkThreadCount; z++)
+            {
+                await Task.Run(() => regenerateChunks(generatingChunks, x * threadDivSize, z * threadDivSize));
+            }
+        }
+    }
+
+    private void regenerateChunks(bool generatingChunks, int threadX, int threadZ)
 	{
-        while (true)
+        var generate = generatingChunks;
+
+        while (generate)
         {
             Thread.Sleep(25);
 
@@ -175,12 +161,14 @@ public partial class TerrainGenerator : Node3D
                 }
             }*/
 
-            for (int x = 0; x < RenderDistance; x++)
+            Debug.Write($"{threadX}, {threadZ}");
+
+            for (int x = threadX; x < RenderDistance; x++)
             {
                 // Start from center
                 int iX = (RenderDistance / 2) + (x % 2 == 0 ? x / 2 : -(x / 2 + 1));
 
-                for (int z = 0; z < RenderDistance; z++)
+                for (int z = threadZ; z < RenderDistance; z++)
                 {
                     //Thread.Sleep(1000);
 
@@ -191,7 +179,7 @@ public partial class TerrainGenerator : Node3D
 
                     //Debug.Write($"agj: {threadOffset}");
                     //var threadDivSize = (RenderDistance / cThreads.Length);
-                    chunkPos = new Vector2(chunkPos.X + threadX, chunkPos.Y + threadZ);
+                    //chunkPos = new Vector2(chunkPos.X + threadX, chunkPos.Y + threadZ);
 
                     if (chunkPos.DistanceTo(playerPos) < (RenderDistance * halfChunkSize))
                     {
@@ -221,6 +209,8 @@ public partial class TerrainGenerator : Node3D
                     }
                 }
             }
+
+            //generate = false;
 
             isFirstGen = false;
             isPlayerFrozen = false;

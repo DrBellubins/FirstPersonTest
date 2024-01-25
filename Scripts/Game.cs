@@ -45,7 +45,7 @@ public static class Game
         PlayerPos = new MyUtils.Vector3Wrapper(pos.X, pos.Y, pos.Z);
     }
 
-    public static Vector2 GetNearestChunkCoord(Vector2 input)
+    public static Vector2I GetNearestChunkCoord(Vector2 input)
     {
         int x = (int)MathF.Floor(input.X);
         int y = (int)MathF.Floor(input.Y);
@@ -53,6 +53,6 @@ public static class Game
         int xRem = x % TerrainGenerator.ChunkSize;
         int yRem = y % TerrainGenerator.ChunkSize;
 
-        return new Vector2(x - xRem, y - yRem);
+        return new Vector2I(x - xRem, y - yRem);
     }
 }
