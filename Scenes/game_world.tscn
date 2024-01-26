@@ -403,7 +403,7 @@ script = ExtResource("21_um6gn")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 22.9318, 3.94297, 22.2255)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.49, 200, 17.496)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24.49, 4.1, 17.496)
 
 [node name="TestGunPickup" parent="." instance=ExtResource("25_et2si")]
 transform = Transform3D(0.84033, -0.276753, 0.466104, 0, 0.859852, 0.510543, -0.542075, -0.429025, 0.72256, 25.0727, 3.85885, -1.5382)

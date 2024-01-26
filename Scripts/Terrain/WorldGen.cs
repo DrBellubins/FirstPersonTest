@@ -15,10 +15,9 @@ public partial class WorldGen : Node3D
     // Settings
     public const int ChunkSize = 32;
     public const int RenderDistance = 16;
-    public const int ChunkThreads = 4; // Should be a ^2
 
+    private const int threadDivSize = RenderDistance / 2;
     private const int halfChunkSize = ChunkSize / 2;
-    private const int threadDivSize = RenderDistance / (ChunkThreads / 2);
 
     // Gen
     private ConcurrentDictionary<Vector2I, Chunk> chunks = new ConcurrentDictionary<Vector2I, Chunk>();
@@ -52,40 +51,26 @@ public partial class WorldGen : Node3D
         if (chunks.Count == (RenderDistance * RenderDistance))
             timer += (float)delta;
 
-        //Debug.Write($"Chunk regions: {counter}");
-        //Debug.Write($"Num chunks: {chunks.Count}");
+        Debug.Write($"Chunk regions: {counter}");
+        Debug.Write($"Num chunks: {chunks.Count}");
     }
 
-    // TODO: Doesn't generate all chunks
     private void runChunkThreads()
     {
         var seed = new Random().Next(int.MinValue, int.MaxValue);
 
-        if (ChunkThreads < 4)
-        {
-            //generateChunkRegion(seed, 0, 0);
+        var thread1 = new Thread(() => generateChunkRegion(9999, 0, 0));
+        var thread2 = new Thread(() => generateChunkRegion(9999, 0, 1));
+        var thread3 = new Thread(() => generateChunkRegion(9999, 1, 1));
+        var thread4 = new Thread(() => generateChunkRegion(9999, 1, 0));
 
-            var thread = new Thread(() => generateChunkRegion(seed, 0, 0));
-            thread.Start();
-        }
-        else
-        {
-            for (int x = 0; x < ChunkThreads / 2; x++)
-            {
-                for (int z = 0; z < ChunkThreads / 2; z++)
-                {
-                    Thread.Sleep(25);
-                    //generateChunkRegion(seed, x, z);
-
-                    var thread = new Thread(() => generateChunkRegion(9999, x, z));
-                    thread.Start(); // TODO: Doesn't run sequentially
-                }
-            }
-        }
+        thread1.Start();
+        thread2.Start();
+        thread3.Start();
+        thread4.Start();
     }
 
     int counter = 0;
-
     private void generateChunkRegion(int seed, int x, int z)
     {
         var noise = new FastNoiseLite();
@@ -93,16 +78,7 @@ public partial class WorldGen : Node3D
 
         var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
 
-        var fx = Mathf.Clamp(x - 1, 0, 1);
-        var fz = Mathf.Clamp(z - 1, 0, 1);
-
-        Debug.Write($"region: {x}, {z}");
-
-        var regionPos = new Vector2I(fx * (threadDivSize * ChunkSize), fz * (threadDivSize * ChunkSize));
-
-        drawRegionBorder(regionPos, threadDivSize * ChunkSize);
-
-        //var cThreadDiv = Mathf.Clamp(threadDivSize / 2, 0, threadDivSize);
+        var regionPos = new Vector2I(x * (threadDivSize * ChunkSize), z * (threadDivSize * ChunkSize));
 
         for (int cx = 0; cx < threadDivSize; cx++)
         {

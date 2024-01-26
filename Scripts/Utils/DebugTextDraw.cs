@@ -27,6 +27,6 @@ public partial class DebugTextDraw : Label
 			Text += $"{Debug.DebugTextList[i]}\n";
         }
 		
-        //Debug.DebugTextList.Clear();
+        Debug.DebugTextList.Clear();
     }
 }

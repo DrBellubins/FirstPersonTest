@@ -41,7 +41,7 @@ public partial class Player : FPSController3D
 
         if (!IsDriving)
 		{
-            //Debug.Write($"Position: {Position}");
+            Debug.Write($"Position: {Position}");
 
             // Controller
             bool IsValidInput = Input.MouseMode == Input.MouseModeEnum.Captured;
