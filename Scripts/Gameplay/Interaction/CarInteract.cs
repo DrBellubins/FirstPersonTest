@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+using MyUtils;
+
 public partial class CarInteract : Interactable
 {
 	private Car car;

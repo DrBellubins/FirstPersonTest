@@ -26,33 +26,36 @@ namespace MyUtils
             this.Z = pos.Z;
         }
     }
-}
 
-public static class Game
-{
-    public static Player Player;
-    public static Car CurrentCar;
-
-    public static MyUtils.Vector3Wrapper PlayerPos = new MyUtils.Vector3Wrapper();
-
-    public static Vector3 GetPlayerPosition()
+    public static class Game
     {
-        return new Vector3(PlayerPos.X, PlayerPos.Y, PlayerPos.Z);
-    }
+        public static Player Player;
+        public static Car CurrentCar;
 
-    public static void SetPlayerPosition(Vector3 pos)
-    {
-        PlayerPos = new MyUtils.Vector3Wrapper(pos.X, pos.Y, pos.Z);
-    }
-
-    public static Vector2I GetNearestChunkCoord(Vector2 input)
-    {
-        int x = (int)MathF.Floor(input.X);
-        int y = (int)MathF.Floor(input.Y);
-
-        int xRem = x % TerrainGenerator.ChunkSize;
-        int yRem = y % TerrainGenerator.ChunkSize;
-
-        return new Vector2I(x - xRem, y - yRem);
+        private static Vector3 playerPos = new Vector3();
+        public static Vector3 PlayerPos
+        {
+            get { return playerPos; }
+            internal set { playerPos = value; }
+        }
+    
+        public static Vector2 GetNearestChunkCoord(Vector2 input)
+        {
+            int x = (int)MathF.Floor(input.X);
+            int y = (int)MathF.Floor(input.Y);
+    
+            int xRem = x % TerrainGenerator.ChunkSize;
+            int yRem = y % TerrainGenerator.ChunkSize;
+    
+            return new Vector2(x - xRem, y - yRem);
+        }
+    
+        public static Vector2I GetNearestChunkCoord(Vector2I input)
+        {
+            int xRem = input.X % TerrainGenerator.ChunkSize;
+            int yRem = input.Y % TerrainGenerator.ChunkSize;
+    
+            return new Vector2I(input.X - xRem, input.Y - yRem);
+        }
     }
 }

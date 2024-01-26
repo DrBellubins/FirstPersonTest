@@ -8,6 +8,8 @@ using System.Timers;
 using System.Diagnostics.Metrics;
 using System.Collections.Generic;
 
+using MyUtils;
+
 public partial class WorldGen : Node3D
 {
     [Export] public Material TerrainMaterial;
@@ -23,12 +25,9 @@ public partial class WorldGen : Node3D
     private ConcurrentDictionary<Vector2I, Chunk> chunks = new ConcurrentDictionary<Vector2I, Chunk>();
 
     // Various
-    private Vector2I playerPos = new Vector2I();
+    private bool isFirstGen = false;
+    private Vector2I playerChunkPos = new Vector2I();
     private Vector2I prevPlayerChunkPos = new Vector2I();
-
-    private float timer = 0f;
-
-    public List<Thread> Threads = new List<Thread>();
 
     public override void _Ready()
 	{
@@ -48,8 +47,7 @@ public partial class WorldGen : Node3D
 
     public override void _Process(double delta)
 	{
-        if (chunks.Count == (RenderDistance * RenderDistance))
-            timer += (float)delta;
+        playerChunkPos = Game.GetNearestChunkCoord(new Vector2I((int)Game.PlayerPos.X, (int)Game.PlayerPos.Z));
 
         Debug.Write($"Chunk regions: {counter}");
         Debug.Write($"Num chunks: {chunks.Count}");
@@ -64,6 +62,8 @@ public partial class WorldGen : Node3D
         var thread3 = new Thread(() => generateChunkRegion(9999, 1, 1));
         var thread4 = new Thread(() => generateChunkRegion(9999, 1, 0));
 
+        isFirstGen = true;
+
         thread1.Start();
         thread2.Start();
         thread3.Start();
@@ -76,21 +76,32 @@ public partial class WorldGen : Node3D
         var noise = new FastNoiseLite();
         noise.SetSeed(seed);
 
-        var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
-
         var regionPos = new Vector2I(x * (threadDivSize * ChunkSize), z * (threadDivSize * ChunkSize));
 
-        for (int cx = 0; cx < threadDivSize; cx++)
+        while (true)
         {
-            for (int cz = 0; cz < threadDivSize; cz++)
+            Thread.Sleep(25);
+
+            for (int cx = 0; cx < threadDivSize; cx++)
             {
-                var chunkPos = new Vector2I((regionPos.X + playerChunkPos.X) + ((cx * ChunkSize) - (RenderDistance * halfChunkSize)),
-                        (regionPos.Y + playerChunkPos.Y) + (cz * ChunkSize) - (RenderDistance * halfChunkSize));
+                for (int cz = 0; cz < threadDivSize; cz++)
+                {
+                    var chunkPos = new Vector2I((regionPos.X + playerChunkPos.X) + ((cx * ChunkSize) - (RenderDistance * halfChunkSize)),
+                            (regionPos.Y + playerChunkPos.Y) + (cz * ChunkSize) - (RenderDistance * halfChunkSize));
 
-                //drawRegionBorder(chunkPos, ChunkSize);
+                    //drawRegionBorder(chunkPos, ChunkSize);
 
-                generateChunk(noise, chunkPos);
+                    if (distanceTo(chunkPos, playerChunkPos) < (RenderDistance * halfChunkSize)
+                        && !containsChunk(chunkPos))
+                    {
+                        if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                            generateChunk(noise, chunkPos);
+                    }
+                }
             }
+
+            isFirstGen = false;
+            prevPlayerChunkPos = playerChunkPos;
         }
     }
 
@@ -171,6 +182,27 @@ public partial class WorldGen : Node3D
         chunks.TryAdd(chunkPos, chunk);
 
         return chunk;
+    }
+
+    private bool containsChunk(Vector2I query)
+    {
+        bool success = false;
+
+        foreach (var item in chunks)
+        {
+            var pos = item.Key;
+            var chunk = item.Value;
+
+            if (pos.X == query.X && pos.Y == query.Y)
+                success = true;
+        }
+
+        return success;
+    }
+
+    private float distanceTo(Vector2I from, Vector2I to)
+    {
+        return (to - from).Length();
     }
 
     private void drawDebugSphere(Vector2I pos)

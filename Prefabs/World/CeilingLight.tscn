@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://x73x2kjcg6hn"]
+
+[ext_resource type="Material" uid="uid://cwplge4mcxsgr" path="res://Materials/smooth_black.tres" id="1_8f2yl"]
+[ext_resource type="Material" uid="uid://b3la71t5vlol2" path="res://Materials/EmissiveWhite_dim.tres" id="2_lx6np"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gc1xg"]
+material = ExtResource("1_8f2yl")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.1
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qbt8e"]
+material = ExtResource("2_lx6np")
+top_radius = 0.45
+bottom_radius = 0.0
+height = 0.2
+radial_segments = 8
+
+[node name="CeilingLight" type="Node3D"]
+
+[node name="Case" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0349289, 0)
+mesh = SubResource("CylinderMesh_gc1xg")
+
+[node name="Emissive" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.175612, 0)
+mesh = SubResource("CylinderMesh_qbt8e")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+spot_range = 7.0
+spot_angle = 75.0

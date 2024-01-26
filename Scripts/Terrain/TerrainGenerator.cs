@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MyUtils;
+
 using FastNoiseLite = FastNoise.FastNoiseLite;
 
 public partial class TerrainGenerator : Node3D
@@ -97,7 +99,7 @@ public partial class TerrainGenerator : Node3D
 
     public override void _Process(double delta)
 	{
-        playerPos = new Vector2(Game.GetPlayerPosition().X, Game.GetPlayerPosition().Z);
+        playerPos = new Vector2(Game.PlayerPos.X, Game.PlayerPos.Z);
 
         Game.Player.IsFrozen = isPlayerFrozen;
         loadingText.Visible = isPlayerFrozen;

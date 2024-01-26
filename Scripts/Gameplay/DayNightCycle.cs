@@ -22,7 +22,7 @@ public partial class DayNightCycle : Node3D
             TimeOfDay += (float)delta * TimeSpeed;
             TimeOfDay %= 24;
 
-            //Debug.Write($"Time of day: {TimeOfDay}");
+            Debug.Write($"Time of day: {TimeOfDay}");
         }
 
         updateLighting(TimeOfDay / 24f);

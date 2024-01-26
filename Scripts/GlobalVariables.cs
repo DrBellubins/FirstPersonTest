@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Concurrent;
+using MyUtils;
 
 public partial class GlobalVariables : Node
 {
@@ -14,9 +15,9 @@ public partial class GlobalVariables : Node
 	public override void _Process(double delta)
 	{
         if (Game.Player.IsDriving && Game.CurrentCar != null)
-            Game.SetPlayerPosition(Game.CurrentCar.Position);
+            Game.PlayerPos = Game.CurrentCar.Position;
         else
-            Game.SetPlayerPosition(Game.Player.Position);
+            Game.PlayerPos = Game.Player.Position;
 	}
 }
 

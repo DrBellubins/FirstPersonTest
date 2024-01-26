@@ -8,3 +8,4 @@ dof_blur_far_distance = 128.0
 dof_blur_far_transition = 32.0
 dof_blur_amount = 0.02
 auto_exposure_min_sensitivity = 200.0
+auto_exposure_max_sensitivity = 700.0
