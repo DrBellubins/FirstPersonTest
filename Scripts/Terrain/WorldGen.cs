@@ -4,6 +4,9 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Threading;
 using FastNoiseLite = FastNoise.FastNoiseLite;
+using System.Timers;
+using System.Diagnostics.Metrics;
+using System.Collections.Generic;
 
 public partial class WorldGen : Node3D
 {
@@ -14,23 +17,22 @@ public partial class WorldGen : Node3D
     public const int RenderDistance = 16;
     public const int ChunkThreads = 4; // Should be a ^2
 
-    private const int threadDivSize = RenderDistance / ChunkThreads;
+    private const int halfChunkSize = ChunkSize / 2;
+    private const int threadDivSize = RenderDistance / (ChunkThreads / 2);
 
     // Gen
     private ConcurrentDictionary<Vector2I, Chunk> chunks = new ConcurrentDictionary<Vector2I, Chunk>();
-    private FastNoiseLite noise = new FastNoiseLite();
 
     // Various
     private Vector2I playerPos = new Vector2I();
     private Vector2I prevPlayerChunkPos = new Vector2I();
 
-    private Vector2I test = new Vector2I();
+    private float timer = 0f;
+
+    public List<Thread> Threads = new List<Thread>();
 
     public override void _Ready()
 	{
-        noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-        noise.SetSeed(new Random().Next(int.MinValue, int.MaxValue));
-
         runChunkThreads();
 
         RenderingServer.SetDebugGenerateWireframes(true);
@@ -47,15 +49,24 @@ public partial class WorldGen : Node3D
 
     public override void _Process(double delta)
 	{
-        Debug.Write($"Num chunks: {chunks.Count}");
-        Debug.Write($"{test}");
+        if (chunks.Count == (RenderDistance * RenderDistance))
+            timer += (float)delta;
+
+        //Debug.Write($"Chunk regions: {counter}");
+        //Debug.Write($"Num chunks: {chunks.Count}");
     }
 
-    private async Task runChunkThreads()
+    // TODO: Doesn't generate all chunks
+    private void runChunkThreads()
     {
-        if (ChunkThreads < 2)
+        var seed = new Random().Next(int.MinValue, int.MaxValue);
+
+        if (ChunkThreads < 4)
         {
-            await Task.Run(() => generateChunkRegion(Vector2I.Zero));
+            //generateChunkRegion(seed, 0, 0);
+
+            var thread = new Thread(() => generateChunkRegion(seed, 0, 0));
+            thread.Start();
         }
         else
         {
@@ -63,36 +74,51 @@ public partial class WorldGen : Node3D
             {
                 for (int z = 0; z < ChunkThreads / 2; z++)
                 {
-                    await Task.Run(() => generateChunkRegion(new Vector2I(x, z)));
-                    test = new Vector2I(x, z);
+                    Thread.Sleep(25);
+                    //generateChunkRegion(seed, x, z);
+
+                    var thread = new Thread(() => generateChunkRegion(9999, x, z));
+                    thread.Start(); // TODO: Doesn't run sequentially
                 }
             }
         }
     }
 
-    private void generateChunkRegion(Vector2I regionIndex)
+    int counter = 0;
+
+    private void generateChunkRegion(int seed, int x, int z)
     {
-        var regionPos = new Vector2I((regionIndex.X * threadDivSize) * ChunkSize,
-            (regionIndex.Y * threadDivSize) * ChunkSize);
+        var noise = new FastNoiseLite();
+        noise.SetSeed(seed);
 
         var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
-        var halfChunkSize = ChunkSize / 2;
 
-        for (int x = 0; x < threadDivSize; x++)
+        var fx = Mathf.Clamp(x - 1, 0, 1);
+        var fz = Mathf.Clamp(z - 1, 0, 1);
+
+        Debug.Write($"region: {x}, {z}");
+
+        var regionPos = new Vector2I(fx * (threadDivSize * ChunkSize), fz * (threadDivSize * ChunkSize));
+
+        drawRegionBorder(regionPos, threadDivSize * ChunkSize);
+
+        //var cThreadDiv = Mathf.Clamp(threadDivSize / 2, 0, threadDivSize);
+
+        for (int cx = 0; cx < threadDivSize; cx++)
         {
-            for (int z = 0; z < threadDivSize; z++)
+            for (int cz = 0; cz < threadDivSize; cz++)
             {
-                var chunkPos = new Vector2I((regionPos.X + playerChunkPos.X) + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
-                        (regionPos.Y + playerChunkPos.Y) + (z * ChunkSize) - (RenderDistance * halfChunkSize));
+                var chunkPos = new Vector2I((regionPos.X + playerChunkPos.X) + ((cx * ChunkSize) - (RenderDistance * halfChunkSize)),
+                        (regionPos.Y + playerChunkPos.Y) + (cz * ChunkSize) - (RenderDistance * halfChunkSize));
 
-                drawDebugSphere(new Vector3(chunkPos.X, 0f, chunkPos.Y));
+                //drawRegionBorder(chunkPos, ChunkSize);
 
-                generateChunk(chunkPos);
+                generateChunk(noise, chunkPos);
             }
         }
     }
 
-    private Chunk generateChunk(Vector2I chunkPos)
+    private Chunk generateChunk(FastNoiseLite noise, Vector2I chunkPos)
     {
         var chunk = new Chunk();
         chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
@@ -110,7 +136,7 @@ public partial class WorldGen : Node3D
 
         surfaceTool.CreateFrom(plane, 0);
 
-        var arrayPlane = surfaceTool.Commit();
+        var arrayPlane = surfaceTool.Commit(new ArrayMesh());
         var error = dataTool.CreateFromSurface(arrayPlane, 0);
 
         for (int i = 0; i < dataTool.GetVertexCount(); i++)
@@ -124,11 +150,6 @@ public partial class WorldGen : Node3D
             noise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
             noise.SetFrequency(0.1f);
             vertNoise += noise.GetNoise(chunkPos.X + vertex.X, chunkPos.Y + vertex.Z) * 2f;
-
-            if (vertNoise > 0.95f)
-            {
-                vertNoise = 0f;
-            }
 
             vertex.Y = vertNoise;
 
@@ -148,7 +169,7 @@ public partial class WorldGen : Node3D
 
         meshInstance.CastShadow = GeometryInstance3D.ShadowCastingSetting.DoubleSided;
         meshInstance.Position = new Vector3(chunkPos.X, 0f, chunkPos.Y);
-        meshInstance.Mesh = surfaceTool.Commit();
+        meshInstance.Mesh = surfaceTool.Commit(new ArrayMesh());
 
         // Collision
         var shape = new ConcavePolygonShape3D();
@@ -162,8 +183,8 @@ public partial class WorldGen : Node3D
         var ownderID = body.CreateShapeOwner(body);
         body.ShapeOwnerAddShape(ownderID, col.Shape);
 
-        meshInstance.CallDeferred("add_child", body);
-        CallDeferred("add_child", meshInstance);
+        meshInstance.AddChild(body);
+        CallThreadSafe("add_child", meshInstance);
 
         chunk.MeshInstance = meshInstance;
 
@@ -176,18 +197,44 @@ public partial class WorldGen : Node3D
         return chunk;
     }
 
-    private void drawDebugSphere(Vector3 pos)
+    private void drawDebugSphere(Vector2I pos)
     {
         var instance = new MeshInstance3D();
 
-        instance.Position = pos;
+        instance.Position = new Vector3(pos.X - halfChunkSize, 0f, pos.Y - halfChunkSize);
 
         var mesh = new SphereMesh();
-        mesh.Radius = 0.1f;
+        mesh.Radius = 0.3f;
         mesh.Height = 100f;
+        mesh.RadialSegments = 3;
 
         instance.Mesh = mesh;
 
         CallDeferred("add_child", instance);
+    }
+
+    private void drawRegionBorder(Vector2I pos, float regionSize)
+    {
+        var halfRegionSize = regionSize / 2;
+
+        for (int x = 0; x < 2; x++)
+        {
+            for (int z = 0; z < 2; z++)
+            {
+                var instance = new MeshInstance3D();
+
+                instance.Position = new Vector3((pos.X - halfChunkSize) + (x * regionSize) - halfRegionSize,
+                    0f, (pos.Y - halfChunkSize) + (z * regionSize) - halfRegionSize);
+
+                var mesh = new SphereMesh();
+                mesh.Radius = 0.3f;
+                mesh.Height = 100f;
+                mesh.RadialSegments = 3;
+
+                instance.Mesh = mesh;
+
+                CallDeferred("add_child", instance);
+            }
+        }
     }
 }

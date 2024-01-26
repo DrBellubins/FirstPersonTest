@@ -266,26 +266,30 @@ transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, -0.25, -0.3)
 shape = SubResource("ConvexPolygonShape3D_he1n1")
 
 [node name="FrontLeft" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.941689, -0.25, 1.168)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.941689, -0.35, 1.168)
 use_as_traction = true
 use_as_steering = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-suspension_travel = 0.3
-suspension_stiffness = 200.0
+suspension_travel = 0.4
+suspension_stiffness = 100.0
+damping_compression = 0.3
+damping_relaxation = 0.5
 
 [node name="Tire_Cylinder_001" type="MeshInstance3D" parent="FrontLeft"]
 mesh = SubResource("ArrayMesh_k8nr7")
 skeleton = NodePath("")
 
 [node name="FrontRight" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.942, -0.25, 1.168)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.942, -0.35, 1.168)
 use_as_traction = true
 use_as_steering = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-suspension_travel = 0.3
-suspension_stiffness = 200.0
+suspension_travel = 0.4
+suspension_stiffness = 100.0
+damping_compression = 0.3
+damping_relaxation = 0.5
 
 [node name="Tire_Cylinder_002" type="MeshInstance3D" parent="FrontRight"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -297,8 +301,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.941689, -0.25, -1.10701)
 use_as_traction = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-suspension_travel = 0.3
-suspension_stiffness = 200.0
+suspension_travel = 0.4
+suspension_stiffness = 100.0
+damping_compression = 0.3
+damping_relaxation = 0.5
 
 [node name="Tire_Cylinder_003" type="MeshInstance3D" parent="BackLeft"]
 mesh = SubResource("ArrayMesh_k8nr7")
@@ -309,8 +315,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.942, -0.25, -1.10701)
 use_as_traction = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-suspension_travel = 0.3
-suspension_stiffness = 200.0
+suspension_travel = 0.4
+suspension_stiffness = 100.0
+damping_compression = 0.3
+damping_relaxation = 0.5
 
 [node name="Tire_Cylinder_004" type="MeshInstance3D" parent="BackRight"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)

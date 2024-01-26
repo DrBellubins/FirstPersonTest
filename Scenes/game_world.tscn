@@ -55,7 +55,7 @@ autoplay = true
 
 [node name="Home" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 6, 0)
-visible = false
+use_collision = true
 size = Vector3(15, 18, 60)
 material = ExtResource("8_m1bx3")
 
@@ -285,7 +285,7 @@ omni_range = 7.0
 transform = Transform3D(0.778758, 0, 0.627324, 0, 1, 0, -0.627324, 0, 0.778758, 20.47, 3.51824, -27.154)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("WorldEnvironment", "DirectionalLight")]
-transform = Transform3D(-0.573576, 0, -0.819152, 0, 1, 0, 0.819152, 0, -0.573576, 0, 0, 0)
+transform = Transform3D(-0.766044, 0, -0.642787, 0, 1, 0, 0.642787, 0, -0.766044, 0, 0, 0)
 script = ExtResource("19_2k6pm")
 TimeOfDay = 6.0
 TimeSpeed = 0.1
@@ -403,7 +403,7 @@ script = ExtResource("21_um6gn")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 22.9318, 3.94297, 22.2255)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.4895, 204.465, 17.4962)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.49, 200, 17.496)
 
 [node name="TestGunPickup" parent="." instance=ExtResource("25_et2si")]
 transform = Transform3D(0.84033, -0.276753, 0.466104, 0, 0.859852, 0.510543, -0.542075, -0.429025, 0.72256, 25.0727, 3.85885, -1.5382)
