@@ -1,6 +1,7 @@
 ﻿using Godot;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace MyUtils
 {
@@ -31,6 +32,8 @@ namespace MyUtils
     {
         public static Player Player;
         public static Car CurrentCar;
+
+        public static List<Vector3> LightPositions = new List<Vector3>();
 
         private static Vector3 playerPos = new Vector3();
         public static Vector3 PlayerPos

@@ -1,8 +1,8 @@
 [gd_scene load_steps=31 format=3 uid="uid://dt46jlryv15y2"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Car.cs" id="1_wajol"]
-[ext_resource type="Material" uid="uid://3s5lju7x8t2f" path="res://Models/Cars/Low-Poly Jeep/Materials/JeepBodyToon.tres" id="2_x8lko"]
-[ext_resource type="Material" uid="uid://duc3qepavyuke" path="res://Models/Cars/Low-Poly Jeep/Materials/JeepDetailsToon.tres" id="3_abnn3"]
+[ext_resource type="Material" uid="uid://3s5lju7x8t2f" path="res://Materials/Jeep/JeepBodyToon.tres" id="2_x8lko"]
+[ext_resource type="Material" uid="uid://duc3qepavyuke" path="res://Materials/Jeep/JeepDetailsToon.tres" id="3_abnn3"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/CarCamera.cs" id="4_lxwla"]
 [ext_resource type="CameraAttributesPractical" uid="uid://blef51gnvot0a" path="res://Various/CameraAtribs.tres" id="4_vyhc0"]
 [ext_resource type="AudioStream" uid="uid://cdaus7nauii7" path="res://Sounds/EngineLoop.wav" id="5_03uhl"]

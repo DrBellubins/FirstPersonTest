@@ -1,11 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=24 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
 [ext_resource type="Script" path="res://Scripts/Terrain/WorldGen.cs" id="4_73gly"]
 [ext_resource type="Script" path="res://Scripts/GlobalVariables.cs" id="4_tqant"]
 [ext_resource type="Environment" uid="uid://5og8o40ne2l2" path="res://Scenes/MainWorldEnv.tres" id="6_ojpui"]
 [ext_resource type="AudioStream" uid="uid://d0twbbjgid5bv" path="res://Sounds/wind_loop.wav" id="7_j0q8y"]
-[ext_resource type="Material" uid="uid://cigvuq3a5mi8b" path="res://Materials/concrete.tres" id="8_m1bx3"]
+[ext_resource type="Material" uid="uid://bo5mfobfb6lgw" path="res://Materials/concrete_toon.tres" id="8_pm56x"]
 [ext_resource type="Material" uid="uid://bj14whv7vnkkj" path="res://Materials/Terrain.tres" id="9_v2cdd"]
 [ext_resource type="PackedScene" uid="uid://b1c77yfcgtimc" path="res://Prefabs/Props/radio.tscn" id="11_25l8y"]
 [ext_resource type="PackedScene" uid="uid://dt46jlryv15y2" path="res://Prefabs/Cars/jeep.tscn" id="17_57kyk"]
@@ -13,6 +13,7 @@
 [ext_resource type="Shader" path="res://Shaders/UI_Blur.gdshader" id="17_k7ib7"]
 [ext_resource type="PackedScene" uid="uid://ccqfdekiklsk3" path="res://Prefabs/player.tscn" id="17_yf88o"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
+[ext_resource type="PackedScene" uid="uid://bflx1hc8smwen" path="res://Prefabs/Props/LightBall.tscn" id="19_3qu83"]
 [ext_resource type="PackedScene" uid="uid://x73x2kjcg6hn" path="res://Prefabs/World/CeilingLight.tscn" id="19_ymj7p"]
 [ext_resource type="Shader" path="res://Shaders/Tonemapper/ACES_Tonemap.gdshader" id="20_mja1s"]
 [ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="21_tvvt8"]
@@ -36,8 +37,12 @@ font_size = 40
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
 
-[node name="GlobalVariables" type="Node" parent="."]
+[node name="Globals" type="Node" parent="."]
+
+[node name="Variables" type="Node" parent="Globals"]
 script = ExtResource("4_tqant")
+
+[node name="Lighting" type="Node" parent="Globals"]
 
 [node name="TerrainGen" type="Node3D" parent="."]
 script = ExtResource("4_73gly")
@@ -60,81 +65,81 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.342, 6, 0)
 [node name="HomeCSG" type="CSGBox3D" parent="Home"]
 use_collision = true
 size = Vector3(15, 18, 60)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07958, -9.84956)
 operation = 2
 size = Vector3(14, 10, 39)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.07958, -9.84956)
 size = Vector3(14, 1, 39)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.42042, -9.84956)
 operation = 2
 size = Vector3(2, 3, 1.5)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.51076, -1.42, 11.7111)
 operation = 2
 size = Vector3(4.81133, 3, 1.5)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 4.35733, -9.84956)
 operation = 2
 size = Vector3(2, 1.8, 8)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 4.35733, 2.15044)
 operation = 2
 size = Vector3(2, 1.8, 8)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, 4.35733, -21.8496)
 operation = 2
 size = Vector3(2, 1.8, 8)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.20433, 2.15044)
 operation = 2
 size = Vector3(2, 1.8, 8)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.24, -1.20433, -21.8496)
 operation = 2
 size = Vector3(2, 1.8, 8)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26015, 2.10698, -9.84956)
 operation = 2
 size = Vector3(9, 2, 2)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 0, -2.92042, -8.84956)
 polygon = PackedVector2Array(-3.24966, -0.0057894, 0.0452499, 1.71754, 5.75989, 5.49894, 5.7926, -0.0771861)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, -13.26, -8.42, -8.84956)
 polygon = PackedVector2Array(-3.24966, -0.0057894, 0.0452499, 1.71754, 5.75989, 5.49894, 5.7926, -0.0771861)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 12, -13.26, -8.42, 25.822)
 polygon = PackedVector2Array(-8.40352, -0.12599, -0.954675, 2.67055, 5.75989, 5.49894, 5.7926, -0.0771861)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="ReverbZone" type="Area3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57958, -9.84956)
@@ -152,7 +157,7 @@ operation = 2
 radius = 6.0
 radial_segments = 4
 rings = 5
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGSphere3D2" type="CSGSphere3D" parent="Home/HomeCSG"]
 transform = Transform3D(0.51393, 0.0537278, -0.847251, 0.397019, 0.33531, 0.373723, 0.760428, -0.211377, 0.377488, -1.50315, 7.31452, 3.21024)
@@ -160,41 +165,38 @@ operation = 2
 radius = 4.0
 radial_segments = 5
 rings = 5
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="Home/HomeCSG"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.42, 19.828)
 operation = 2
 size = Vector3(15, 5, 12)
-material = ExtResource("8_m1bx3")
+material = ExtResource("8_pm56x")
 
 [node name="CeilingLight" parent="Home" instance=ExtResource("19_ymj7p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 1.57958, -19.9429)
 
-[node name="CeilingLight2" parent="Home" instance=ExtResource("19_ymj7p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 1.57958, 1.05711)
+[node name="CeilingLight6" parent="Home" instance=ExtResource("19_ymj7p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.51043, 0.127319, 11.7554)
 
 [node name="CeilingLight5" parent="Home" instance=ExtResource("19_ymj7p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00128937, 2.09249, 19.8938)
 
-[node name="CeilingLight3" parent="Home" instance=ExtResource("19_ymj7p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 7.09278, -19.9429)
-
 [node name="CeilingLight4" parent="Home" instance=ExtResource("19_ymj7p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 7.09278, -9.64087)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 7.07143, -9.64087)
 
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("WorldEnvironment", "DirectionalLight")]
 transform = Transform3D(-0.766044, 0, -0.642787, 0, 1, 0, 0.642787, 0, -0.766044, 0, 0, 0)
 script = ExtResource("19_2k6pm")
-TimeOfDay = 6.0
-TimeSpeed = 0.1
+TimeOfDay = 6.5
+TimeSpeed = 0.0
 WorldEnvironment = NodePath("../WorldEnvironment")
 DirectionalLight = NodePath("SunMoon")
 Preset = ExtResource("17_67gei")
 
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
-transform = Transform3D(-0.984808, -1.51808e-08, -0.173648, 0, -1, 8.74228e-08, -0.173648, 8.60946e-08, 0.984808, 0, 0, 0)
-light_color = Color(0.33342, 0.258342, 0.204281, 1)
+transform = Transform3D(-0.984808, -0.0226656, -0.172163, 0, -0.991444, 0.130526, -0.173648, 0.128543, 0.976383, 0, 0, 0)
+light_color = Color(0.394896, 0.305975, 0.241947, 1)
 light_energy = 2.0
 shadow_enabled = true
 directional_shadow_blend_splits = true
@@ -272,10 +274,13 @@ grow_vertical = 2
 script = ExtResource("21_um6gn")
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 22.9318, 3.94297, 22.2255)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.6375, 4.07459, 21.6677)
 
 [node name="Player" parent="." instance=ExtResource("17_yf88o")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24.49, 4.1, 17.496)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24.49, 4.1, -19.7476)
 
 [node name="TestGunPickup" parent="." instance=ExtResource("25_et2si")]
 transform = Transform3D(0.84033, -0.276753, 0.466104, 0, 0.859852, 0.510543, -0.542075, -0.429025, 0.72256, 25.0727, 3.85885, -1.5382)
+
+[node name="LightBall" parent="." instance=ExtResource("19_3qu83")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.4152, 5.27743, -4.0303)

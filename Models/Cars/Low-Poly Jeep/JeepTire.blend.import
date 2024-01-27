@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://5fhs3r4qfl5m"
-path="res://.godot/imported/JeepSteeringWheel.blend-46144169b8cf3fc7cd0dbfe5e09487ee.scn"
+uid="uid://dlxjy3a8br554"
+path="res://.godot/imported/JeepTire.blend-bd0c7c99c10eaefd82b41f8f7c6764f9.scn"
 
 [deps]
 
-source_file="res://Models/Cars/Low-Poly Jeep/Models/JeepSteeringWheel.blend"
-dest_files=["res://.godot/imported/JeepSteeringWheel.blend-46144169b8cf3fc7cd0dbfe5e09487ee.scn"]
+source_file="res://Models/Cars/Low-Poly Jeep/JeepTire.blend"
+dest_files=["res://.godot/imported/JeepTire.blend-bd0c7c99c10eaefd82b41f8f7c6764f9.scn"]
 
 [params]
 

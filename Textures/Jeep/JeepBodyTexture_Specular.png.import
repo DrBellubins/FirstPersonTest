@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpejj35awgn2a"
-path.bptc="res://.godot/imported/JeepDetailsTextureAtlas_specular.png-a26de1cdef8963b13ad53225803e331f.bptc.ctex"
+uid="uid://dsvdlwpqqvxss"
+path.bptc="res://.godot/imported/JeepBodyTexture_Specular.png-fe25f824ddba7cfffc6e0276849ca065.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/Cars/Low-Poly Jeep/Textures/JeepDetailsTextureAtlas_specular.png"
-dest_files=["res://.godot/imported/JeepDetailsTextureAtlas_specular.png-a26de1cdef8963b13ad53225803e331f.bptc.ctex"]
+source_file="res://Textures/Jeep/JeepBodyTexture_Specular.png"
+dest_files=["res://.godot/imported/JeepBodyTexture_Specular.png-fe25f824ddba7cfffc6e0276849ca065.bptc.ctex"]
 
 [params]
 

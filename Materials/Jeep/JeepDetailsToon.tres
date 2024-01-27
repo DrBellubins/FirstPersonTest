@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://duc3qepavyuke"]
+
+[ext_resource type="Shader" uid="uid://enve5vqti6jq" path="res://Shaders/SpatialShaders/OpalToon.tres" id="1_567ki"]
+[ext_resource type="Texture2D" uid="uid://bex8miqegjim2" path="res://Textures/Jeep/JeepDetailsTextureAtlas.png" id="2_54s0s"]
+[ext_resource type="Texture2D" uid="uid://cpejj35awgn2a" path="res://Textures/Jeep/JeepDetailsTextureAtlas_specular.png" id="3_dmpv2"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_567ki")
+shader_parameter/Use_Triplanar = false
+shader_parameter/Color = Color(1, 1, 1, 1)
+shader_parameter/Normal_Strength = 1.0
+shader_parameter/Light_Falloff = 1.0
+shader_parameter/Use_Specular = true
+shader_parameter/Smoothness = 0.75
+shader_parameter/triplanar_scale = Vector3(1, 1, 1)
+shader_parameter/triplanar_offset = null
+shader_parameter/triplanar_sharpness = 0.5
+shader_parameter/Albedo = ExtResource("2_54s0s")
+shader_parameter/Specular = ExtResource("3_dmpv2")

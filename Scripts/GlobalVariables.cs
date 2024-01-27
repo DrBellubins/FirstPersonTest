@@ -5,13 +5,11 @@ using MyUtils;
 
 public partial class GlobalVariables : Node
 {
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-        Game.Player = GetParent().GetNode<Player>("Player");
-	}
+        Game.Player = GetParent().GetParent().GetNode<Player>("Player");
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
         if (Game.Player.IsDriving && Game.CurrentCar != null)

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bex8miqegjim2"
-path.s3tc="res://.godot/imported/JeepDetailsTextureAtlas.png-d0ee4c9ab4ade23ad3f2700fb23edf19.s3tc.ctex"
+path.s3tc="res://.godot/imported/JeepDetailsTextureAtlas.png-8663d225f52dadaf9fa5c321e88679a3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/Cars/Low-Poly Jeep/Textures/JeepDetailsTextureAtlas.png"
-dest_files=["res://.godot/imported/JeepDetailsTextureAtlas.png-d0ee4c9ab4ade23ad3f2700fb23edf19.s3tc.ctex"]
+source_file="res://Textures/Jeep/JeepDetailsTextureAtlas.png"
+dest_files=["res://.godot/imported/JeepDetailsTextureAtlas.png-8663d225f52dadaf9fa5c321e88679a3.s3tc.ctex"]
 
 [params]
 

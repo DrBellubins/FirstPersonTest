@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cl16n54po7snj"
-path="res://.godot/imported/JeepLargeSeat.blend-efd04d7c8d8bac2f4e68c82af432c5fe.scn"
+uid="uid://5fhs3r4qfl5m"
+path="res://.godot/imported/JeepSteeringWheel.blend-df3588966c156f8e892078df4f282850.scn"
 
 [deps]
 
-source_file="res://Models/Cars/Low-Poly Jeep/Models/JeepLargeSeat.blend"
-dest_files=["res://.godot/imported/JeepLargeSeat.blend-efd04d7c8d8bac2f4e68c82af432c5fe.scn"]
+source_file="res://Models/Cars/Low-Poly Jeep/JeepSteeringWheel.blend"
+dest_files=["res://.godot/imported/JeepSteeringWheel.blend-df3588966c156f8e892078df4f282850.scn"]
 
 [params]
 

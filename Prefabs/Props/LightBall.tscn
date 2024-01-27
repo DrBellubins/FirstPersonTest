@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bflx1hc8smwen"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/Holdable.cs" id="1_ugl28"]
+[ext_resource type="Material" uid="uid://cq70ad5deqip8" path="res://Materials/EmissiveWhite_superDim.tres" id="2_s78k0"]
+[ext_resource type="AudioStream" uid="uid://d3nqm8cxdv8pr" path="res://Sounds/Props/glass.ogg" id="3_ma4qf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rg0c0"]
+friction = 0.7
+rough = true
+bounce = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_icsnl"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_621ph"]
+material = ExtResource("2_s78k0")
+radial_segments = 8
+rings = 8
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lord4"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("3_ma4qf")
+stream_0/weight = 1.0
+
+[node name="LightBall" type="RigidBody3D" node_paths=PackedStringArray("HitAudioPlayer")]
+collision_layer = 4
+physics_material_override = SubResource("PhysicsMaterial_rg0c0")
+max_contacts_reported = 3
+contact_monitor = true
+script = ExtResource("1_ugl28")
+HitAudioPlayer = NodePath("HitAudio")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_icsnl")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_621ph")
+
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.421956, 0)
+shadow_enabled = true
+shadow_bias = 0.4
+shadow_blur = 4.0
+omni_range = 10.0
+
+[node name="HitAudio" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_lord4")
+attenuation_model = 2
+volume_db = 10.0
+pitch_scale = 0.9
+max_distance = 20.0

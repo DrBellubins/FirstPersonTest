@@ -21,8 +21,8 @@ DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=800
+window/size/viewport_width=1600
+window/size/viewport_height=900
 window/size/resizable=false
 window/vsync/vsync_mode=0
 
@@ -32,6 +32,7 @@ project/assembly_name="First Person Test"
 
 [editor]
 
+movie_writer/movie_file="C:/Users/stink/Documents/GitHub/FirstPersonTest/Videos/toonTest.avi"
 export/convert_text_resources_to_binary=false
 
 [editor_plugins]
@@ -184,12 +185,10 @@ reload={
 
 [rendering]
 
-driver/threads/thread_model=2
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=3
 global_illumination/gi/use_half_resolution=true
 textures/decals/filter=1
-environment/glow/upscale_mode=0
 environment/screen_space_reflection/roughness_quality=2
 anti_aliasing/quality/use_debanding=true
-lights_and_shadows/positional_shadow/atlas_size=1024
+lights_and_shadows/positional_shadow/atlas_size=512

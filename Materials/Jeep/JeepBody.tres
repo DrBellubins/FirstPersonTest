@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://u07ctbxs8nrd"]
 
-[ext_resource type="Texture2D" uid="uid://0gtyy6hx7j1x" path="res://Models/Cars/Low-Poly Jeep/Textures/JeepBodyTexture.png" id="1_61hst"]
+[ext_resource type="Texture2D" uid="uid://0gtyy6hx7j1x" path="res://Textures/Jeep/JeepBodyTexture.png" id="1_61hst"]
 
 [resource]
 albedo_texture = ExtResource("1_61hst")

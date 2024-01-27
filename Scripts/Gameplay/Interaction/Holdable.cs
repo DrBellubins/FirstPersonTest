@@ -32,6 +32,6 @@ public partial class Holdable : RigidBody3D
     public void OnBodyEntered(Node body)
 	{
 		if (!HitAudioPlayer.Playing)
-			HitAudioPlayer.Play();
+            HitAudioPlayer.Play();
 	}
 }

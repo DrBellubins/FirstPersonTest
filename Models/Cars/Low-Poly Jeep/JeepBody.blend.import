@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dlxjy3a8br554"
-path="res://.godot/imported/JeepTire.blend-dfecce3f007daec2a646a82674efc301.scn"
+uid="uid://cjtrjin2kuxyn"
+path="res://.godot/imported/JeepBody.blend-983f816886cddff7e3fd82a46f0a2867.scn"
 
 [deps]
 
-source_file="res://Models/Cars/Low-Poly Jeep/Models/JeepTire.blend"
-dest_files=["res://.godot/imported/JeepTire.blend-dfecce3f007daec2a646a82674efc301.scn"]
+source_file="res://Models/Cars/Low-Poly Jeep/JeepBody.blend"
+dest_files=["res://.godot/imported/JeepBody.blend-983f816886cddff7e3fd82a46f0a2867.scn"]
 
 [params]
 

@@ -25,7 +25,6 @@ public partial class WorldGen : Node3D
     private ConcurrentDictionary<Vector2I, Chunk> chunks = new ConcurrentDictionary<Vector2I, Chunk>();
 
     // Various
-    private bool isFirstGen = false;
     private Vector2I playerChunkPos = new Vector2I();
     private Vector2I prevPlayerChunkPos = new Vector2I();
 
@@ -62,8 +61,6 @@ public partial class WorldGen : Node3D
         var thread3 = new Thread(() => generateChunkRegion(9999, 1, 1));
         var thread4 = new Thread(() => generateChunkRegion(9999, 1, 0));
 
-        isFirstGen = true;
-
         thread1.Start();
         thread2.Start();
         thread3.Start();
@@ -77,6 +74,7 @@ public partial class WorldGen : Node3D
         noise.SetSeed(seed);
 
         var regionPos = new Vector2I(x * (threadDivSize * ChunkSize), z * (threadDivSize * ChunkSize));
+        var isFirstGen = true;
 
         while (true)
         {
@@ -94,6 +92,9 @@ public partial class WorldGen : Node3D
                     if (distanceTo(chunkPos, playerChunkPos) < (RenderDistance * halfChunkSize)
                         && !containsChunk(chunkPos))
                     {
+                        if (isFirstGen)
+                            generateChunk(noise, chunkPos);
+
                         if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
                             generateChunk(noise, chunkPos);
                     }
