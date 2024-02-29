@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dp4x7b3pwworv"]
+
+[ext_resource type="Shader" path="res://Shaders/Tonemapper/AGX_Tonemap.gdshader" id="1_2rkbn"]
+[ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="2_cymna"]
+
+[resource]
+shader = ExtResource("1_2rkbn")
+shader_parameter/toneMappingExposure = 2.2
+shader_parameter/brightness = 1.05
+shader_parameter/saturation = 1.0
+shader_parameter/contrast = 1.6
+shader_parameter/gamma = 2.5
+shader_parameter/lut = ExtResource("2_cymna")

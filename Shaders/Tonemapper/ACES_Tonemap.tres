@@ -1,7 +1,8 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b3f7b4lb35ttn"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b3f7b4lb35ttn"]
 
 [ext_resource type="Shader" path="res://Shaders/Tonemapper/ACES_Tonemap.gdshader" id="1_r66kj"]
+[ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="2_b2xgi"]
 
 [resource]
-render_priority = 0
 shader = ExtResource("1_r66kj")
+shader_parameter/lut = ExtResource("2_b2xgi")

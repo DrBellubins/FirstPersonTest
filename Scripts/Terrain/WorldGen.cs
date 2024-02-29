@@ -16,7 +16,7 @@ public partial class WorldGen : Node3D
 
     // Settings
     public const int ChunkSize = 32;
-    public const int RenderDistance = 16;
+    public const int RenderDistance = 8;
 
     private const int threadDivSize = RenderDistance / 2;
     private const int halfChunkSize = ChunkSize / 2;
@@ -56,10 +56,10 @@ public partial class WorldGen : Node3D
     {
         var seed = new Random().Next(int.MinValue, int.MaxValue);
 
-        var thread1 = new Thread(() => generateChunkRegion(9999, 0, 0));
-        var thread2 = new Thread(() => generateChunkRegion(9999, 0, 1));
-        var thread3 = new Thread(() => generateChunkRegion(9999, 1, 1));
-        var thread4 = new Thread(() => generateChunkRegion(9999, 1, 0));
+        var thread1 = new Thread(() => generateChunkRegion(seed, 0, 0));
+        var thread2 = new Thread(() => generateChunkRegion(seed, 0, 1));
+        var thread3 = new Thread(() => generateChunkRegion(seed, 1, 1));
+        var thread4 = new Thread(() => generateChunkRegion(seed, 1, 0));
 
         thread1.Start();
         thread2.Start();
@@ -73,13 +73,16 @@ public partial class WorldGen : Node3D
         var noise = new FastNoiseLite();
         noise.SetSeed(seed);
 
+        // TODO: Region pos seems offset from start pos
         var regionPos = new Vector2I(x * (threadDivSize * ChunkSize), z * (threadDivSize * ChunkSize));
+
         var isFirstGen = true;
 
         while (true)
         {
             Thread.Sleep(25);
 
+            // TODO: New chunks aren't generated with chunk region offset
             for (int cx = 0; cx < threadDivSize; cx++)
             {
                 for (int cz = 0; cz < threadDivSize; cz++)
@@ -87,13 +90,16 @@ public partial class WorldGen : Node3D
                     var chunkPos = new Vector2I((regionPos.X + playerChunkPos.X) + ((cx * ChunkSize) - (RenderDistance * halfChunkSize)),
                             (regionPos.Y + playerChunkPos.Y) + (cz * ChunkSize) - (RenderDistance * halfChunkSize));
 
-                    //drawRegionBorder(chunkPos, ChunkSize);
+                    //createRegionBorder(chunkPos, ChunkSize);
 
                     if (distanceTo(chunkPos, playerChunkPos) < (RenderDistance * halfChunkSize)
                         && !containsChunk(chunkPos))
                     {
                         if (isFirstGen)
+                        {
                             generateChunk(noise, chunkPos);
+                            createDebugSphere(regionPos);
+                        }
 
                         if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
                             generateChunk(noise, chunkPos);
@@ -206,43 +212,49 @@ public partial class WorldGen : Node3D
         return (to - from).Length();
     }
 
-    private void drawDebugSphere(Vector2I pos)
+    private void createDebugSphere(Vector2I pos)
     {
         var instance = new MeshInstance3D();
-
+        
         instance.Position = new Vector3(pos.X - halfChunkSize, 0f, pos.Y - halfChunkSize);
-
+        
         var mesh = new SphereMesh();
         mesh.Radius = 0.3f;
         mesh.Height = 100f;
         mesh.RadialSegments = 3;
-
+        
         instance.Mesh = mesh;
-
+        
         CallDeferred("add_child", instance);
     }
 
-    private void drawRegionBorder(Vector2I pos, float regionSize)
+    bool hasDrawnRB = false;
+    private void createRegionBorder(Vector2I pos, float regionSize)
     {
-        var halfRegionSize = regionSize / 2;
-
-        for (int x = 0; x < 2; x++)
+        if (!hasDrawnRB)
         {
-            for (int z = 0; z < 2; z++)
+            var halfRegionSize = regionSize / 2;
+
+            for (int x = 0; x < 2; x++)
             {
-                var instance = new MeshInstance3D();
+                for (int z = 0; z < 2; z++)
+                {
+                    var instance = new MeshInstance3D();
 
-                instance.Position = new Vector3((pos.X - halfChunkSize) + (x * regionSize) - halfRegionSize,
-                    0f, (pos.Y - halfChunkSize) + (z * regionSize) - halfRegionSize);
+                    instance.Position = new Vector3((pos.X - halfChunkSize) + (x * regionSize) - halfRegionSize,
+                        0f, (pos.Y - halfChunkSize) + (z * regionSize) - halfRegionSize);
 
-                var mesh = new SphereMesh();
-                mesh.Radius = 0.3f;
-                mesh.Height = 100f;
-                mesh.RadialSegments = 3;
+                    var mesh = new SphereMesh();
+                    mesh.Radius = 0.3f;
+                    mesh.Height = 100f;
+                    mesh.RadialSegments = 3;
 
-                instance.Mesh = mesh;
+                    instance.Mesh = mesh;
 
-                CallDeferred("add_child", instance);
+                    CallDeferred("add_child", instance);
+
+                    hasDrawnRB = true;
+                }
             }
         }
     }

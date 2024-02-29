@@ -183,6 +183,10 @@ reload={
 3d_physics/layer_2="player"
 3d_physics/layer_3="pickups"
 
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+
 [rendering]
 
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3

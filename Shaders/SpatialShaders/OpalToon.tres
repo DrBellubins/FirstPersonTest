@@ -477,7 +477,6 @@ void light() {
 
 }
 "
-graph_offset = Vector2(-1330.84, -404.732)
 varyings/world_pos = "0,4"
 varyings/nodeCamPos = "1,4"
 varyings/vert = "1,4"

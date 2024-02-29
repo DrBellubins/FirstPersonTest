@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://b2317vj04gpjj"]
+[gd_scene load_steps=22 format=3 uid="uid://b2317vj04gpjj"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_8lpkj"]
+[ext_resource type="Material" uid="uid://dp4x7b3pwworv" path="res://Shaders/Tonemapper/AGX_Tonemap.tres" id="3_lyqhu"]
 [ext_resource type="Script" path="res://Scripts/Terrain/WorldGen.cs" id="4_73gly"]
 [ext_resource type="Script" path="res://Scripts/GlobalVariables.cs" id="4_tqant"]
 [ext_resource type="Environment" uid="uid://5og8o40ne2l2" path="res://Scenes/MainWorldEnv.tres" id="6_ojpui"]
@@ -15,17 +16,8 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/DayNightCycle.cs" id="19_2k6pm"]
 [ext_resource type="PackedScene" uid="uid://bflx1hc8smwen" path="res://Prefabs/Props/LightBall.tscn" id="19_3qu83"]
 [ext_resource type="PackedScene" uid="uid://x73x2kjcg6hn" path="res://Prefabs/World/CeilingLight.tscn" id="19_ymj7p"]
-[ext_resource type="Shader" path="res://Shaders/Tonemapper/ACES_Tonemap.gdshader" id="20_mja1s"]
-[ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="21_tvvt8"]
 [ext_resource type="Script" path="res://Scripts/Utils/DebugTextDraw.cs" id="21_um6gn"]
 [ext_resource type="PackedScene" uid="uid://855gkk82n8lk" path="res://Prefabs/Weapons/Pickups/TestGunPickup.tscn" id="25_et2si"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
-size = Vector3(15, 12, 40)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mbpx"]
-shader = ExtResource("20_mja1s")
-shader_parameter/lut = ExtResource("21_tvvt8")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mlyh0"]
 shader = ExtResource("17_k7ib7")
@@ -33,6 +25,9 @@ shader_parameter/blur = 3.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_54a3o"]
 font_size = 40
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deiww"]
+size = Vector3(15, 12, 40)
 
 [node name="GameWorld" type="Node3D"]
 script = ExtResource("1_8lpkj")
@@ -43,6 +38,78 @@ script = ExtResource("1_8lpkj")
 script = ExtResource("4_tqant")
 
 [node name="Lighting" type="Node" parent="Globals"]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TonemapRect" type="ColorRect" parent="UI"]
+material = ExtResource("3_lyqhu")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlurRect" type="ColorRect" parent="UI"]
+visible = false
+material = SubResource("ShaderMaterial_mlyh0")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingWorldText" type="Label" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.5
+offset_top = -29.0
+offset_right = 152.5
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading world..."
+label_settings = SubResource("LabelSettings_54a3o")
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -368.0
+offset_top = 50.0
+offset_right = 368.0
+offset_bottom = 77.0001
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+show_percentage = false
+
+[node name="DebugText" type="Label" parent="UI"]
+process_priority = 9999
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_um6gn")
 
 [node name="TerrainGen" type="Node3D" parent="."]
 script = ExtResource("4_73gly")
@@ -188,90 +255,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 7.07143, -9.64087)
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("WorldEnvironment", "DirectionalLight")]
 transform = Transform3D(-0.766044, 0, -0.642787, 0, 1, 0, 0.642787, 0, -0.766044, 0, 0, 0)
 script = ExtResource("19_2k6pm")
-TimeOfDay = 6.5
+TimeOfDay = 10.176
 TimeSpeed = 0.0
 WorldEnvironment = NodePath("../WorldEnvironment")
 DirectionalLight = NodePath("SunMoon")
 Preset = ExtResource("17_67gei")
 
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
-transform = Transform3D(-0.984808, -0.0226656, -0.172163, 0, -0.991444, 0.130526, -0.173648, 0.128543, 0.976383, 0, 0, 0)
-light_color = Color(0.394896, 0.305975, 0.241947, 1)
+transform = Transform3D(-0.984808, -0.154223, -0.0798053, 0, -0.45958, 0.888137, -0.173648, 0.874643, 0.452598, 0, 0, 0)
+light_color = Color(0.787272, 0.609997, 0.48235, 1)
 light_energy = 2.0
 shadow_enabled = true
 directional_shadow_blend_splits = true
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TonemapRect" type="ColorRect" parent="UI"]
-material = SubResource("ShaderMaterial_5mbpx")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BlurRect" type="ColorRect" parent="UI"]
-visible = false
-material = SubResource("ShaderMaterial_mlyh0")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LoadingWorldText" type="Label" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -152.5
-offset_top = -29.0
-offset_right = 152.5
-offset_bottom = 29.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Loading world..."
-label_settings = SubResource("LabelSettings_54a3o")
-horizontal_alignment = 1
-
-[node name="ProgressBar" type="ProgressBar" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -368.0
-offset_top = 50.0
-offset_right = 368.0
-offset_bottom = 77.0001
-grow_horizontal = 2
-grow_vertical = 2
-value = 50.0
-show_percentage = false
-
-[node name="DebugText" type="Label" parent="UI"]
-process_priority = 9999
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("21_um6gn")
 
 [node name="Jeep" parent="." instance=ExtResource("17_57kyk")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.6375, 4.07459, 21.6677)
