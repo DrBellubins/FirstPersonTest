@@ -135,7 +135,7 @@ public partial class TerrainGenerator : Node3D
         {
             Thread.Sleep(25);
 
-            var playerChunkPos = Game.GetNearestChunkCoord(playerPos);
+            var playerChunkPos = Game.GetNearestCoord(playerPos, ChunkSize);
             var halfChunkSize = ChunkSize / 2;
 
             // Clear chunks

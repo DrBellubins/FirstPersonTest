@@ -1,12 +1,12 @@
-[gd_resource type="CompositorEffect" load_steps=2 format=3 uid="uid://jsen28df4eqy"]
+[gd_resource type="CompositorEffect" script_class="TonemapperCompositor" load_steps=2 format=3 uid="uid://jsen28df4eqy"]
 
 [ext_resource type="Script" path="res://Shaders/Tonemapper/TonemapperCompositor.cs" id="1_tgfu2"]
 
 [resource]
 resource_local_to_scene = false
 resource_name = ""
-enabled = true
+enabled = false
 effect_callback_type = 4
-needs_motion_vectors = true
-needs_normal_roughness = true
+needs_motion_vectors = false
+needs_normal_roughness = false
 script = ExtResource("1_tgfu2")

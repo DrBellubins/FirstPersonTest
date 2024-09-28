@@ -15,6 +15,7 @@ wet = 0.3
 resource_name = "HighPassFilter"
 
 [resource]
+bus/0/mute = true
 bus/0/effect/0/effect = SubResource("AudioEffectCompressor_8o3y5")
 bus/0/effect/0/enabled = true
 bus/1/name = &"MenuBus"

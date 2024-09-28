@@ -42,21 +42,21 @@ namespace MyUtils
             internal set { playerPos = value; }
         }
     
-        public static Vector2 GetNearestChunkCoord(Vector2 input)
+        public static Vector2 GetNearestCoord(Vector2 input, int numerator)
         {
             int x = (int)MathF.Floor(input.X);
             int y = (int)MathF.Floor(input.Y);
     
-            int xRem = x % TerrainGenerator.ChunkSize;
-            int yRem = y % TerrainGenerator.ChunkSize;
+            int xRem = x % numerator;
+            int yRem = y % numerator;
     
             return new Vector2(x - xRem, y - yRem);
         }
     
-        public static Vector2I GetNearestChunkCoord(Vector2I input)
+        public static Vector2I GetNearestCoord(Vector2I input, int numerator)
         {
-            int xRem = input.X % TerrainGenerator.ChunkSize;
-            int yRem = input.Y % TerrainGenerator.ChunkSize;
+            int xRem = input.X % numerator;
+            int yRem = input.Y % numerator;
     
             return new Vector2I(input.X - xRem, input.Y - yRem);
         }
