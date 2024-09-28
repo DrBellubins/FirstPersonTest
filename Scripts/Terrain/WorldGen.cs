@@ -29,6 +29,8 @@ public partial class WorldGen : Node3D
     private FastNoiseLite singleThreadedNoise = new FastNoiseLite();
 
     // Various
+    private bool chunkUpdateNeeded;
+
     private Vector2I playerThreadPos = new Vector2I();
     private Vector2I prevPlayerThreadPos = new Vector2I();
 
@@ -59,10 +61,31 @@ public partial class WorldGen : Node3D
         playerChunkPos = Game.GetNearestCoord(new Vector2I((int)Game.PlayerPos.X, (int)Game.PlayerPos.Z), ChunkSize);
 
         var debugTex = generateDebugTex(new Vector2(Game.PlayerPos.X - 64f, Game.PlayerPos.Z - 64f), 128);
-        debugTex.Draw(textureRect.GetCanvasItem(), Vector2.Zero);
+        //debugTex.Draw(textureRect.GetCanvasItem(), Vector2.Zero, null, true);
+        textureRect.Texture = debugTex;
 
-        if ((playerThreadPos.X != prevPlayerThreadPos.X || playerThreadPos.Y != prevPlayerThreadPos.Y))
-            createDebugSphere(playerThreadPos);
+        chunkUpdateNeeded = false;
+
+        if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+        {
+            chunkUpdateNeeded = true;
+
+            foreach (var c in chunks)
+            {
+                var chunk = c.Value;
+
+                if (chunk.Position.DistanceTo(playerChunkPos) > (RenderDistance * halfChunkSize))
+                {
+                    var result = chunks.TryRemove(chunk.Position, out _);
+
+                    if (result)
+                    {
+                        chunk.MeshInstance.QueueFree();
+                        GD.PushWarning($"Deleted chunk at {chunk.Position.X}, {chunk.Position.Y}");
+                    }
+                }
+            }
+        }
 
         playerIcon.RotationDegrees = Game.Player.RotationDegrees.Y - 90f; // Hacky hardcoded offset for player starting rot
 
@@ -89,6 +112,7 @@ public partial class WorldGen : Node3D
 
     private void generateChunkRegion(int seed, int x, int z)
     {
+        var chunk = new Chunk();
         var noise = new FastNoiseLite();
         noise.SetSeed(seed);
 
@@ -105,28 +129,32 @@ public partial class WorldGen : Node3D
             {
                 for (int cz = 0; cz < threadDivSize; cz++)
                 {
-                    var chunkPos = new Vector2I((regionPos.X + playerChunkPos.X) + ((cx * ChunkSize) - (RenderDistance * halfChunkSize)),
-                            (regionPos.Y + playerChunkPos.Y) + (cz * ChunkSize) - (RenderDistance * halfChunkSize));
+                    var chunkPos = new Vector2I((playerChunkPos.X + regionPos.X) + ((cx * ChunkSize) - (RenderDistance * halfChunkSize)),
+                            (playerChunkPos.Y + regionPos.Y) + (cz * ChunkSize) - (RenderDistance * halfChunkSize));
 
                     //createRegionBorder(chunkPos, ChunkSize);
 
-                    if (chunkPos.DistanceTo(playerChunkPos) < (RenderDistance * halfChunkSize)
-                        && !chunks.ContainsKey(chunkPos))
+                    if (chunkPos.DistanceTo(playerChunkPos) < (RenderDistance * halfChunkSize))
                     {
-                        if (isFirstGen)
+                        if (!chunks.ContainsKey(chunkPos))
                         {
-                            chunks.TryAdd(chunkPos, generateChunk(noise, chunkPos));
-                        }
+                            if (isFirstGen)
+                            {
+                                chunk = generateChunk(noise, chunkPos);
+                                chunks.TryAdd(chunkPos, chunk);
+                            }
 
-                        //if ((playerThreadPos.X != prevPlayerThreadPos.X || playerThreadPos.Y != prevPlayerThreadPos.Y))
-                        //{
-                        //    generateChunk(noise, chunkPos);
-                        //}
+                            //if ((playerThreadPos.X != prevPlayerThreadPos.X || playerThreadPos.Y != prevPlayerThreadPos.Y))
+                            //{
+                            //    generateChunk(noise, chunkPos);
+                            //}
 
-                        if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
-                        {
-                            chunks.TryAdd(chunkPos, generateChunk(noise, chunkPos));
-                            //createRegionBorder(regionPos, threadDivSize * ChunkSize);
+                            if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
+                            {
+                                chunk = generateChunk(noise, chunkPos);
+                                chunks.TryAdd(chunkPos, chunk);
+                                //createRegionBorder(regionPos, threadDivSize * ChunkSize);
+                            }
                         }
                     }
                 }

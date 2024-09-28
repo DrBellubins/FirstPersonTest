@@ -14,7 +14,7 @@ public class Chunk
 {
     // Chunk data
     public string ID;
-    public Vector2 Position;
+    public Vector2I Position;
     public Biomes Biome;
 
     // Mesh data
@@ -26,7 +26,7 @@ public class Chunk
         ID = Guid.NewGuid().ToString();
     }
 
-    public Chunk(Vector2 position, Biomes biome, MeshInstance3D mesh)
+    public Chunk(Vector2I position, Biomes biome, MeshInstance3D mesh)
     {
         ID = Guid.NewGuid().ToString();
         Position = position;

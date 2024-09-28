@@ -135,7 +135,7 @@ public partial class TerrainGenerator : Node3D
         {
             Thread.Sleep(25);
 
-            var playerChunkPos = Game.GetNearestCoord(playerPos, ChunkSize);
+            var playerChunkPos = Game.GetNearestCoord((Vector2I)playerPos, ChunkSize);
             var halfChunkSize = ChunkSize / 2;
 
             // Clear chunks
@@ -176,14 +176,14 @@ public partial class TerrainGenerator : Node3D
 
                     int iZ = (RenderDistance / 2) + (z % 2 == 0 ? z / 2 : -(z / 2 + 1));
 
-                    var chunkPos = new Vector2((int)playerChunkPos.X + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
+                    var chunkPos = new Vector2I((int)playerChunkPos.X + ((x * ChunkSize) - (RenderDistance * halfChunkSize)),
                         (int)playerChunkPos.Y + (z * ChunkSize) - (RenderDistance * halfChunkSize));
 
                     //Debug.Write($"agj: {threadOffset}");
                     //var threadDivSize = (RenderDistance / cThreads.Length);
                     //chunkPos = new Vector2(chunkPos.X + threadX, chunkPos.Y + threadZ);
 
-                    if (chunkPos.DistanceTo(playerPos) < (RenderDistance * halfChunkSize))
+                    if (chunkPos.DistanceTo(playerChunkPos) < (RenderDistance * halfChunkSize))
                     {
                         Chunk genChunk = null;
 
@@ -221,7 +221,7 @@ public partial class TerrainGenerator : Node3D
         }
     }
 
-    private Chunk generateChunk(Vector2 chunkPos)
+    private Chunk generateChunk(Vector2I chunkPos)
     {
         var chunk = new Chunk();
         chunk.Biome = Biomes.DesertPlanes; // TODO: procedurally gen biomes
