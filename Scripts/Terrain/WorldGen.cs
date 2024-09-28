@@ -59,7 +59,7 @@ public partial class WorldGen : Node3D
         playerChunkPos = Game.GetNearestCoord(new Vector2I((int)Game.PlayerPos.X, (int)Game.PlayerPos.Z), ChunkSize);
 
         var debugTex = generateDebugTex(new Vector2(Game.PlayerPos.X - 64f, Game.PlayerPos.Z - 64f), 128);
-        textureRect.Texture = debugTex;
+        debugTex.Draw(textureRect.GetCanvasItem(), Vector2.Zero);
 
         if ((playerThreadPos.X != prevPlayerThreadPos.X || playerThreadPos.Y != prevPlayerThreadPos.Y))
             createDebugSphere(playerThreadPos);
@@ -67,6 +67,7 @@ public partial class WorldGen : Node3D
         playerIcon.RotationDegrees = Game.Player.RotationDegrees.Y - 90f; // Hacky hardcoded offset for player starting rot
 
         Debug.Write($"Num chunks: {chunks.Count}");
+        Debug.Write($"threadPos: {playerChunkPos.X}, {playerChunkPos.Y}");
     }
 
     #region Threading
@@ -91,9 +92,7 @@ public partial class WorldGen : Node3D
         var noise = new FastNoiseLite();
         noise.SetSeed(seed);
 
-        // TODO: Region pos seems offset from start pos
-        //var regionPos = new Vector2I(x * (threadDivSize * ChunkSize), z * (threadDivSize * ChunkSize));
-        var regionPos = new Vector2I(x * threadDivSize, z * threadDivSize);
+        var regionPos = new Vector2I(x * (threadDivSize * ChunkSize), z * (threadDivSize * ChunkSize));
 
         var isFirstGen = true;
 
@@ -101,9 +100,7 @@ public partial class WorldGen : Node3D
         {
             Thread.Sleep(25);
 
-            regionPos *= playerThreadPos;
-
-            // TODO: New chunks aren't generated with chunk region offset
+            // TODO: Chunk regions aren't generated with player pos offset
             for (int cx = 0; cx < threadDivSize; cx++)
             {
                 for (int cz = 0; cz < threadDivSize; cz++)
@@ -114,23 +111,22 @@ public partial class WorldGen : Node3D
                     //createRegionBorder(chunkPos, ChunkSize);
 
                     if (chunkPos.DistanceTo(playerChunkPos) < (RenderDistance * halfChunkSize)
-                        && !containsChunk(chunkPos))
+                        && !chunks.ContainsKey(chunkPos))
                     {
                         if (isFirstGen)
                         {
-                            generateChunk(noise, chunkPos);
-                            
+                            chunks.TryAdd(chunkPos, generateChunk(noise, chunkPos));
                         }
 
-                        /*if ((playerThreadPos.X != prevPlayerThreadPos.X || playerThreadPos.Y != prevPlayerThreadPos.Y))
-                        {
-                            generateChunk(noise, chunkPos);
-                        }*/
+                        //if ((playerThreadPos.X != prevPlayerThreadPos.X || playerThreadPos.Y != prevPlayerThreadPos.Y))
+                        //{
+                        //    generateChunk(noise, chunkPos);
+                        //}
 
                         if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
                         {
-                            generateChunk(noise, chunkPos);
-                            createRegionBorder(regionPos, threadDivSize * ChunkSize);
+                            chunks.TryAdd(chunkPos, generateChunk(noise, chunkPos));
+                            //createRegionBorder(regionPos, threadDivSize * ChunkSize);
                         }
                     }
                 }
@@ -232,22 +228,6 @@ public partial class WorldGen : Node3D
         //float dist = Mathf.SmoothStep(1f - pos.DistanceTo(Vector2.Zero), 1f, 0.1f) * 10f;
 
         return hillNoise;
-    }
-
-    private bool containsChunk(Vector2I query)
-    {
-        bool success = false;
-
-        foreach (var item in chunks)
-        {
-            var pos = item.Key;
-            var chunk = item.Value;
-
-            if (pos.X == query.X && pos.Y == query.Y)
-                success = true;
-        }
-
-        return success;
     }
 
     #endregion
