@@ -6,6 +6,7 @@ uniform float brightness;
 uniform float saturation;
 uniform float contrast;
 uniform float gamma;
+uniform bool enableLensFlare;
 
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 uniform sampler2D blur_texture : hint_screen_texture, filter_linear_mipmap;
@@ -46,7 +47,6 @@ const mat3 LINEAR_SRGB_TO_LINEAR_REC2020 = mat3(
 // Mean error^2: 3.6705141e-06
 vec3 agxDefaultContrastApprox(vec3 x)
 {
-
 	vec3 x2 = x * x;
 	vec3 x4 = x2 * x2;
 
@@ -57,7 +57,6 @@ vec3 agxDefaultContrastApprox(vec3 x)
 		+ 0.4298 * x2
 		+ 0.1191 * x
 		- 0.00232;
-
 }
 
 // LOG2_MIN      = -10.0
@@ -85,7 +84,7 @@ vec3 AgXToneMapping(vec3 color)
 	color = agxDefaultContrastApprox(color);
 
 	// Apply AgX look
-	// v = agxLook(v, look);
+	//v = agxLook(v, look);
 
 	color = AgXOutsetMatrix * color;
 
@@ -134,15 +133,19 @@ void fragment()
 	uv *=  1.0 - uv.yx;
 	
 	vec4 color = texture(screen_texture, SCREEN_UV);
-	vec4 lensFlare = texture(blur_texture, 1.0 - SCREEN_UV, 4.0);
 	
-	lensFlare.rgb = pow(lensFlare.rgb, vec3(4.0)) / 4.0;
+	if (enableLensFlare)
+	{
+		vec4 lensFlare = texture(blur_texture, 1.0 - SCREEN_UV, 4.0);
 	
-	float vig = uv.x * uv.y * 15.0;
-	vig = pow(vig, 4.0);
+		lensFlare.rgb = pow(lensFlare.rgb, vec3(4.0)) / 4.0;
 	
-	lensFlare *= vig;
-	color.rgb += lensFlare.rgb;
+		float vig = uv.x * uv.y * 15.0;
+		vig = pow(vig, 4.0);
+	
+		lensFlare *= vig;
+		color.rgb += lensFlare.rgb;
+	}
 
 	color.rgb = saturate(AgXToneMapping(color.rgb));
 	color.rgb = saturate(ContrastSaturationBrightness(color.rgb, brightness, saturation, contrast));

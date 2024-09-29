@@ -4,10 +4,10 @@
 [ext_resource type="Material" uid="uid://dp4x7b3pwworv" path="res://Shaders/Tonemapper/AGX_Tonemap.tres" id="3_lyqhu"]
 [ext_resource type="Script" path="res://Scripts/Terrain/WorldGen.cs" id="4_73gly"]
 [ext_resource type="Script" path="res://Scripts/GlobalVariables.cs" id="4_tqant"]
-[ext_resource type="Environment" uid="uid://5og8o40ne2l2" path="res://Scenes/MainWorldEnv.tres" id="6_ojpui"]
 [ext_resource type="Texture2D" uid="uid://dkwktkcfupn2y" path="res://addons/VisualShaderExtras/AddonExamples/icon.svg" id="6_wmf4x"]
 [ext_resource type="AudioStream" uid="uid://d0twbbjgid5bv" path="res://Sounds/wind_loop.wav" id="7_j0q8y"]
 [ext_resource type="Material" uid="uid://bo5mfobfb6lgw" path="res://Materials/concrete_toon.tres" id="8_pm56x"]
+[ext_resource type="Environment" uid="uid://cnbmf337ywhpi" path="res://Scenes/TestWorldEnv.tres" id="9_ft432"]
 [ext_resource type="CompositorEffect" uid="uid://jsen28df4eqy" path="res://Shaders/Tonemapper/test_comp.tres" id="9_jm3yb"]
 [ext_resource type="Material" uid="uid://bj14whv7vnkkj" path="res://Materials/Terrain.tres" id="9_v2cdd"]
 [ext_resource type="PackedScene" uid="uid://b1c77yfcgtimc" path="res://Prefabs/Props/radio.tscn" id="11_25l8y"]
@@ -39,8 +39,9 @@ script = ExtResource("1_8lpkj")
 
 [node name="Globals" type="Node" parent="."]
 
-[node name="Variables" type="Node" parent="Globals"]
+[node name="Variables" type="Node" parent="Globals" node_paths=PackedStringArray("Player")]
 script = ExtResource("4_tqant")
+Player = NodePath("../../Player")
 
 [node name="Lighting" type="Node" parent="Globals"]
 
@@ -136,7 +137,7 @@ textureRect = NodePath("../UI/TextureRect")
 playerIcon = NodePath("../UI/TextureRect/Sprite2D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource("6_ojpui")
+environment = ExtResource("9_ft432")
 compositor = SubResource("Compositor_igu2b")
 
 [node name="WindAmbience" type="AudioStreamPlayer" parent="."]

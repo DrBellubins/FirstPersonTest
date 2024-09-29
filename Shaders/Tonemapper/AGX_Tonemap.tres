@@ -5,9 +5,10 @@
 
 [resource]
 shader = ExtResource("1_2rkbn")
-shader_parameter/toneMappingExposure = 2.2
+shader_parameter/toneMappingExposure = 2.0
 shader_parameter/brightness = 1.05
 shader_parameter/saturation = 1.0
 shader_parameter/contrast = 1.6
 shader_parameter/gamma = 2.5
+shader_parameter/enableLensFlare = true
 shader_parameter/lut = ExtResource("2_cymna")

@@ -5,9 +5,11 @@ using MyUtils;
 
 public partial class GlobalVariables : Node
 {
+    [Export] public Player Player;
+
 	public override void _Ready()
 	{
-        Game.Player = GetParent().GetParent().GetNode<Player>("Player");
+        Game.Player = Player;
 
         RenderingServer.SetDebugGenerateWireframes(true);
     }
@@ -23,7 +25,7 @@ public partial class GlobalVariables : Node
 
     public override void _Process(double delta)
 	{
-        if (Game.Player.IsDriving && Game.CurrentCar != null)
+        if (Game.CurrentCar != null && Game.Player.IsDriving)
             Game.PlayerPos = Game.CurrentCar.Position;
         else
             Game.PlayerPos = Game.Player.Position;
