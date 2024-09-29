@@ -29,6 +29,7 @@ public partial class WorldGen : Node3D
     // Various
     private Vector2I playerChunkPos = new Vector2I();
     private Vector2I prevPlayerChunkPos = new Vector2I();
+
     private FastNoiseLite debugNoise = new FastNoiseLite();
 
     public override void _Ready()
@@ -42,9 +43,17 @@ public partial class WorldGen : Node3D
 	{
         playerChunkPos = Game.GetNearestCoord(new Vector2I((int)Game.PlayerPos.X, (int)Game.PlayerPos.Z), ChunkSize);
 
+        if (Game.IsDebugVisible)
+        {
+            textureRect.Visible = true;
 
-        var debugTex = generateDebugTex(debugNoise, new Vector2(Game.PlayerPos.X - 64f, Game.PlayerPos.Z - 64f), 128);
-        textureRect.Texture = debugTex;
+            var debugTex = generateDebugTex(debugNoise, new Vector2(Game.PlayerPos.X - 64f, Game.PlayerPos.Z - 64f), 128);
+            textureRect.Texture = debugTex;
+        }
+        else
+        {
+            textureRect.Visible = false;
+        }
 
         if ((playerChunkPos.X != prevPlayerChunkPos.X || playerChunkPos.Y != prevPlayerChunkPos.Y))
         {
@@ -57,18 +66,15 @@ public partial class WorldGen : Node3D
                     var result = chunks.TryRemove(chunk.Position, out _);
 
                     if (result)
-                    {
                         chunk.MeshInstance.QueueFree();
-                        GD.PushWarning($"Deleted chunk at {chunk.Position.X}, {chunk.Position.Y}");
-                    }
                 }
             }
         }
 
-        playerIcon.RotationDegrees = Game.Player.RotationDegrees.Y - 90f; // Hacky hardcoded offset for player starting rot
-
         Debug.Write($"Num chunks: {chunks.Count}");
         Debug.Write($"playerChunkPos: {playerChunkPos.X}, {playerChunkPos.Y}");
+
+        playerIcon.RotationDegrees = Game.Player.RotationDegrees.Y - 90f; // Hacky hardcoded offset for player starting rot
     }
 
     #region Threading

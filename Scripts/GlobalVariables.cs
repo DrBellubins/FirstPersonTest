@@ -27,7 +27,10 @@ public partial class GlobalVariables : Node
             Game.PlayerPos = Game.CurrentCar.Position;
         else
             Game.PlayerPos = Game.Player.Position;
-	}
+
+        if (Input.IsActionJustPressed("debug"))
+            Game.IsDebugVisible = !Game.IsDebugVisible;
+    }
 }
 
 /// <summary>

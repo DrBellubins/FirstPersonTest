@@ -1,4 +1,5 @@
 using Godot;
+using MyUtils;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +9,8 @@ public static class Debug
 
 	public static void Write(string text)
 	{
-        DebugTextList.Add(text);
+		if (Game.IsDebugVisible)
+			DebugTextList.Add(text);
     }
 }
 

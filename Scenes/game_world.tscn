@@ -53,7 +53,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TonemapRect" type="ColorRect" parent="UI"]
-visible = false
 material = ExtResource("3_lyqhu")
 layout_mode = 1
 anchors_preset = 15
@@ -277,15 +276,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.095686, 7.07143, -9.64087)
 [node name="DayNightCycle" type="Node3D" parent="." node_paths=PackedStringArray("WorldEnvironment", "DirectionalLight")]
 transform = Transform3D(-0.766044, 0, -0.642787, 0, 1, 0, 0.642787, 0, -0.766044, 0, 0, 0)
 script = ExtResource("19_2k6pm")
-TimeOfDay = 10.176
+TimeOfDay = 6.8
 TimeSpeed = 0.0
 WorldEnvironment = NodePath("../WorldEnvironment")
 DirectionalLight = NodePath("SunMoon")
 Preset = ExtResource("17_67gei")
 
 [node name="SunMoon" type="DirectionalLight3D" parent="DayNightCycle"]
-transform = Transform3D(-0.984808, -0.154223, -0.0798053, 0, -0.45958, 0.888137, -0.173648, 0.874643, 0.452598, 0, 0, 0)
-light_color = Color(0.787272, 0.609997, 0.48235, 1)
+transform = Transform3D(-0.984808, -0.0361035, -0.169854, 0, -0.978147, 0.207912, -0.173648, 0.204753, 0.963288, 0, 0, 0)
+light_color = Color(0.432026, 0.334743, 0.264695, 1)
 light_energy = 2.0
 shadow_enabled = true
 directional_shadow_blend_splits = true

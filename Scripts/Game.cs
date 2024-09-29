@@ -35,6 +35,8 @@ namespace MyUtils
 
         public static List<Vector3> LightPositions = new List<Vector3>();
 
+        public static bool IsDebugVisible = false;
+
         private static Vector3 playerPos = new Vector3();
         public static Vector3 PlayerPos
         {
