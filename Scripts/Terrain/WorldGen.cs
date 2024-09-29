@@ -24,8 +24,8 @@ public partial class WorldGen : Node3D
     private const int halfChunkSize = ChunkSize / 2;
 
     // Gen
-    private ConcurrentDictionary<Vector2I, Chunk> chunks = new ConcurrentDictionary<Vector2I, Chunk>();
     private int seed;
+    private ConcurrentDictionary<Vector2I, Chunk> chunks = new ConcurrentDictionary<Vector2I, Chunk>();
     private FastNoiseLite singleThreadedNoise = new FastNoiseLite();
 
     // Various
@@ -42,17 +42,6 @@ public partial class WorldGen : Node3D
         singleThreadedNoise.SetSeed(seed);
 
         runChunkThreads();
-
-        RenderingServer.SetDebugGenerateWireframes(true);
-    }
-
-    public override void _Input(InputEvent inputEvent)
-    {
-        if (inputEvent is InputEventKey && Input.IsKeyPressed(Key.P))
-        {
-            var vp = GetViewport();
-            vp.DebugDraw = (Viewport.DebugDrawEnum)(((int)vp.DebugDraw + 1) % 5);
-        }
     }
 
     public override void _Process(double delta)

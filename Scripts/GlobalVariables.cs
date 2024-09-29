@@ -8,9 +8,20 @@ public partial class GlobalVariables : Node
 	public override void _Ready()
 	{
         Game.Player = GetParent().GetParent().GetNode<Player>("Player");
+
+        RenderingServer.SetDebugGenerateWireframes(true);
     }
 
-	public override void _Process(double delta)
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (inputEvent is InputEventKey && Input.IsKeyPressed(Key.P))
+        {
+            var vp = GetViewport();
+            vp.DebugDraw = (Viewport.DebugDrawEnum)(((int)vp.DebugDraw + 1) % 5);
+        }
+    }
+
+    public override void _Process(double delta)
 	{
         if (Game.Player.IsDriving && Game.CurrentCar != null)
             Game.PlayerPos = Game.CurrentCar.Position;
