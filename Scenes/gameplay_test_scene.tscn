@@ -74,9 +74,10 @@ environment = ExtResource("3_7q0es")
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.527697, -0.216267, -0.821441, -0.044419, -0.958698, 0.280938, -0.848271, 0.184738, 0.496295, 0, 0, 0)
 light_color = Color(0.99, 0.842985, 0.6633, 1)
-light_angular_distance = 0.1
 shadow_enabled = true
-shadow_blur = 2.4
+shadow_bias = 0.05
+shadow_normal_bias = 5.0
+shadow_blur = 3.0
 
 [node name="Level" type="CSGCombiner3D" parent="."]
 use_collision = true

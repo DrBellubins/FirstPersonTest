@@ -64,13 +64,9 @@ namespace MyUtils
             return new Vector2I(input.X - xRem, input.Y - yRem);
         }
 
-        public static float LerpAngle(float from, float to, float weight)
+        public static bool InRange(float val,  float min, float max)
         {
-            var tau = Mathf.Pi * 2;
-            var difference = (from - to) % tau;
-            var shortAngleDist = ((difference * 2) % tau) - difference;
-
-            return from + (shortAngleDist * weight);
+            return val < max && val > min;
         }
     }
 }
