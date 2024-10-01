@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://befu2fvq2pqdh"]
+[gd_scene load_steps=6 format=3 uid="uid://befu2fvq2pqdh"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interaction/DoorInteract.cs" id="1_ycdyb"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_uo3j8"]
-size = Vector3(1, 2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8xgff"]
 size = Vector3(0.1, 2, 1)
@@ -11,36 +8,49 @@ size = Vector3(0.1, 2, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_831et"]
 size = Vector3(0.1, 2, 1)
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vuri8"]
+radius = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uo3j8"]
+size = Vector3(0.1, 2, 1)
+
 [node name="Door" type="Node3D"]
 
-[node name="Trigger" type="Area3D" parent="." node_paths=PackedStringArray("Hinge", "Ray1", "Ray2")]
-script = ExtResource("1_ycdyb")
-Hinge = NodePath("Hinge")
-Ray1 = NodePath("Hinge/RaycastPoint1")
-Ray2 = NodePath("Hinge/RaycastPoint2")
-OpenAngle = 120.0
-Speed = 1.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger"]
-shape = SubResource("BoxShape3D_uo3j8")
-
-[node name="Hinge" type="Node3D" parent="Trigger"]
+[node name="Hinge" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 
-[node name="Mesh" type="MeshInstance3D" parent="Trigger/Hinge"]
+[node name="Mesh" type="MeshInstance3D" parent="Hinge"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 mesh = SubResource("BoxMesh_8xgff")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Trigger/Hinge"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Hinge"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 collision_layer = 8
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Trigger/Hinge/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/StaticBody3D"]
 shape = SubResource("BoxShape3D_831et")
 
-[node name="RaycastPoint1" type="Node3D" parent="Trigger/Hinge"]
+[node name="RaycastPoint1" type="Node3D" parent="Hinge"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1)
 
-[node name="RaycastPoint2" type="Node3D" parent="Trigger/Hinge"]
+[node name="RaycastPoint2" type="Node3D" parent="Hinge"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hinge"]
+mesh = SubResource("CapsuleMesh_vuri8")
+
+[node name="Trigger" type="Area3D" parent="Hinge" node_paths=PackedStringArray("Parent", "Hinge", "Ray1", "Ray2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ycdyb")
+Parent = NodePath("../..")
+Hinge = NodePath("..")
+Ray1 = NodePath("../RaycastPoint1")
+Ray2 = NodePath("../RaycastPoint2")
+OpenAngle = 120.0
+Speed = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/Trigger"]
+shape = SubResource("BoxShape3D_uo3j8")
