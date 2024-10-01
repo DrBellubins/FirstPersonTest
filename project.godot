@@ -183,11 +183,14 @@ debug={
 3d_physics/layer_1="env"
 3d_physics/layer_2="player"
 3d_physics/layer_3="pickups"
+3d_physics/layer_4="doors"
 
 [physics]
 
+common/physics_jitter_fix=0.0
 2d/physics_engine="GodotPhysics2D"
 3d/physics_engine="GodotPhysics3D"
+common/physics_interpolation=true
 
 [rendering]
 

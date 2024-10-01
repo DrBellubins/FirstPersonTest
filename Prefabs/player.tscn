@@ -54,14 +54,14 @@ shader_parameter/iteration_count = 15
 shader_parameter/intensity = 0.5
 shader_parameter/startRadius = 0.0
 
-[sub_resource type="Resource" id="Resource_4w02b"]
+[sub_resource type="Resource" id="Resource_r62m2"]
 resource_local_to_scene = true
 script = ExtResource("33_2mear")
 JumpAudio = ExtResource("20_ue56i")
 LandedAudio = ExtResource("21_p7lnb")
 StepAudios = [ExtResource("22_0eb1b"), ExtResource("23_k472y"), ExtResource("24_acu7k"), ExtResource("25_7e067"), ExtResource("26_xxgsg"), ExtResource("27_quyh0"), ExtResource("28_waj71"), ExtResource("29_odg5f"), ExtResource("30_acydj"), ExtResource("31_aof2n"), ExtResource("32_wxr5e")]
 
-[sub_resource type="Resource" id="Resource_0wl8h"]
+[sub_resource type="Resource" id="Resource_lmh6q"]
 resource_local_to_scene = true
 script = ExtResource("33_2mear")
 JumpAudio = ExtResource("20_ue56i")
@@ -88,8 +88,8 @@ RotationToMove = false
 Speed = 8
 Deceleration = 15
 SprintSpeedMultiplier = 1.5
-StepLengthen = 0.5
-StepInterval = 3.7
+StepLengthen = 0.3
+StepInterval = 3.0
 AbilitiesPath = [NodePath("Crouch Ability 3D"), NodePath("Sprint Ability 3D"), NodePath("Walk Ability 3D"), NodePath("Jump Ability 3D"), NodePath("Fly Ability 3D"), NodePath("Swim Ability 3D")]
 
 [node name="Collision" type="CollisionShape3D" parent="."]
@@ -174,9 +174,9 @@ spot_range = 18.9586
 spot_angle = 20.5583
 
 [node name="Player Audios" parent="." instance=ExtResource("13_yjrtm")]
-AudioInteract = SubResource("Resource_4w02b")
+AudioInteract = SubResource("Resource_r62m2")
 PhysicMaterials = [ExtResource("15_ykov3"), ExtResource("16_gjh0c"), ExtResource("17_6jbs2")]
-AudioInteracts = [SubResource("Resource_0wl8h"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
+AudioInteracts = [SubResource("Resource_lmh6q"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
 WaterAudioInteract = ExtResource("20_u1rxi")
 
 [node name="UI" type="Control" parent="."]

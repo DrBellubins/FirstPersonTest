@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://e18dkumjunox"]
+[gd_scene load_steps=13 format=4 uid="uid://e18dkumjunox"]
 
 [ext_resource type="Script" path="res://Scripts/Utils/hotkeys.gd" id="1_1d5oe"]
 [ext_resource type="PackedScene" uid="uid://ccqfdekiklsk3" path="res://Prefabs/player.tscn" id="1_1ifql"]
@@ -7,7 +7,9 @@
 [ext_resource type="Environment" uid="uid://cnbmf337ywhpi" path="res://Scenes/TestWorldEnv.tres" id="3_7q0es"]
 [ext_resource type="Material" uid="uid://8cw47qsiceyg" path="res://Materials/Testing/Grid_Gray.tres" id="4_ojrtr"]
 [ext_resource type="CompressedTexture3D" uid="uid://c1yfpvc24moh2" path="res://Textures/desert_lut.png" id="4_sjud4"]
+[ext_resource type="Script" path="res://Scripts/Utils/DebugTextDraw.cs" id="5_8dwdb"]
 [ext_resource type="Material" uid="uid://xtkf3txpk3ev" path="res://Materials/Testing/Grid_Orange.tres" id="6_ep7im"]
+[ext_resource type="PackedScene" uid="uid://befu2fvq2pqdh" path="res://Prefabs/Gameplay/door.tscn" id="9_21unc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_37g1w"]
 shader = ExtResource("3_4ypik")
@@ -53,10 +55,18 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 8.0
-offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="DebugText" type="Label" parent="UI"]
+process_priority = 9999
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_8dwdb")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_7q0es")
@@ -113,3 +123,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.347612, 2, 5.1407)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -8)
 size = Vector3(32, 6.5, 32)
 data = SubResource("VoxelGIData_nn0cj")
+
+[node name="Door" parent="." instance=ExtResource("9_21unc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -2)

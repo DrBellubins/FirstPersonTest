@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 
 namespace MyUtils
 {
@@ -35,7 +36,7 @@ namespace MyUtils
 
         public static List<Vector3> LightPositions = new List<Vector3>();
 
-        public static bool IsDebugVisible = false;
+        public static bool IsDebugVisible = true; // Change for default debug on/off
 
         private static Vector3 playerPos = new Vector3();
         public static Vector3 PlayerPos
@@ -61,6 +62,15 @@ namespace MyUtils
             int yRem = input.Y % numerator;
     
             return new Vector2I(input.X - xRem, input.Y - yRem);
+        }
+
+        public static float LerpAngle(float from, float to, float weight)
+        {
+            var tau = Mathf.Pi * 2;
+            var difference = (from - to) % tau;
+            var shortAngleDist = ((difference * 2) % tau) - difference;
+
+            return from + (shortAngleDist * weight);
         }
     }
 }
