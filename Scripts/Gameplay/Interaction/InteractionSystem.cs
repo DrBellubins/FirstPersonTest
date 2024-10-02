@@ -26,12 +26,13 @@ public partial class InteractionSystem : Node3D
 
 		Ray.Enabled = !Player.IsDriving;
 
+		// TODO: Ray can go through the environment
         if (Ray.IsColliding())
 		{
-			Cursor.Size = Cursor.Size.Lerp(new Vector2(10f, 10f), 10f * deltaTime);
+            Cursor.Size = Cursor.Size.Lerp(new Vector2(10f, 10f), 10f * deltaTime);
             Cursor.Position = Cursor.Position.Lerp(new Vector2(-5f, -5f), 10f * deltaTime);
 
-			if (hitCol != null)
+            if (hitCol != null)
 			{
                 if (Input.IsActionJustPressed("interact"))
                 {

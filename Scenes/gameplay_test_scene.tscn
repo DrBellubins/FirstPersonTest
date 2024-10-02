@@ -117,8 +117,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.25, 5.25, -11)
 size = Vector3(6.5, 0.5, 6)
 material = ExtResource("6_ep7im")
 
+[node name="CSGBox3D8" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.75, -2.5)
+size = Vector3(0.5, 2.5, 1)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -2.5)
+size = Vector3(1, 0.5, 1)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.75, -2.5)
+size = Vector3(0.5, 2.5, 1)
+
 [node name="Player" parent="." instance=ExtResource("1_1ifql")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.347612, 2, 5.1407)
+AirControl = 1.0
 
 [node name="VoxelGI" type="VoxelGI" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -8)

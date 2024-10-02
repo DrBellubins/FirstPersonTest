@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cwv7goix3butp" path="res://Sounds/Interaction/Door/DoorLocked.ogg" id="4_8cfwy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_831et"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(0.1, 2, 0.9)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c7jw1"]
 render_priority = 0
@@ -54,6 +54,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 collision_layer = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
 shape = SubResource("BoxShape3D_831et")
 
 [node name="RaycastPoint1" type="Node3D" parent="Hinge"]

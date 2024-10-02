@@ -44,6 +44,8 @@
 [ext_resource type="Material" uid="uid://8cw47qsiceyg" path="res://Materials/Testing/Grid_Gray.tres" id="42_5nh67"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fn1rj"]
+radius = 0.49
+height = 1.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ilykv"]
 render_priority = 0
@@ -54,14 +56,14 @@ shader_parameter/iteration_count = 15
 shader_parameter/intensity = 0.5
 shader_parameter/startRadius = 0.0
 
-[sub_resource type="Resource" id="Resource_8d0hs"]
+[sub_resource type="Resource" id="Resource_32pe7"]
 resource_local_to_scene = true
 script = ExtResource("33_2mear")
 JumpAudio = ExtResource("20_ue56i")
 LandedAudio = ExtResource("21_p7lnb")
 StepAudios = [ExtResource("22_0eb1b"), ExtResource("23_k472y"), ExtResource("24_acu7k"), ExtResource("25_7e067"), ExtResource("26_xxgsg"), ExtResource("27_quyh0"), ExtResource("28_waj71"), ExtResource("29_odg5f"), ExtResource("30_acydj"), ExtResource("31_aof2n"), ExtResource("32_wxr5e")]
 
-[sub_resource type="Resource" id="Resource_uu26m"]
+[sub_resource type="Resource" id="Resource_4731e"]
 resource_local_to_scene = true
 script = ExtResource("33_2mear")
 JumpAudio = ExtResource("20_ue56i")
@@ -175,9 +177,9 @@ spot_range = 18.9586
 spot_angle = 20.5583
 
 [node name="Player Audios" parent="." instance=ExtResource("13_yjrtm")]
-AudioInteract = SubResource("Resource_8d0hs")
+AudioInteract = SubResource("Resource_32pe7")
 PhysicMaterials = [ExtResource("15_ykov3"), ExtResource("16_gjh0c"), ExtResource("17_6jbs2")]
-AudioInteracts = [SubResource("Resource_uu26m"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
+AudioInteracts = [SubResource("Resource_4731e"), ExtResource("18_ere1a"), ExtResource("19_qgyq7")]
 WaterAudioInteract = ExtResource("20_u1rxi")
 
 [node name="UI" type="Control" parent="."]
